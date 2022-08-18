@@ -1,68 +1,57 @@
----
-page_type: sample
-description: "Deploy dotnet application using GitHub Actions"
-products:
-- GitHub Actions
-- Azure App service
-languages:
-- dotnet
----
+# Project Name
 
-# Sample ASP.NET Core application for GitHub Actions
+(short, 1-3 sentenced, description of the project)
 
-For all samples to set up GitHub workflows, see [Create your first workflow](https://github.com/Azure/actions-workflow-samples
+## Features
 
-# Steps to create an End-to-End CI/CD Workflow
+This project framework provides the following features:
 
-## Pre-requisites
-* Create a new Web App in Azure Portal with runtime stack as .NET and OS as Windows
-* Copy Publish Profile Settings of the app
+* Feature 1
+* Feature 2
+* ...
 
-### Create an ASP.NET App Service in Azure
+## Getting Started
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2F101-webapp-windows-ASPNET%2Fazuredeploy.json" target="_blank">
-    <img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.png"/>
-</a>
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2F101-webapp-windows-ASPNET%2Fazuredeploy.json" target="_blank">
-    <img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.png"/>
-</a>
+### Prerequisites
 
-This template deploys a web app with ASP.NET support. The web app with ASP.NET is an app service that allows you to deploy your ASP.NET website. This will deploy a free tier Windows App Service Plan where you will host your App Service.
+(ideally very short, if any)
 
-If you are new to Azure App Service, see:
+- OS
+- Library version
+- ...
 
-- [Azure App Service](https://azure.microsoft.com/services/app-service/web/)
-- [Template reference](https://docs.microsoft.com/azure/templates/microsoft.web/allversions)
-- [Quickstart templates](https://azure.microsoft.com/resources/templates/?resourceType=Microsoft.Compute&pageNumber=1&sort=Popular&term=web+apps)
+### Installation
 
-## Configure secrets in the GH repo:
-* In the GH repo with Application code, [Define a new secret](https://github.com/Azure/actions-workflow-samples/blob/master/assets/create-secrets-for-GitHub-workflows.md) under repository by navigating to **settings** > **secrets** > **Add a new secret** 
-* Paste the contents for the downloaded publish profile file into the secret's value field
-* Now in the workflow file in your branch: `.github/workflows/workflow.yml` replace the secret for the input `publish-profile:` of the deploy Azure WebApp action
+(ideally very short)
 
-## test your workflow
-* Commit a change in the app code. 
-* You should see a new GitHub Action initiated in **Actions** tab.
-* At the end of the execution, navigate to the App URL to visualise the change introduced.
+- npm install [package name]
+- mvn install
+- ...
 
-## Workflow YAML explained
+### Quickstart
+(Add steps to get up and running quickly)
 
-* [Checkout](https://github.com/actions/checkout) Checks out your Git repository content into Github Actions agent.
-* Environment setup using [Setup MSBuild](https://github.com/microsoft/setup-msbuild) - Sets up a ms-build environment by optionally downloading and caching a version of dotnet by SDK version and adding to PATH .
-* DotNet Build & Publish
-* Deploy to App service using azure/webapps-deploy@v1 action which authenticates using [Azure Web App Publish Profile](https://github.com/projectkudu/kudu/wiki/Deployment-credentials#site-credentials-aka-publish-profile-credentials)
-which we configured using the secret set up at the repo level
+1. git clone [repository clone url]
+2. cd [repository name]
+3. ...
 
-## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+## Demo
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+A demo app is included to show how to use the project.
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+To run the demo, follow these steps:
+
+(Add steps to start up the demo)
+
+1.
+2.
+3.
+
+## Resources
+
+(Any additional resources or related projects)
+
+- Link to supporting information
+- Link to similar sample
+- ...
