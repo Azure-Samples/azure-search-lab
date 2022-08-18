@@ -1,7 +1,7 @@
-## [project-title] Changelog
+## Azure Search Lab Changelog
 
-<a name="x.y.z"></a>
-# x.y.z (yyyy-mm-dd)
+<a name="Initial version"></a>
+# Initial version (2022-08-20)
 
 *Features*
 * ...
