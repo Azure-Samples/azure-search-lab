@@ -1,0 +1,3182 @@
+﻿<!doctype html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>AzSearchLab</title>
+      <meta name="generator" content="">
+      <link href="css/base/jquery-ui.min.css" rel="stylesheet">
+      <link href="css/AzSearchLab.css" rel="stylesheet">
+      <link href="css/index.css" rel="stylesheet">
+      <link href="css/site.css" rel="stylesheet">
+      <script src="js/jquery-1.12.4.min.js"></script>
+      <script src="js/jquery-ui.min.js"></script>
+      <script src="js/listview.min.js"></script>
+      <script src="js/util.min.js"></script>
+      <script src="js/scrollspy.min.js"></script> 
+      <script src="js/popper.min.js"></script>
+      <script src="js/collapse.min.js"></script>
+      <script src="js/dropdown.min.js"></script> 
+      <script>
+         $(document).ready(function()
+         { 
+            var indexsview = document.getElementById("ListView1"); 
+            var propertyMenu = document.getElementById("SlideMenu1");    
+               
+            //show rightclick menu
+            indexsview.addEventListener("contextmenu", (event) => {
+              event.preventDefault(); 
+              const { clientX: mouseX, clientY: mouseY } = event;
+              posY = Math.floor(mouseY) + Math.floor(document.documentElement.scrollTop);
+              posX = Math.floor(mouseX) + Math.floor(document.documentElement.scrollLeft);
+ 
+              propertyMenu.style.top = `${posY}px`;
+              propertyMenu.style.left = `${posX}px`;
+              propertyMenu.style.display = "block";
+                 
+            });
+
+            //hide rightclick menu
+            indexsview.addEventListener("click", (event) => {
+              if (event.target.offsetParent != propertyMenu) {  
+                   
+                event.preventDefault(); 
+                const { clientX: mouseX, clientY: mouseY } = event;
+                posY = Math.floor(mouseY) + Math.floor(document.documentElement.scrollTop);
+                posX = Math.floor(mouseX) + Math.floor(document.documentElement.scrollLeft);
+  
+                propertyMenu.style.top = `${posY}px`;
+                propertyMenu.style.left = `${posX}px`;
+                propertyMenu.style.display = "block"; 
+              }
+            });
+
+            //select one hub when right click it
+            document.onclick = leftClick;
+            document.oncontextmenu = rightClick;
+            function rightClick(event) { 
+                event.preventDefault();  
+                if ($(event.target).hasClass("ui-li-static")) { 
+                    selectedindex = $(event.target).text();  
+                    //document.getElementById("ListView1").style.backgroundColor = "lightblue";
+                    $('#ListView1 li').each(function(i){
+                       $(this).css('backgroundColor',"#FFFFFF");
+                    });
+                    $(event.target).css("background-color","#D4D4D4");
+                } 
+            }
+            //select one hub when left click it
+            function leftClick(event) {
+                if (event.target.offsetParent != propertyMenu) {    
+                }
+
+                if ($(event.target).hasClass("ui-li-static")) { 
+                    selectedindex = $(event.target).text();  
+                    $('#ListView1 li').each(function(i){
+                        $(this).css('backgroundColor',"#FFFFFF");
+                    });
+                    $(event.target).css("background-color","#D4D4D4");
+                } 
+            }
+
+            $("#Tabs1").tabs(
+            {
+               show: false,
+               hide: false,
+               event: 'click',
+               collapsible: false
+            }); 
+            $("#Tabs2").tabs(
+            {
+               show: false,
+               hide: false,
+               event: 'click',
+               collapsible: false
+            });
+            $("#ListView1").listview(
+            {
+               inset: false
+            });
+            $(".SlideMenu1-folder a").click(function()
+            {
+               var $popup = $(this).parent().find('ul');
+               if ($popup.is(':hidden'))
+               {
+                  $popup.show();
+                  $popup.attr('aria-expanded', 'true');
+               }
+               else
+               {
+                  $popup.hide();
+                  $popup.attr('aria-expanded', 'false');
+               }
+            });
+
+            $("#loadIndexBtn").click(LoadIndexBtnClk);
+             
+            //load index data
+            $("#loadindexdatabtn").click( function (){
+                //clear all count since it load a new index
+                queryPageNum = 0;
+                indexPageNum = 0;
+                indexPageCurrent = true;
+
+                LoadIndexdataFunction(2);
+            });
+
+            // Search fields add/delete button click
+            $("#Button11").click(function(){ 
+		        var selectval = $.trim($("#Combobox18 option:selected").text())
+               
+			    if(addedSearchFields.includes(selectval))
+                {
+                    // Contains, delete it. Set text as Add
+                    const index = addedSearchFields.indexOf(selectval);
+                    if (index > -1) {
+                        addedSearchFields.splice(index, 1);  
+                    }
+                    $("#Button11").val("Add"); 
+                }
+                else 
+                {
+                    // Not contains, add it. Set text as Delete
+                    addedSearchFields.push(selectval);
+                    $("#Button11").val("Delete"); 
+                }
+                let addedSearchFieldsStr = addedSearchFields.toString(); 
+
+                generateQueryComposerParameters();
+            }); 
+             
+            // Search fields add/delete button click
+            $("#Button12").click(function(){ 
+		        var selectval = $.trim($("#Combobox19 option:selected").text())
+                 
+			    if(addedSelectFields.includes(selectval))
+                {
+                    // Contains, delete it. Set text as Add
+                    const index = addedSelectFields.indexOf(selectval);
+                    if (index > -1) {
+                        addedSelectFields.splice(index, 1);  
+                    }
+                    $("#Button12").val("Add"); 
+                }
+                else 
+                {
+                    // Not contains, add it. Set text as Delete
+                    addedSelectFields.push(selectval);
+                    $("#Button12").val("Delete"); 
+                }
+                let addedSearchFieldsStr = addedSelectFields.toString(); 
+
+                generateQueryComposerParameters();
+            });
+              
+            // Order fields add/delete/update button click
+            $("#Button10").click(function(){ 
+				var orderFieldsVal = $.trim($("#Combobox14 option:selected").text())
+				var ascFieldsVal = $.trim($("#Combobox17 option:selected").text())
+				savedVal = orderFieldsVal + ";" + ascFieldsVal 
+				 
+				if(addedOrderFields.includes(savedVal))
+				{
+                    // Contains, delete it. Set text as Add
+                    const index = addedOrderFields.indexOf(savedVal);
+                    if (index > -1) {
+                        addedOrderFields.splice(index, 1);  
+                    }
+                    $("#Button10").val("Add"); 
+					 
+                    //let addedOrderFieldsStr = addedOrderFields.toString(); 
+                    generateQueryComposerParameters();
+					return
+				}
+				
+				if(ascFieldsVal == "asc")
+				{
+					if(addedOrderFields.includes(orderFieldsVal + ";desc"))
+					{
+						//Not contains, delete old one, add new one. Set text as Delete 
+						const index = addedOrderFields.indexOf(orderFieldsVal + ";desc");
+						if (index > -1) {
+							addedOrderFields.splice(index, 1);  
+						} 
+						addedOrderFields.push(orderFieldsVal + ";asc");
+					
+						$("#Button10").val("Delete"); 
+
+                        //let addedOrderFieldsStr = addedOrderFields.toString(); 
+                        generateQueryComposerParameters();
+						return
+					}
+				}
+				else if(ascFieldsVal == "desc")
+				{
+					if(addedOrderFields.includes(orderFieldsVal + ";asc"))
+					{
+						//Not contains, delete old one, add new one. Set text as Delete 
+						const index = addedOrderFields.indexOf(orderFieldsVal + ";asc");
+						if (index > -1) {
+							addedOrderFields.splice(index, 1);  
+						} 
+						addedOrderFields.push(orderFieldsVal + ";desc");
+					
+						$("#Button10").val("Delete"); 
+                         
+                        generateQueryComposerParameters();
+						return
+					}
+				}
+				
+				// Not contains, add it. Set text as Delete  
+				addedOrderFields.push(savedVal);
+				$("#Button10").val("Delete");				
+				  
+                generateQueryComposerParameters();
+            });
+             
+            // Higth light fields add/delete/update button click
+            $("#Button14").click(function(){ 
+				var highlightFieldsVal = $.trim($("#Combobox20 option:selected").text())
+                 
+				savedVal = highlightFieldsVal 
+				 
+				if(addedHightlightFields.includes(savedVal))
+				{
+                    // Contains, delete it. Set text as Add
+                    const index = addedHightlightFields.indexOf(savedVal);
+                    if (index > -1) {
+                        addedHightlightFields.splice(index, 1);  
+                    }
+                    $("#Button14").val("Add"); 
+					  
+                    generateQueryComposerParameters();
+					return
+				}
+				
+				for (const item of addedHightlightFields) 
+				{
+				    var itemarray= item.split(";");
+                    if(itemarray[0] == highlightFieldsVal)
+				    {
+						//Not contains, delete old one, add new one. Set text as Delete 
+						const index = addedHightlightFields.indexOf(item);
+						if (index > -1) {
+							addedHightlightFields.splice(index, 1);  
+						} 
+						addedHightlightFields.push(savedVal);
+					
+						$("#Button14").val("Delete"); 
+                         
+                        generateQueryComposerParameters();
+						return
+				    }
+				}
+				  
+				// Not contains, add it. Set text as Delete  
+				addedHightlightFields.push(savedVal);
+				$("#Button14").val("Delete");	 
+
+                generateQueryComposerParameters();
+            });             
+
+
+            // Facet fields add/delete/update button click
+			$("#Button13").click(function(){ 
+				var facet = $.trim($("#Combobox10 option:selected").text())
+				var countTypeVal = $.trim($("#Combobox12 option:selected").text())
+				var countVal = $.trim($('#Editbox13').val()) 
+				savedVal = countTypeVal + ":" + countVal 
+				 
+				// The column names are the same and contain the type and value. you need to delete it
+				if(addedFacetFields.includes(savedVal) && facet == addedfacet)
+				{
+                    // Contains, delete it. Set text as Add
+                    const index = addedFacetFields.indexOf(savedVal);
+                    if (index > -1) {
+                        addedFacetFields.splice(index, 1);  
+                    }
+                    $("#Button13").val("Add"); 
+					  
+                    let addedOrderFieldsStr = addedFacetFields.toString(); 
+
+                    generateQueryComposerParameters();
+					return
+				}
+			 
+				if (facet != addedfacet)
+				{ 
+					addedfacet = facet
+					addedFacetFields.splice(0,addedFacetFields.length)
+					addedFacetFields.push(savedVal);
+					
+					$("#Button13").val("Delete");  
+					  
+					let addedOrderFieldsStr = addedFacetFields.toString(); 
+
+                    generateQueryComposerParameters();
+					return
+				}
+				
+				for (const item of addedFacetFields) 
+				{
+					var itemarray= item.split(":"); 
+					// The column names are the same, the types are the same, but the values ​​are different. you need to update it 
+					if(itemarray[0] == countTypeVal && facet == addedfacet)
+					{  
+						//delete 
+						const index = addedFacetFields.indexOf(item);
+						if (index > -1) {
+							addedFacetFields.splice(index, 1);  
+						}
+						//add 
+						addedFacetFields.push(savedVal);
+						$("#Button13").val("Delete");  
+						 
+						let addedOrderFieldsStr = addedFacetFields.toString(); 
+
+                        generateQueryComposerParameters();
+						return
+					}
+					
+				}				
+				 
+				// Not contains, add it. Set text as Delete  
+				addedFacetFields.push(savedVal);
+				$("#Button13").val("Delete");				
+				  
+                let addedOrderFieldsStr = addedFacetFields.toString(); 
+
+                generateQueryComposerParameters();
+            });
+             
+             
+            function LoadIndexdataFunction(isPrev)
+            { 
+                if(isPrev == 1)
+                {
+                    indexPageNum = indexPageNum - 1; 
+                    if(indexPageNum<0)
+                    {
+                        indexPageNum=0;
+                    }
+                } else if(isPrev == 0) {
+                    indexPageNum = indexPageNum + 1; 
+                } else {
+                    indexPageNum = 0; 
+                } 
+
+                if(!checkServiceNameAndKeyEmpty()) return;
+                showLoading(false);
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/LoadIndexDataButtonClick",
+                    data: {  "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val(), "selectedIndex": selectedindex,  "pageNum": indexPageNum},
+                    success: function (response) {  
+                        loadedindex = selectedindex; // This is correct, because when the selected index is loaded, the load index needs to be set to the select index
+                        hideLoading();
+                        propertyMenu.style.display = "none";  
+                        indexPageCurrent = true;
+                        
+                        if(response === "" || response === null || typeof response === "undefined")
+                        {
+                            $( "#dialog" ).dialog({
+                                title: 'Warning', 
+                                //position: [0,28],
+                                dialogClass: "no-close",  
+                                open: function() { 
+                                $(this).html("There is no more data.");
+                                },
+                                buttons: [
+                                {
+                                    text: "OK",
+                                    click: function() {
+                                    $( this ).dialog( "close" );
+                                    }
+                                }
+                                ]
+                            });
+                            return; 
+                        }
+
+                        var indexsJson = JSON.parse(response);  
+                        $('#indexdocs').val(indexsJson.IndexDocument); 
+                         
+                        $("#SearchKeywordEditbox").val("");
+                        $("#SuggestionCombobox").empty();
+                        $("#SuggestionDropList").empty();
+                        $("#SuggestionTextArea1").val("");
+                        $("#SuggestionInputEditbox").val("");
+                        $("#SuggestionResponseTextArea2").val(""); 
+                        txtArea = document.getElementById("SuggestionTextArea1") ; 
+                        txtArea.style.display = "none";
+                        $("#AutocompleteCombobox").empty();
+                        $("#AutocompleteInputEditbox").val(""); 
+                        $("#AutocompleteResponseTextTextArea").val(""); 
+                         
+                        if(indexsJson.Suggesters !== null && indexsJson.Suggesters.length > 0)
+                        { 
+                            if(indexsJson.Suggesters.includes(","))
+                            {
+                                var suggestionDropList = document.getElementById('SuggestionCombobox');
+                                var sugArray = indexsJson.Suggesters.split(",");
+                                let idx = 0;
+                                for (const item of sugArray)
+                                {
+                                    var opt = document.createElement('option');
+                                    opt.value = idx;
+                                    opt.innerHTML = item;
+                                    suggestionDropList.appendChild(opt);
+
+                                    idx += 1;
+                                }
+                                
+                                var autoCompleteSugDropList = document.getElementById('AutocompleteCombobox');
+                                var autoCompleteSugArray = indexsJson.Suggesters.split(",");
+                                let idxauto = 0;
+                                for (const item of autoCompleteSugArray)
+                                {
+                                    var opt = document.createElement('option');
+                                    opt.value = idxauto;
+                                    opt.innerHTML = item;
+                                    autoCompleteSugDropList.appendChild(opt);
+
+                                    idxauto += 1;
+                                }
+                            }
+                            else 
+                            {
+                                var suggestionDropList = document.getElementById('SuggestionCombobox');
+
+                                var opt = document.createElement('option');
+                                opt.value = 0;
+                                opt.innerHTML = indexsJson.Suggesters;
+
+                                suggestionDropList.appendChild(opt); 
+
+                                
+                                var autoCompleteSugDropList = document.getElementById('AutocompleteCombobox');
+
+                                var optauto = document.createElement('option');
+                                optauto.value = 0;
+                                optauto.innerHTML = indexsJson.Suggesters;
+
+                                autoCompleteSugDropList.appendChild(optauto); 
+
+                            } 
+                        } 
+                         
+                        $("#AnalyzerDropListComboboxId").empty(); 
+                        $("#AnalyzerResponseTextAreaId").val("");
+                        $("#AnalyzerInpitTextAreaId").val(""); 
+                         
+                        if(indexsJson.Analyzers !== null && indexsJson.Analyzers.length > 0)
+                        { 
+                            if(indexsJson.Analyzers.includes(","))
+                            {
+                                var analyzersDropList = document.getElementById('AnalyzerDropListComboboxId');
+                                var alzArray = indexsJson.Analyzers.split(",");
+                                let idx = 0;
+                                for (const item of alzArray)
+                                {
+                                    var opt = document.createElement('option');
+                                    opt.value = idx;
+                                    opt.innerHTML = item;
+                                    analyzersDropList.appendChild(opt);
+
+                                    idx += 1;
+                                }
+                            }
+                            else 
+                            {
+                                var analyzersDropList = document.getElementById('AnalyzerDropListComboboxId');
+
+                                var opt = document.createElement('option');
+                                opt.value = 0;
+                                opt.innerHTML = indexsJson.Analyzers;
+
+                                analyzersDropList.appendChild(opt); 
+                            } 
+                        } 
+
+                        var txtSelectedAnalyzer = $.trim($("#AnalyzerDropListComboboxId option:selected").text());
+                        $("#AnalyzerNameEditbox").val(txtSelectedAnalyzer); 
+
+                        $("#IndexJsonDefinitionTextArea").val(indexsJson.IndexJsonDefinition);
+                         
+                        //QueryComposer. Index dropdown list -- Begin 
+
+                        // Combobox18 -- search fields -- SearchableFieldlist
+                        // Combobox20 -- high light --  SearchableFieldlist
+                        if(indexsJson.SearchableFieldlist !== null && typeof indexsJson.SearchableFieldlist !== "undefined")
+                        {
+                            $("#Combobox18").empty();
+                            $("#Combobox20").empty(); 
+                            var searchableFieldDropList = document.getElementById('Combobox18');
+                            var hightlightFieldDropList = document.getElementById('Combobox20');
+                            idx = 0;
+                            for (const item of indexsJson.SearchableFieldlist)
+                            {
+	                            var opt = document.createElement('option');
+	                            opt.value = idx;
+	                            opt.innerHTML = item;
+	                            searchableFieldDropList.appendChild(opt);
+	                            //hightlightFieldDropList.appendChild(opt);
+
+	                            idx += 1;
+                            }
+                            idx = 0;
+                            for (const item of indexsJson.SearchableFieldlist)
+                            {
+	                            var opt = document.createElement('option');
+	                            opt.value = idx;
+	                            opt.innerHTML = item;
+	                            //searchableFieldDropList.appendChild(opt);
+	                            hightlightFieldDropList.appendChild(opt);
+
+	                            idx += 1;
+                            }
+                        }
+
+                        // Combobox19 -- select fields -- RetrievableFieldlist
+                        if(indexsJson.RetrievableFieldlist !== null && typeof indexsJson.RetrievableFieldlist !== "undefined")
+                        {
+                            $("#Combobox19").empty();
+                            var retrievableFieldDropList = document.getElementById('Combobox19');
+                            idx = 0;
+                            for (const item of indexsJson.RetrievableFieldlist)
+                            {
+	                            var opt = document.createElement('option');
+	                            opt.value = idx;
+	                            opt.innerHTML = item;
+	                            retrievableFieldDropList.appendChild(opt);
+
+	                            idx += 1;
+                            }
+
+                            // Combobox14 -- order by -- SortableFieldlist
+                            if(indexsJson.SortableFieldlist !== null && typeof indexsJson.SortableFieldlist !== "undefined"){}
+                            $("#Combobox14").empty();
+                            var sortableFieldDropList = document.getElementById('Combobox14');
+                            idx = 0;
+                            for (const item of indexsJson.SortableFieldlist)
+                            {
+	                            var opt = document.createElement('option');
+	                            opt.value = idx;
+	                            opt.innerHTML = item;
+	                            sortableFieldDropList.appendChild(opt);
+
+	                            idx += 1;
+                            }
+                        }
+
+                        // Combobox10 -- facet -- FacetableFieldlist
+                        if(indexsJson.FacetableFieldlist !== null && typeof indexsJson.FacetableFieldlist !== "undefined")
+                        {
+                            $("#Combobox10").empty();
+                            var facetableFieldDropList = document.getElementById('Combobox10');
+                            idx = 0;
+                            for (const item of indexsJson.FacetableFieldlist)
+                            {
+	                            var opt = document.createElement('option');
+	                            opt.value = idx;
+	                            opt.innerHTML = item;
+	                            facetableFieldDropList.appendChild(opt);
+
+	                            idx += 1;
+                            }
+                        }
+
+                        // Combobox23 -- Scoring Profile -- ScoringProfileList
+                        if(indexsJson.ScoringProfileList !== null && typeof indexsJson.ScoringProfileList !== "undefined")
+                        {
+                            $("#Combobox23").empty();
+                            var scoringProfileDropList = document.getElementById('Combobox23');
+                            idx = 0;
+                            for (const item of indexsJson.ScoringProfileList)
+                            {
+	                            var opt = document.createElement('option');
+	                            opt.value = idx;
+	                            opt.innerHTML = item;
+	                            scoringProfileDropList.appendChild(opt);
+
+	                            idx += 1;
+                            }
+                        } 
+                        
+                        // ComboboxGeographyPointList -- GeographyPointList -- ComboboxGeographyPointList
+                        if(indexsJson.GeographyPointList !== null && typeof indexsJson.GeographyPointList !== "undefined")
+                        {
+                            $("#ComboboxGeographyPointList").empty();
+                            var geographyPointDropList = document.getElementById('ComboboxGeographyPointList');
+                            idx = 0;
+                            for (const item of indexsJson.GeographyPointList)
+                            {
+	                            var opt = document.createElement('option');
+	                            opt.value = idx;
+	                            opt.innerHTML = item;
+	                            geographyPointDropList.appendChild(opt);
+
+	                            idx += 1;
+                            }
+                        }
+                     
+                        //QueryComposer. Index dropdown list -- End 
+                        clearAddedQueryParameters();
+                        generateQueryComposerParameters();
+
+                    },
+                    failure: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none"; 
+                    },
+                    error: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none"; 
+                    }
+                });
+            }
+             
+            //query index data
+            $("#queryindexdatabtn").click(function(){
+                queryPageNum = 0;
+                indexPageNum = 0;
+                indexPageCurrent = false;
+
+                QueryIndexDataFucntion(2);
+            });
+
+            function checkServiceNameAndKeyEmpty()
+            { 
+                var servicen = $.trim($("#SearchEditbox").val());  
+                if(servicen === "" || servicen === null )
+                {  
+                    $( "#dialog" ).dialog({
+                        title: 'Warning', 
+                        //position: [0,28],
+                        dialogClass: "no-close",  
+                        open: function() { 
+                        $(this).html("Please input the search service name.");
+                        },
+                        buttons: [
+                        {
+                            text: "OK",
+                            click: function() {
+                            $( this ).dialog( "close" );
+                            }
+                        }
+                        ]
+                    });
+                    return false;
+                }   
+    
+                var servicekey = $.trim($("#APIKeyEditbox").val());  
+                if(servicekey === "" || servicekey === null )
+                {  
+                    $( "#dialog" ).dialog({
+                        title: 'Warning', 
+                        //position: [0,28],
+                        dialogClass: "no-close",  
+                        open: function() { 
+                        $(this).html("Please input the search service key.");
+                        },
+                        buttons: [
+                        {
+                            text: "OK",
+                            click: function() {
+                            $( this ).dialog( "close" );
+                            }
+                        }
+                        ]
+                    });
+                    return false;
+                }  
+                return true;
+            }
+
+            function QueryIndexDataFucntion(isPrev)
+            {
+                var searchKeyword = $.trim($("#SearchKeywordEditbox").val());  
+                if(searchKeyword === "" || searchKeyword === null )
+                {  
+                    $( "#dialog" ).dialog({
+                        title: 'Warning', 
+                        //position: [0,28],
+                        dialogClass: "no-close",  
+                        open: function() { 
+                        $(this).html("Search keyword can't be null.");
+                        },
+                        buttons: [
+                        {
+                            text: "OK",
+                            click: function() {
+                            $( this ).dialog( "close" );
+                            }
+                        }
+                        ]
+                    });
+                    return;
+                }
+
+                if(isPrev == 1){
+                    queryPageNum = queryPageNum - 1; 
+                    if(queryPageNum<0)
+                    {
+                        queryPageNum=0;
+                    }
+                } else if (isPrev == 0) {
+                    queryPageNum = queryPageNum + 1; 
+                } else {
+                    queryPageNum = 0; 
+                } 
+
+                if(!checkServiceNameAndKeyEmpty()) return;
+                showLoading(false);
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/QueryIndexDataButtonClick",
+                    data: {  "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val(), "loadedindex": loadedindex, "keyword": searchKeyword, "pageNum": queryPageNum},
+                    success: function (response) {   
+                        hideLoading();
+                        propertyMenu.style.display = "none"; 
+                        indexPageCurrent = false;
+                        
+                        if(response === "" || response === null || typeof response === "undefined")
+                        {
+                            $( "#dialog" ).dialog({
+                                title: 'Warning', 
+                                //position: [0,28],
+                                dialogClass: "no-close",  
+                                open: function() { 
+                                $(this).html("There is no more data.");
+                                },
+                                buttons: [
+                                {
+                                    text: "OK",
+                                    click: function() {
+                                    $( this ).dialog( "close" );
+                                    }
+                                }
+                                ]
+                            });
+                            $('#indexdocs').val(""); 
+                            return; 
+                        } 
+                        $('#indexdocs').val(response);  
+                    },
+                    failure: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    },
+                    error: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    }
+                });
+            }
+            
+            $("#PrevPageId").click(function (){ 
+                if(indexPageCurrent == true) {  
+                    LoadIndexdataFunction(1);
+                } else {  
+                    QueryIndexDataFucntion(1);
+                }
+            });
+
+            $("#NextPageId").click(function (){ 
+                if(indexPageCurrent == true) {
+                    LoadIndexdataFunction(0);
+                } else {
+                    QueryIndexDataFucntion(0);
+                }
+            });
+             
+            //query composer
+            $("#Button15").click(function () {  
+                if(!checkServiceNameAndKeyEmpty()) return;
+                showLoading(false); 
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/QueryComposerButtonClick",
+                    data: { "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val(), "loadedindex": loadedindex, "queryParameters": $('#TextArea9').val(), "httpMethod": $.trim($("#Combobox9 option:selected").text()), "apiVersion": $.trim($('#Editbox7').val())},
+                    success: function (response) { 
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+                        var indexsJson = JSON.parse(response);
+                        $('#TextArea10').val(indexsJson.result);
+
+                        //$("li#QueryResultTabId").trigger("click");
+                        
+                        $( "#dialog" ).dialog({
+                            title: 'Result', 
+                            //position: [0,28],
+                            dialogClass: "no-close",  
+                            open: function() { 
+                            $(this).html("Please click 'Result' tab for query result.");
+                            },
+                            buttons: [
+                            {
+                                text: "OK",
+                                click: function() {
+                                $( this ).dialog( "close" );
+                                }
+                            }
+                            ]
+                        });      
+                         
+                    },
+                    failure: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    },
+                    error: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    }
+                });
+            });
+
+            //update index data
+            $("#updateindexdatabtn").click(function () {  
+                if(!checkServiceNameAndKeyEmpty()) return;
+                showLoading(false); 
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/UpdateIndexDataButtonClick",
+                    data: { "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val(), "loadedindex": loadedindex, "indexDocument": $('#indexdocs').val() },
+                    success: function (response) { 
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+                        
+                        $( "#dialog" ).dialog({
+                            title: 'Result', 
+                            //position: [0,28],
+                            dialogClass: "no-close",  
+                            open: function() { 
+                            $(this).html("Update index succeed.");
+                            },
+                            buttons: [
+                            {
+                                text: "OK",
+                                click: function() {
+                                $( this ).dialog( "close" );
+                                }
+                            }
+                            ]
+                        });                        
+                    },
+                    failure: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    },
+                    error: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    }
+                });
+            });
+             
+            //autocomplete query
+            $("#AutocompleteQueryButton").click(function () {  
+                if(!checkServiceNameAndKeyEmpty()) return;
+                showLoading(false); 
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/QueryIndexAutocompleteButtonClick",
+                    data: { "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val(), "loadedindex": loadedindex, "sg": $.trim($("#AutocompleteCombobox option:selected").text()), "term": $.trim($("#AutocompleteDropListCombobox option:selected").text()), "autocompleteInput": $('#AutocompleteInputEditbox').val()},
+                    success: function (response) { 
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+                        
+                        $('#AutocompleteResponseTextTextArea').val(response);  
+                    },
+                    failure: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    },
+                    error: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    }
+                });
+            });
+              
+             //web api skill query
+             $("#Button18").click(function () {
+                 //if (!checkServiceNameAndKeyEmpty()) return;
+                 showLoading(false);
+                 $.ajax({
+                     type: "POST",
+                     url: "/Home/WebAPISkillURLQueryButtonClick",
+                     data: { "url": $.trim($("#Editbox24").val()), "method": $.trim($("#Combobox28 option:selected").text()), "headers": $("#TextArea14").val(), "payload": $("#TextArea14").val()},
+                     success: function (response) {
+                         hideLoading();
+                         propertyMenu.style.display = "none";
+
+                         var indexsJson = JSON.parse(response);
+                         $('#TextArea16').val(indexsJson.result);
+                     },
+                     failure: function (response) {
+                         hideLoading();
+                         propertyMenu.style.display = "none";
+
+                     },
+                     error: function (response) {
+                         hideLoading();
+                         propertyMenu.style.display = "none";
+
+                     }
+                 });
+             });
+
+            function doYouWantToDeleteSynonymMap()
+            {
+				$( "#dialog" ).dialog({
+					title: 'Warning', 
+					//position: [0,28],
+					dialogClass: "no-close",  
+					open: function() { 
+					$(this).html("Are you sure you want to delete synonym map: "+$("#SynonymMapNameInputEditbox").val());
+					},
+					buttons: [
+					{
+						text: "OK",
+						click: function() {
+                            // close the reminder dialog box
+						    $( this ).dialog( "close" ); 
+                             
+                            // delete the synonym map 
+                            showLoading(false); 
+                            $.ajax({
+                                type: "POST",
+                                url: "/Home/DeleteSynonymMapButtonClick",
+                                data: { "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val(), "loadedindex": loadedindex, "synonymMapName": $("#SynonymMapNameInputEditbox").val() },
+                                success: function (response) { 
+                                    hideLoading();
+                                    propertyMenu.style.display = "none";
+                                    var indexsJson = JSON.parse(response); 
+
+                                    // Refresh the synonym map list and index fields state
+
+					                // Synonym Maps, index fields
+                                    var index = 0;  
+                                    $('#IndexNameForSynoymMapDropListCombobox optgroup').remove();
+                                    $('#IndexNameForSynoymMapDropListCombobox option').remove();
+                                    $('#IndexNameForSynoymMapDropListCombobox').append('<optgroup style="color: #b3b3b3;" label="Field can be config only one synonym map"></optgroup>');
+                                    $('#IndexNameForSynoymMapDropListCombobox').append('<optgroup style="color: #b3b3b3;" label="(Multiple selection Ctrl+click):"></optgroup>');
+
+                                    var lastindexinloop = "";
+                                    $.each(indexsJson.IndexFields, function( key, value ) { 
+                         
+                                        if (0 == index % 2) 
+                                        {   
+                                            //Synonyms index 
+                                            $('#IndexNameForSynoymMapDropListCombobox').append('<optgroup label="' + value + '">');
+                                            lastindexinloop = value;
+                                        }
+                                        else 
+                                        {
+                                            //Synonyms index fields 
+                                            var fielditems = value.split(",");
+                                            $.each(fielditems, function( fieldkey, fieldvalue ) { 
+                                                //$('#IndexNameForSynoymMapDropListCombobox').append('<option>&nbsp;&nbsp;&nbsp;&nbsp;' + fieldvalue + '<span style="color:blue;display: none;">'+lastindexinloop+'</span></option>');
+
+                                                if(fieldvalue.includes(":"))
+                                                {
+                                                    var filedAndSynoym = fieldvalue.split(":");
+                                                    $('#IndexNameForSynoymMapDropListCombobox').append('<option onclick="indexFieldOnClick(this.id, this.value)" id="'+filedAndSynoym[0]+'" value="'+lastindexinloop+'" selected>&nbsp;&nbsp;&nbsp;&nbsp;' + filedAndSynoym[0] +'</option>');
+                                                    selectedIndexFields = selectedIndexFields + filedAndSynoym[0] + "," + lastindexinloop + ";";
+                                                }
+                                                else 
+                                                {
+                                                    $('#IndexNameForSynoymMapDropListCombobox').append('<option onclick="indexFieldOnClick(this.id, this.value)" id="'+fieldvalue+'" value="'+lastindexinloop+'">&nbsp;&nbsp;&nbsp;&nbsp;' + fieldvalue +'</option>');
+                                                } 
+                                            });
+                                        }
+                         
+                                        index ++;
+                                    });
+					
+                                    // Synonym Maps
+                                    $("#SynonymMapsDropListCombobox").empty();
+                                    $("#SynonymMapNameInputEditbox").val("");
+                                    $("#SynonymMapsRuleTextAreaTextArea").val("");  
+                                    if(indexsJson.SynonymMaps !== null && indexsJson.SynonymMaps.length > 0)
+                                    { 
+                                        if(indexsJson.SynonymMaps.includes(","))
+                                        {
+                                            var synonymMapsDropList = document.getElementById('SynonymMapsDropListCombobox');
+                                            var synonymMapsArray = indexsJson.SynonymMaps.split(",");
+                                            let idx = 0;
+                                            for (const item of synonymMapsArray)
+                                            {
+                                                var opt = document.createElement('option');
+                                                opt.value = idx;
+                                                opt.innerHTML = item;
+                                                synonymMapsDropList.appendChild(opt);
+
+                                                idx += 1;
+                                            }
+                                        }
+                                        else 
+                                        {
+                                            var synonymMapsDropList = document.getElementById('SynonymMapsDropListCombobox');
+
+                                            var opt = document.createElement('option');
+                                            opt.value = 0;
+                                            opt.innerHTML = indexsJson.SynonymMaps;
+
+                                            synonymMapsDropList.appendChild(opt); 
+                                        } 
+                                    } 
+                                    var txtSelectedSynonymMap = $.trim($("#SynonymMapsDropListCombobox option:selected").text());
+                                    $("#SynonymMapNameInputEditbox").val(txtSelectedSynonymMap);  
+                                    $("#SynonymMapsRuleTextAreaTextArea").val(indexsJson.SynmapRule); 
+
+                                    //Pop up dialog to reminder deletion succeed 
+                                    $( "#dialog" ).dialog({
+                                        title: 'Result', 
+                                        //position: [0,28],
+                                        dialogClass: "no-close",  
+                                        open: function() { 
+                                            $(this).html(indexsJson.ResponseMsg);
+                                        },
+                                        buttons: [
+                                        {
+                                            text: "OK",
+                                            click: function() {
+                                            $( this ).dialog( "close" );
+                                            }
+                                        }
+                                        ]
+                                    });   
+                                    
+                                },
+                                failure: function (response) {
+                                    hideLoading();
+                                    propertyMenu.style.display = "none";
+ 
+                                },
+                                error: function (response) {
+                                    hideLoading();
+                                    propertyMenu.style.display = "none";
+ 
+                                }
+                            }); 
+                            return true;
+						}
+					},
+					{
+						text: "Cancel",
+						click: function() {
+						    $( this ).dialog( "close" ); 
+						    return false;
+						}
+					}
+					]
+				});		 
+            }
+             
+            //delete synonym map
+            $("#wb_Image3, #wb_Text4").click(function () {  
+                if(!checkServiceNameAndKeyEmpty()) return;
+				doYouWantToDeleteSynonymMap();	 
+            });
+
+            //update synonyms 
+            $("#CreateUpdateSynonymsButton").click(function () {  
+                //get the index and fields    
+                if(!checkServiceNameAndKeyEmpty()) return;
+                showLoading(false); 
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/CreateUpdateSynonymsButtonClick",
+                    data: { "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val(), "indexFields": selectedIndexFields, "synonymMapName": $("#SynonymMapNameInputEditbox").val(), "synonymMapRule": $('#SynonymMapsRuleTextAreaTextArea').val()},
+                    success: function (response) { 
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+                        
+                        var indexsJson = JSON.parse(response); 
+                         
+                        if(indexsJson.Success !== null && typeof indexsJson.Success !== "undefined" && indexsJson.Success === "true")
+                        {
+                            // Synonym Maps
+                            $("#SynonymMapsDropListCombobox").empty();   
+
+                            // Add the created or updated synonym map as the first one  
+                            let firstindx = 0; 
+                            if (indexsJson.synonymMapName !== null && typeof indexsJson.SynonymMaps !== "undefined")
+                            {
+                                var synonymMapsDropList = document.getElementById('SynonymMapsDropListCombobox');
+                                var opt = document.createElement('option');
+                                opt.value = 0;
+                                opt.innerHTML = indexsJson.synonymMapName;
+                                synonymMapsDropList.appendChild(opt); 
+                                firstindx = 1;
+                            }
+
+                            if(indexsJson.SynonymMaps !== null && typeof indexsJson.SynonymMaps !== "undefined" && indexsJson.SynonymMaps.length > 0)
+                            { 
+                                if(indexsJson.SynonymMaps.includes(","))
+                                {
+                                    var synonymMapsDropList = document.getElementById('SynonymMapsDropListCombobox');
+                                    var synonymMapsArray = indexsJson.SynonymMaps.split(",");
+                                    let idx = firstindx;
+                                    for (const item of synonymMapsArray)
+                                    {
+                                        if(item !== indexsJson.synonymMapName)
+                                        {
+                                            var opt = document.createElement('option');
+                                            opt.value = idx;
+                                            opt.innerHTML = item;
+                                            synonymMapsDropList.appendChild(opt);
+
+                                            idx += 1;
+                                        }
+                                    }
+                                }
+                                else 
+                                {
+                                    if(item !== indexsJson.synonymMapName)
+                                    {
+                                        var synonymMapsDropList = document.getElementById('SynonymMapsDropListCombobox');
+
+                                        var opt = document.createElement('option');
+                                        opt.value = firstindx;
+                                        opt.innerHTML = indexsJson.SynonymMaps;
+
+                                        synonymMapsDropList.appendChild(opt);  
+                                    }
+                                } 
+                            }
+                        }
+
+                        //Pop up dialog to reminder deletion succeed 
+                        $( "#dialog" ).dialog({
+                            title: 'Result', 
+                            //position: [0,28],
+                            dialogClass: "no-close",  
+                            open: function() { 
+                            $(this).html(indexsJson.ResponseMsg);
+                            },
+                            buttons: [
+                            {
+                                text: "OK",
+                                click: function() {
+                                $( this ).dialog( "close" );
+                                }
+                            }
+                            ]
+                        }); 
+                         
+                    },
+                    failure: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    },
+                    error: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    }
+                });
+            });
+             
+            //update index definition 
+            $("#UpdateIndexButton").click(function () {  
+
+                var idxJsonText = $.trim($("#IndexJsonDefinitionTextArea").val());  
+                if(idxJsonText === "" || idxJsonText === null )
+                {  
+                    $( "#dialog" ).dialog({
+                        title: 'Warning', 
+                        //position: [0,28],
+                        dialogClass: "no-close",  
+                        open: function() { 
+                        $(this).html("Index definition Json text can't be null.");
+                        },
+                        buttons: [
+                        {
+                            text: "OK",
+                            click: function() {
+                            $( this ).dialog( "close" );
+                            }
+                        }
+                        ]
+                    });
+                    return;
+                }
+
+                if(!checkServiceNameAndKeyEmpty()) return;
+                 
+                if("off" == $('#Checkbox1').val())
+                { 
+                    $( "#dialog" ).dialog({
+                        title: "Please check the 'Allow Index Downtime' checkbox", 
+                        width: 400,
+                        //position: [0,28],
+                        dialogClass: "no-close",  
+                        open: function() { 
+                        $(this).html("Note that this operation will put your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for very large indexes");
+                        },
+                        buttons: [
+                        {
+                            text: "OK",
+                            click: function() {
+                            $( this ).dialog( "close" );
+                            }
+                        }
+                        ]
+                    });
+                    return;
+                }
+                 
+                showLoading(false); 
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/UpdateIndexDefinitionBtnClick",
+                    data: { "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val(), "indexName": loadedindex, "indexDefinition": $("#IndexJsonDefinitionTextArea").val()},
+                    success: function (response) { 
+                        hideLoading();  
+                        if(response == "") 
+                        {
+                            response = "Update succesfully.";
+                        }
+                        $( "#dialog" ).dialog({
+                            title: 'Result', 
+                            //position: [0,28],
+                            dialogClass: "no-close",  
+                            open: function() { 
+                            $(this).html(response);
+                            },
+                            buttons: [
+                            {
+                                text: "OK",
+                                click: function() {
+                                $( this ).dialog( "close" );
+                                }
+                            }
+                            ]
+                        });
+
+                    },
+                    failure: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    },
+                    error: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    }
+                });
+            });
+             
+            //query analyzer btn
+            $("#AnalyzerQueryButtonId").click(function () {  
+
+                var searchKeyword = $.trim($("#AnalyzerInpitTextAreaId").val());  
+                if(searchKeyword === "" || searchKeyword === null )
+                {  
+                    $( "#dialog" ).dialog({
+                        title: 'Warning', 
+                        //position: [0,28],
+                        dialogClass: "no-close",  
+                        open: function() { 
+                        $(this).html("Analyze text can't be null.");
+                        },
+                        buttons: [
+                        {
+                            text: "OK",
+                            click: function() {
+                            $( this ).dialog( "close" );
+                            }
+                        }
+                        ]
+                    });
+                    return;
+                }
+
+                if(!checkServiceNameAndKeyEmpty()) return;
+                showLoading(false); 
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/AnalyzeTextIntoToken",
+                    data: { "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val(), "loadedindex": loadedindex, "analyzerName": $.trim($("#AnalyzerNameEditbox").val()), "txtToBreak": $.trim($('#AnalyzerInpitTextAreaId').val())},
+                    success: function (response) { 
+                        hideLoading(); 
+                         
+                        $('#AnalyzerResponseTextAreaId').val(response);  
+                    },
+                    failure: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    },
+                    error: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    }
+                });
+            });
+             
+            //built-in analyzer btn
+            $("#Button16").click(function () {  
+
+                var searchKeyword = $.trim($("#TextArea11").val());  
+                if(searchKeyword === "" || searchKeyword === null )
+                {  
+                    $( "#dialog" ).dialog({
+                        title: 'Warning', 
+                        //position: [0,28],
+                        dialogClass: "no-close",  
+                        open: function() { 
+                        $(this).html("Analyze text can't be null.");
+                        },
+                        buttons: [
+                        {
+                            text: "OK",
+                            click: function() {
+                            $( this ).dialog( "close" );
+                            }
+                        }
+                        ]
+                    });
+                    return;
+                }
+
+                if(!checkServiceNameAndKeyEmpty()) return;
+                showLoading(false); 
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/AnalyzeTextIntoToken",
+                    data: { "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val(), "loadedindex": loadedindex, "analyzerName": $.trim($("#Editbox20").val()), "txtToBreak": $.trim($('#TextArea11').val())},
+                    success: function (response) { 
+                        hideLoading(); 
+                         
+                        $('#TextArea12').val(response);  
+                    },
+                    failure: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    },
+                    error: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    }
+                });
+            });
+             
+            //built-in tokenizer btn
+            $("#Button17").click(function () {  
+
+                var searchKeyword = $.trim($("#TextArea11").val());  
+                if(searchKeyword === "" || searchKeyword === null )
+                {  
+                    $( "#dialog" ).dialog({
+                        title: 'Warning', 
+                        //position: [0,28],
+                        dialogClass: "no-close",  
+                        open: function() { 
+                        $(this).html("Analyze text can't be null.");
+                        },
+                        buttons: [
+                        {
+                            text: "OK",
+                            click: function() {
+                            $( this ).dialog( "close" );
+                            }
+                        }
+                        ]
+                    });
+                    return;
+                }
+
+                if(!checkServiceNameAndKeyEmpty()) return;
+                showLoading(false); 
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/AnalyzeTextIntoTokenWithTokenizer",
+                    data: { "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val(), "loadedindex": loadedindex, "tokenizerName": $.trim($("#Editbox21").val()), "tokenizerFilter": $.trim($("#Editbox22").val()), "charFilter": $.trim($("#Editbox23").val()), "txtToBreak": $.trim($('#TextArea11').val())},
+                    success: function (response) { 
+                        hideLoading(); 
+                         
+                        $('#TextArea12').val(response);  
+                    },
+                    failure: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    },
+                    error: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none";
+ 
+                    }
+                });
+            });
+
+            const suggestionInputEditbox = document.getElementById('SuggestionInputEditbox'); 
+            suggestionInputEditbox.addEventListener('input', UpdateSuggestionInputValue); 
+            function UpdateSuggestionInputValue(e) {
+               var currentText = e.target.value; 
+               SuggestionEditCallbackFunction(currentText);
+            } 
+             
+            function SuggestionEditCallbackFunction(suggestText)
+            {  
+                if(!checkServiceNameAndKeyEmpty()) return;
+                //showLoading(false);
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/LoadSuggestionData",
+                    data: {  "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val(), "loadedindex": loadedindex, "sg": $.trim($("#SuggestionCombobox option:selected").text()),  "suggestText": suggestText},
+                    success: function (response) {   
+                        //hideLoading();
+                        propertyMenu.style.display = "none";  
+                        indexPageCurrent = true;
+                        
+                        if(response === "" || response === null || typeof response === "undefined")
+                        { 
+                            $('#SuggestionResponseTextArea2').val("");
+                            $('#SuggestionTextArea1').val("");
+                            return; 
+                        }
+ 
+                        $('#SuggestionResponseTextArea2').val(response);
+                        $('#SuggestionTextArea1').val("");
+                        
+                        var sugJson = JSON.parse(response);   
+                        for (var i = 0; i < sugJson.value.length; i++) {
+                            var sug = sugJson.value[i];  
+
+                            txtArea = document.getElementById("SuggestionTextArea1") ;
+                            txtArea.value += sug.searchText + '\r\n';
+                            txtArea.style.display = "block";
+                        }   
+                         
+                    },
+                    failure: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none"; 
+                    },
+                    error: function (response) {
+                        hideLoading();
+                        propertyMenu.style.display = "none"; 
+                    }
+                });
+            }
+               
+         });
+         //Document ready end
+
+         var selectedIndexFields = ""; 
+         function indexFieldOnClick(fieldname, indexname)
+         {  
+             selectedIndexFields = "";
+             $('#IndexNameForSynoymMapDropListCombobox  > option:selected').each(function() {
+                selectedIndexFields = selectedIndexFields + $.trim($(this).text()) + ',' + $(this).val() + ";";  
+             }); 
+              
+         }
+
+         function allowIndexDowntimeLabelOnClick(labelVal)
+         { 
+             if("on" == labelVal)
+             {
+                 $('#Checkbox1').val("off")
+             }
+             else 
+             {
+                 $('#Checkbox1').val("on") 
+             }
+         }
+
+         function searchScoreLabelOnClick(labelVal)
+         { 
+             if("on" == labelVal)
+             {
+                 $('#Checkbox2').val("off") 
+             }
+             else 
+             {
+                 $('#Checkbox2').val("on") 
+             } 
+             generateQueryComposerParameters();
+         }          
+         
+         function geoDistanceLabelOnClick(labelVal)
+         { 
+             if("on" == labelVal)
+             {
+                 $('#Checkbox3').val("off") 
+             }
+             else 
+             {
+                 $('#Checkbox3').val("on") 
+             } 
+             generateQueryComposerParameters();
+         }   
+
+        //Only when loading index data, you need to set loadedindex to the selectedindex selected by the current mouse click,
+        //Other queries use the loaded index (loadedindex) instead of the index selected by the mouse (selectedindex)
+        var loadedindex = ""
+        var selectedindex = "" 
+        var queryPageNum = 0;
+        var indexPageNum = 0;
+        var indexPageCurrent = true;
+         
+        //whole page click event
+        var stopclick = false;
+        document.addEventListener("click", event => { 
+            if (stopclick) { 
+                event.stopPropagation();
+                event.preventDefault();
+            }   
+            var hubPropertyMenu = document.getElementById("SlideMenu1"); 
+             
+			//change the selected hub to be the loading one 
+            if (loadedindex !== null && loadedindex !== "" && event.target.offsetParent != hubPropertyMenu)
+            { 
+			    $('#ListView1 li').each(function(i){   
+			        var text = $(this).text(); 
+				    if(text === loadedindex) 
+				    {
+				        $(this).css('backgroundColor',"#D4D4D4");
+				    }
+				    else 
+				    {
+				        $(this).css('backgroundColor',"#FFFFFF");
+				    }
+				
+			    });	  
+            }
+            // if hide this one. the parent will not be this widget
+		    hubPropertyMenu.style.display = "none";
+        }, true);
+
+        var stopclick = false;
+        //show loading icon, disable click
+        function showLoading(showtext){
+            stopclick = true;
+            $('#loadimage').css({ 'top': '79px', 'left': '272px', 'position': 'absolute', 'width': '327px', 'height': '338px', 'z-index': '33' });
+            $("#loadimage").show(); 
+        }
+
+        //hide loading icon, enable click
+        function hideLoading(){
+            stopclick = false;
+            $("#loadimage").hide();
+            $("#wb_Heading2").hide(); 
+        }
+          
+        const addedSearchFields = []; 
+        // Search fields drip down list changed
+        function searchFieldsChange()
+        {
+		    var selectval = $.trim($("#Combobox18 option:selected").text())
+            //alert(selectval)
+            //alert(addedSearchFields.includes(selectval))
+			if(addedSearchFields.includes(selectval))
+            {
+                $("#Button11").val("Delete"); 
+            }
+            else 
+            {
+                $("#Button11").val("Add"); 
+            }
+        }  
+
+        const addedSelectFields = []; 
+        // Select fields drop down list changed
+        function selectFieldsChange()
+        {
+		    var selectval = $.trim($("#Combobox19 option:selected").text())
+ 
+			if(addedSelectFields.includes(selectval))
+            {
+                $("#Button12").val("Delete"); 
+            }
+            else 
+            {
+                $("#Button12").val("Add"); 
+            }
+        } 
+         
+        const addedOrderFields = []; 
+        // Select fields drop down list changed
+        function orderFieldsChange()
+        {
+		    var orderFieldsVal = $.trim($("#Combobox14 option:selected").text())
+		    var ascFieldsVal = $.trim($("#Combobox17 option:selected").text())
+			savedVal = orderFieldsVal + ";" + ascFieldsVal
+ 
+			if(addedOrderFields.includes(savedVal))
+            {
+				//Exists, delete that item 
+                $("#Button10").val("Delete"); 
+				return
+            }
+			 
+            if(ascFieldsVal == "asc")
+			{
+				if(addedOrderFields.includes(orderFieldsVal + ";desc"))
+				{
+					//Fields, exists. Asc changed. Update 
+					$("#Button10").val("Update"); 
+					return
+				}
+			}
+			else if(ascFieldsVal == "desc")
+			{
+				if(addedOrderFields.includes(orderFieldsVal + ";asc"))
+				{
+					//Fields, exists. Asc changed. Update 
+					$("#Button10").val("Update"); 
+					return
+				}
+			}
+			
+			// Fields not exist. Add  
+			$("#Button10").val("Add"); 
+        } 
+         
+        const addedHightlightFields = []; 
+        // Select fields drop down list changed
+        function highlightFieldsChange()
+        {
+
+			var highlightFieldsVal = $.trim($("#Combobox20 option:selected").text())
+			//var preTagVal = $.trim($('#Editbox15').val())
+			//var postTagVal = $.trim($('#Editbox16').val())
+			//savedVal = highlightFieldsVal + ";" + preTagVal + ";" + postTagVal
+            
+			savedVal = highlightFieldsVal 
+			 
+			if(addedHightlightFields.includes(savedVal))
+			{ 
+				// Exists, delete that item 
+				$("#Button14").val("Delete");   
+				return
+			}
+			
+			for (const item of addedHightlightFields) 
+			{
+				var itemarray= item.split(";");
+				if(itemarray[0] == highlightFieldsVal)
+				{ 
+				    //Fields, exists. Asc changed. Update 
+					$("#Button14").val("Update");  
+					return
+				}
+			}
+			  
+			// Fields not exist. Add 
+			$("#Button14").val("Add");	 
+        } 
+        
+		var addedfacet = "";
+        const addedFacetFields = []; 
+        // Facet fields drop down list changed
+        function facetFieldsChange()
+        {
+            if(addedfacet == "") return;
+			var facet = $.trim($("#Combobox10 option:selected").text())
+			var countTypeVal = $.trim($("#Combobox12 option:selected").text())
+			var countVal = $.trim($('#Editbox13').val()) 
+			savedVal = countTypeVal + ":" + countVal 
+			 
+			//The column names are the same and contain the type and value. you need to delete
+			if(addedFacetFields.includes(savedVal) && facet == addedfacet)
+			{ 
+				// Exists, delete that item 
+				$("#Button13").val("Delete");    
+				return
+			}
+			
+			if (facet != addedfacet)
+			{
+				//If the column name is different, it needs to be updated
+				$("#Button13").val("Update");   
+				return
+			}
+			
+			for (const item of addedFacetFields) 
+			{
+				var itemarray= item.split(":"); 
+				//The column names are the same, the types are the same, but the values ​​are different. you need to update
+				if(itemarray[0] == countTypeVal && facet == addedfacet)
+				{ 
+				    //Fields, exists. Asc changed. Update  
+					$("#Button13").val("Update");  
+					return
+				}
+			}
+			  
+			// List the same, different types. is to increase
+			$("#Button13").val("Add");	  
+        } 
+
+        function clearAddedQueryParameters()
+        {
+            addedSearchFields.splice(0, addedSearchFields.length); 
+			$("#Button11").val("Add");
+            addedSelectFields.splice(0, addedSelectFields.length); 
+			$("#Button12").val("Add");
+            addedOrderFields.splice(0, addedOrderFields.length);
+			$("#Button10").val("Add");
+            addedHightlightFields.splice(0, addedHightlightFields.length);
+			$("#Button14").val("Add");
+            addedFacetFields.splice(0, addedFacetFields.length);
+			$("#Button13").val("Add");
+        }
+         
+
+        function generateQueryComposerParameters()
+        { 
+            var queryPrameters = "";
+            
+			var requestMethod = $.trim($("#Combobox9 option:selected").text())
+            
+			var apiVersion = $.trim($('#Editbox7').val()) 
+
+            //Search Fields - addedSearchFields
+
+            var searchText = $.trim($('#Editbox8').val()) 
+			var searchMode = $.trim($("#Combobox11 option:selected").text())
+            
+            //Select Fields - addedSelectFields
+            
+			var queryType = $.trim($("#Combobox13 option:selected").text())
+            var sessionId = $.trim($('#Editbox14').val()) 
+            var minimumCoverage = $.trim($('#Editbox18').val()) 
+            var skip = $.trim($('#Editbox9').val()) 
+            var top = $.trim($('#Editbox10').val()) 
+             
+			var count = $.trim($("#Combobox21 option:selected").text())
+
+            //Order by - addedOrderFields
+            
+            //High light - addedHightlightFields 
+            var highLightPreTag = $.trim($('#Editbox15').val()) 
+            var highLightPostTag = $.trim($('#Editbox16').val()) 
+
+            var filters = $.trim($('#Editbox17').val()) 
+            var scoringStatistics = $.trim($("#Combobox22 option:selected").text())
+            var scoringProfile = $.trim($("#Combobox23 option:selected").text())
+            var scoringParameter = $.trim($('#Editbox19').val()) 
+            
+            ////facet - addedFacetFields
+            //var facetField = $.trim($("#Combobox10 option:selected").text())
+            //var facetType = $.trim($("#Combobox12 option:selected").text())
+            //var facetVal = $.trim($('#Editbox13').val())  
+
+            if (requestMethod === "GET")
+            {
+                if(apiVersion !== null && apiVersion.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&api-version=" + apiVersion
+                }
+                if(searchText !== null && searchText.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&search=" + searchText
+                }
+                if(searchMode !== null && searchMode.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&searchMode=" + searchMode
+                }
+                if(queryType !== null && queryType.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&queryType=" + queryType
+                } 
+                if(sessionId !== null && sessionId.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&sessionId=" + sessionId
+                } 
+                if(skip !== null && skip.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&$skip=" + skip
+                } 
+                if(top !== null && top.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&$top=" + top
+                }  
+                if(count !== null && count.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&$count=" + count
+                }  
+                if(filters !== null && filters.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&$filter=" + filters
+                } 
+                if(scoringStatistics !== null && scoringStatistics.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&scoringStatistics=" + scoringStatistics
+                } 
+                if(scoringProfile !== null && scoringProfile.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&scoringProfile=" + scoringProfile
+                } 
+                if(scoringParameter !== null && scoringParameter.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&scoringParameter=" + scoringParameter
+                } 
+                if(minimumCoverage !== null && minimumCoverage.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&minimumCoverage=" + minimumCoverage
+                }
+                 
+                //Search Fields - addedSearchFields
+                if(addedSearchFields.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&searchFields="
+                    for (const item of addedSearchFields) 
+			        {
+				        queryPrameters = queryPrameters + item + "," 
+			        } 
+                    queryPrameters = queryPrameters.slice(0, -1)
+                    // queryPrameters = queryPrameters.substring(0, queryPrameters.length - 1);
+                }  
+
+                //Select Fields - addedSelectFields
+                if(addedSelectFields.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&$select="
+                    for (const item of addedSelectFields) 
+			        {
+				        queryPrameters = queryPrameters + item + "," 
+			        } 
+                    queryPrameters = queryPrameters.slice(0, -1)
+                    // queryPrameters = queryPrameters.substring(0, queryPrameters.length - 1);
+                }  
+                
+                // Order by - addedOrderFields 
+                // $orderby=search.score() desc,Rating desc,geo.distance(Location, geography'POINT(-122.131577 47.678581)') asc
+
+                // Checkbox2 - Search Score
+                // Checkbox3 - Geo Distance
+                if("on" == $('#Checkbox2').val() || "on" == $('#Checkbox3').val() || addedOrderFields.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&$orderby="
+                    if("on" == $('#Checkbox2').val())
+                    {
+                        var searchScoreAsc = $.trim($("#Combobox15 option:selected").text())
+                        queryPrameters = queryPrameters + "search.score() "+ searchScoreAsc + "," 
+                    }
+                     
+                    var geoDistanceField = $.trim($("#ComboboxGeographyPointList option:selected").text())
+                    var poingX = $.trim($('#Editbox11').val()) 
+                    var poingY = $.trim($('#Editbox12').val()) 
+                    if("on" == $('#Checkbox3').val() && geoDistanceField.length > 0 && poingX.length > 0 && poingY.length > 0)
+                    { 
+                        var geoDistanceAsc = $.trim($("#Combobox16 option:selected").text())
+                        queryPrameters = queryPrameters + "geo.distance("+geoDistanceField+", geography'POINT("+ poingX + " " + poingY + ")') " + geoDistanceAsc + "," 
+                         
+                    }
+                    if(addedOrderFields.length > 0)
+                    { 
+                        for (const item of addedOrderFields) 
+                        {
+                            var itemarray= item.split(";");
+                            queryPrameters = queryPrameters + itemarray[0] + " " + itemarray[1] + "," 
+                        }
+                    }
+                    queryPrameters = queryPrameters.slice(0, -1)
+                }
+                 
+                // High light - addedHightlightFields  
+                if(addedHightlightFields.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&highlight="
+                    for (const item of addedHightlightFields) 
+			        {
+				        queryPrameters = queryPrameters + item + "," 
+			        } 
+                    queryPrameters = queryPrameters.slice(0, -1) 
+ 
+                    if(highLightPreTag !== null && highLightPreTag.length > 0)
+                    {
+                        queryPrameters = queryPrameters + "&highlightPreTag=" + highLightPreTag
+                    } 
+                    if(highLightPostTag !== null && highLightPostTag.length > 0)
+                    {
+                        queryPrameters = queryPrameters + "&highlightPostTag=" + highLightPostTag
+                    } 
+                } 
+    
+                // Facet - addedFacetFields 
+                // TODO : Type is multiple val
+                // facet=lastRenovationDate,interval:day,timeoffset:-01:00  
+                if(addedFacetFields.length > 0)
+                {
+                    queryPrameters = queryPrameters + "&facet="+addedfacet+","
+                    for (const item of addedFacetFields) 
+			        {
+				        queryPrameters = queryPrameters + item + "," 
+			        } 
+                    queryPrameters = queryPrameters.slice(0, -1) 
+                } 
+                $("#TextArea9").val(queryPrameters) 
+            }
+            else if (requestMethod === "POST")
+            {
+                var objRequestBody = new Object();
+                 
+                if(searchText !== null && searchText.length > 0)
+                {
+                    objRequestBody.search = searchText; 
+                }
+                if(searchMode !== null && searchMode.length > 0)
+                {
+                    objRequestBody.searchMode = searchMode;  
+                }
+                if(queryType !== null && queryType.length > 0)
+                {
+                    objRequestBody.queryType = queryType;   
+                } 
+                if(sessionId !== null && sessionId.length > 0)
+                {
+                    objRequestBody.sessionId = sessionId;    
+                } 
+                if(skip !== null && skip.length > 0)
+                {
+                    objRequestBody.skip = skip;     
+                } 
+                if(top !== null && top.length > 0)
+                {
+                    objRequestBody.top = top;      
+                }  
+                if(count !== null && count.length > 0)
+                {
+                    objRequestBody.count = count;    
+                }  
+                if(filters !== null && filters.length > 0)
+                {
+                    objRequestBody.filter = filters;     
+                } 
+                if(scoringStatistics !== null && scoringStatistics.length > 0)
+                {
+                    objRequestBody.scoringStatistics = scoringStatistics;      
+                } 
+                if(scoringProfile !== null && scoringProfile.length > 0)
+                {
+                    objRequestBody.scoringProfile = scoringProfile;      
+                } 
+                if(scoringParameter !== null && scoringParameter.length > 0)
+                {
+                    //TODO: should be arrary: like:
+                    //const addedSearchFields = []; 
+                    //addedSearchFields.push(selectval);
+                    objRequestBody.scoringParameters = scoringParameter; 
+                } 
+                if(minimumCoverage !== null && minimumCoverage.length > 0)
+                {
+                    objRequestBody.minimumCoverage = minimumCoverage;  
+                }
+                 
+                //Search Fields - addedSearchFields
+                if(addedSearchFields.length > 0)
+                {
+                    var searchFields = "";
+                    for (const item of addedSearchFields) 
+			        {
+				        searchFields = searchFields + item + "," 
+			        } 
+                    searchFields = searchFields.slice(0, -1)
+                    objRequestBody.searchFields = searchFields;   
+                }  
+
+                //Select Fields - addedSelectFields
+                if(addedSelectFields.length > 0)
+                {
+                    var selectFields = "";
+                    for (const item of addedSelectFields) 
+			        {
+				        selectFields = selectFields + item + "," 
+			        } 
+                    selectFields = selectFields.slice(0, -1)
+                    objRequestBody.select = selectFields; 
+                }  
+                
+                // Order by - addedOrderFields 
+                // $orderby=search.score() desc,Rating desc,geo.distance(Location, geography'POINT(-122.131577 47.678581)') asc
+
+                // Checkbox2 - Search Score
+                // Checkbox3 - Geo Distance
+                if("on" == $('#Checkbox2').val() || "on" == $('#Checkbox3').val() || addedOrderFields.length > 0)
+                {
+                    var orderbyPara = "";
+                    if("on" == $('#Checkbox2').val())
+                    {
+                        var searchScoreAsc = $.trim($("#Combobox15 option:selected").text())
+                        orderbyPara = orderbyPara + "search.score() "+ searchScoreAsc + "," 
+                    }
+                     
+                    var geoDistanceField = $.trim($("#ComboboxGeographyPointList option:selected").text())
+                    var poingX = $.trim($('#Editbox11').val()) 
+                    var poingY = $.trim($('#Editbox12').val()) 
+                    if("on" == $('#Checkbox3').val() && geoDistanceField.length > 0 && poingX.length > 0 && poingY.length > 0)
+                    { 
+                        var geoDistanceAsc = $.trim($("#Combobox16 option:selected").text())
+                        orderbyPara = orderbyPara + "geo.distance("+geoDistanceField+", geography'POINT("+ poingX + " " + poingY + ")') " + geoDistanceAsc + "," 
+                         
+                    }
+                    if(addedOrderFields.length > 0)
+                    { 
+                        for (const item of addedOrderFields) 
+                        {
+                            var itemarray= item.split(";");
+                            orderbyPara = orderbyPara + itemarray[0] + " " + itemarray[1] + "," 
+                        }
+                    }
+                    orderbyPara = orderbyPara.slice(0, -1)
+                    objRequestBody.orderby = orderbyPara; 
+                }
+                 
+                // High light - addedHightlightFields  
+                if(addedHightlightFields.length > 0)
+                {
+                    highlightPara = "";
+                    for (const item of addedHightlightFields) 
+			        {
+				        highlightPara = highlightPara + item + "," 
+			        } 
+                    highlightPara = highlightPara.slice(0, -1) 
+                    objRequestBody.highlight = highlightPara; 
+ 
+                    if(highLightPreTag !== null && highLightPreTag.length > 0)
+                    {
+                        objRequestBody.highlightPreTag = highLightPreTag;  
+                    } 
+                    if(highLightPostTag !== null && highLightPostTag.length > 0)
+                    {
+                        objRequestBody.highlightPostTag = highLightPostTag;  
+                    }  
+                } 
+    
+                // Facet - addedFacetFields 
+                // TODO : Type is multiple val
+                // facet=lastRenovationDate,interval:day,timeoffset:-01:00  
+                if(addedFacetFields.length > 0)
+                {
+                    const facetArray = []; 
+                    facetPara = addedfacet+",";
+                    for (const item of addedFacetFields) 
+			        {
+				        facetPara = facetPara + item + "," 
+			        } 
+                    facetPara = facetPara.slice(0, -1) 
+                    facetArray.push(facetPara);
+                    objRequestBody.facets = facetArray; 
+                } 
+                 
+                queryPrameters = JSON.stringify(objRequestBody);
+                $("#TextArea9").val(queryPrameters) 
+            }
+
+        }
+
+        function AnalyzerListSelect()
+        {
+		    var selectval = $.trim($("#AnalyzerDropListComboboxId option:selected").text())
+			$("#AnalyzerNameEditbox").val(selectval)
+		}
+        
+        function BuiltInAnalyzerListSelect()
+        {
+		    var selectval = $.trim($("#Combobox8 option:selected").text())
+			$("#Editbox20").val(selectval)
+		} 
+        function BuiltInTokenizerListSelect()
+        {
+		    var selectval = $.trim($("#Combobox24 option:selected").text())
+			$("#Editbox21").val(selectval)
+		}   
+        function BuiltInTokenFilterListSelect()
+        {
+		    var selectval = $.trim($("#Combobox25 option:selected").text())
+			$("#Editbox22").val(selectval)
+		}   
+        function BuiltInCharFilterListSelect()
+        {
+		    var selectval = $.trim($("#Combobox26 option:selected").text())
+			$("#Editbox23").val(selectval)
+		}   
+
+        function WebAPINameListSelect()
+        {
+            var txtSelectedWebApiName = $.trim($("#Combobox27 option:selected").text());
+             
+            if (webAPISkill !== null && webAPISkill.length > 0) {
+                let idx = 0; 
+                let founditem = 0;
+                for (const item of webAPISkill) {
+                    // web api skill name 
+                    if (idx % 13 == 0 && txtSelectedWebApiName == item) {
+                        founditem = 1; 
+                    }
+                    else if (idx % 13 == 0 && txtSelectedWebApiName != item)
+                    {
+                        founditem = 0;
+                    }
+
+                    if (founditem == 1)
+                    {
+                        // web api definition 
+                        if (idx % 13 == 11) {
+                            $("#TextArea13").val(item);
+                        }
+                        // url 
+                        if (idx % 13 == 5) {
+                            $("#Editbox24").val(item);
+                        }
+                        // headers 
+                        if (idx % 13 == 8) {
+                            var headerArray = item.split(",");
+                            var headerHtml = "";
+                            for (const headeritem of headerArray) {
+                                if (headeritem && headeritem.length !== 0) {
+                                    headerHtml = headerHtml + headeritem + "\n";
+
+                                }
+                            }
+                            $("#TextArea14").val(headerHtml);
+                        }
+                        // payload 
+                        if (idx % 13 == 12) {
+                            $("#TextArea15").val(item);
+                        }
+                    }
+
+                    idx += 1; 
+                }
+            }
+
+            $("#TextArea16").val("");
+        }
+          
+        function SynonymMapListSelect()
+        {
+            //if(!checkServiceNameAndKeyEmpty()) return;
+             
+            var servicen = $.trim($("#SearchEditbox").val());  
+            if(servicen === "" || servicen === null )
+            {  
+                $( "#dialog" ).dialog({
+                    title: 'Warning', 
+                    //position: [0,28],
+                    dialogClass: "no-close",  
+                    open: function() { 
+                    $(this).html("Please input the search service name.");
+                    },
+                    buttons: [
+                    {
+                        text: "OK",
+                        click: function() {
+                        $( this ).dialog( "close" );
+                        }
+                    }
+                    ]
+                });
+                return;
+            }   
+    
+            var servicekey = $.trim($("#APIKeyEditbox").val());  
+            if(servicekey === "" || servicekey === null )
+            {  
+                $( "#dialog" ).dialog({
+                    title: 'Warning', 
+                    //position: [0,28],
+                    dialogClass: "no-close",  
+                    open: function() { 
+                    $(this).html("Please input the search service key.");
+                    },
+                    buttons: [
+                    {
+                        text: "OK",
+                        click: function() {
+                        $( this ).dialog( "close" );
+                        }
+                    }
+                    ]
+                });
+                return;
+            }  
+             
+		    var selectval = $.trim($("#SynonymMapsDropListCombobox option:selected").text())
+			$("#SynonymMapNameInputEditbox").val(selectval)
+            showLoading(false); 
+            $.ajax({
+                type: "POST",
+                url: "/Home/GetSynonymMapRule",
+                data: { "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val(), "synonyMapName": $("#SynonymMapNameInputEditbox").val()},
+                success: function (response) { 
+                    hideLoading();
+                    var searchJson = JSON.parse(response); 
+                    $("#SynonymMapsRuleTextAreaTextArea").val(searchJson.SynmapRule);
+                       
+                    $('#IndexNameForSynoymMapDropListCombobox optgroup').remove();
+                    $('#IndexNameForSynoymMapDropListCombobox option').remove();
+                    $('#IndexNameForSynoymMapDropListCombobox').append('<optgroup style="color: #b3b3b3;" label="Field can be config only one synonym map"></optgroup>');
+                    $('#IndexNameForSynoymMapDropListCombobox').append('<optgroup style="color: #b3b3b3;" label="(Multiple selection Ctrl+click):"></optgroup>');
+                    selectedIndexFields = ""; //clear selected fields since synoym map changed
+
+                    var lastindexinloop = "";
+                    var index = 0;  
+                    $.each(searchJson.IndexFields, function( key, value ) {  
+                        if (0 == index % 2) 
+                        {   
+                            //Synonyms index 
+                            $('#IndexNameForSynoymMapDropListCombobox').append('<optgroup label="' + value + '">');
+                            lastindexinloop = value;
+                        }
+                        else 
+                        {
+                            //Synonyms index fields 
+                            var fielditems = value.split(",");
+                            $.each(fielditems, function( fieldkey, fieldvalue ) { 
+                                //$('#IndexNameForSynoymMapDropListCombobox').append('<option>&nbsp;&nbsp;&nbsp;&nbsp;' + fieldvalue + '<span style="color:blue;display: none;">'+lastindexinloop+'</span></option>');
+
+                                if(fieldvalue.includes(":"))
+                                {
+                                    var filedAndSynoym = fieldvalue.split(":");
+                                    $('#IndexNameForSynoymMapDropListCombobox').append('<option onclick="indexFieldOnClick(this.id, this.value)" id="'+filedAndSynoym[0]+'" value="'+lastindexinloop+'" selected>&nbsp;&nbsp;&nbsp;&nbsp;' + filedAndSynoym[0] +'</option>');
+                                    selectedIndexFields = selectedIndexFields + filedAndSynoym[0] + "," + lastindexinloop + ";";
+                                }
+                                else 
+                                {
+                                    $('#IndexNameForSynoymMapDropListCombobox').append('<option onclick="indexFieldOnClick(this.id, this.value)" id="'+fieldvalue+'" value="'+lastindexinloop+'">&nbsp;&nbsp;&nbsp;&nbsp;' + fieldvalue +'</option>');
+                                } 
+                            });
+                        }
+                         
+                        index ++;
+                    });
+                     
+                },
+                failure: function (response) {
+                    hideLoading();
+                    propertyMenu.style.display = "none";
+ 
+                },
+                error: function (response) {
+                    hideLoading();
+                    propertyMenu.style.display = "none";
+ 
+                }
+            });
+		}
+
+        var webAPISkill = null;
+        function LoadIndexBtnClk() 
+        {  
+            var searchEditbox = $.trim($("#SearchEditbox").val()); 
+            var apiKeyEditbox = $.trim($("#APIKeyEditbox").val());  
+            if(searchEditbox === "" || searchEditbox === null || apiKeyEditbox === "" || apiKeyEditbox === null )
+            {  
+                $( "#dialog" ).dialog({
+                    title: 'Warning', 
+                    //position: [0,28],
+                    dialogClass: "no-close",  
+                    open: function() { 
+                    $(this).html("Search name or API Key can't be null.");
+                    },
+                    buttons: [
+                    {
+                        text: "OK",
+                        click: function() {
+                        $( this ).dialog( "close" );
+                        }
+                    }
+                    ]
+                });
+                return;
+            }
+              
+            showLoading(true);
+            $.ajax({
+                type: "POST",
+                url: "/Home/LoadSearchIndexInfo",
+                data: { "searchName": $.trim($("#SearchEditbox").val()), "apiKey": $("#APIKeyEditbox").val()},
+                success: function (response) {
+                    hideLoading();  
+                        
+                    var indexsJson = JSON.parse(response); 
+                    var indexsLength = indexsJson.IndexFields.length;
+                    var index = 0;  
+                    indexPageCurrent = true;
+
+                    $('#ListView1 li').remove();
+                    $('#IndexNameForSynoymMapDropListCombobox optgroup').remove();
+                    $('#IndexNameForSynoymMapDropListCombobox option').remove();
+                    $('#IndexNameForSynoymMapDropListCombobox').append('<optgroup style="color: #b3b3b3;" label="Field can be config only one synonym map"></optgroup>');
+                    $('#IndexNameForSynoymMapDropListCombobox').append('<optgroup style="color: #b3b3b3;" label="(Multiple selection Ctrl+click):"></optgroup>');
+
+                    var lastindexinloop = "";
+                    $.each(indexsJson.IndexFields, function( key, value ) { 
+                         
+                        if (0 == index % 2) 
+                        { 
+                            //Left index list 
+                            if (0 == index)
+                            { 
+                                $('#ListView1').append('<li class="ui-li-static ui-widget-content ui-body-inherit ui-first-child" style="background-color:#D4D4D4;" >' + value + '</li>');
+                                loadedindex = value;
+                                selectedindex = value;
+                            }
+                            else if (indexsLength-1 == index) 
+                            { 
+                                $('#ListView1').append('<li class="ui-li-static ui-widget-content ui-body-inherit ui-last-child"  >' + value + '</li>');
+                            }
+                            else 
+                            { 
+                                $('#ListView1').append('<li class="ui-li-static ui-widget-content ui-body-inherit" >' + value + '</li>');
+                            }
+
+                            //Synonyms index 
+                            $('#IndexNameForSynoymMapDropListCombobox').append('<optgroup label="' + value + '">');
+                            lastindexinloop = value;
+                        }
+                        else 
+                        {
+                            //Synonyms index fields 
+                            var fielditems = value.split(",");
+                            $.each(fielditems, function( fieldkey, fieldvalue ) { 
+                                //$('#IndexNameForSynoymMapDropListCombobox').append('<option>&nbsp;&nbsp;&nbsp;&nbsp;' + fieldvalue + '<span style="color:blue;display: none;">'+lastindexinloop+'</span></option>');
+
+                                if(fieldvalue.includes(":"))
+                                {
+                                    var filedAndSynoym = fieldvalue.split(":");
+                                    $('#IndexNameForSynoymMapDropListCombobox').append('<option onclick="indexFieldOnClick(this.id, this.value)" id="'+filedAndSynoym[0]+'" value="'+lastindexinloop+'" selected>&nbsp;&nbsp;&nbsp;&nbsp;' + filedAndSynoym[0] +'</option>');
+                                    selectedIndexFields = selectedIndexFields + filedAndSynoym[0] + "," + lastindexinloop + ";";
+                                }
+                                else 
+                                {
+                                    $('#IndexNameForSynoymMapDropListCombobox').append('<option onclick="indexFieldOnClick(this.id, this.value)" id="'+fieldvalue+'" value="'+lastindexinloop+'">&nbsp;&nbsp;&nbsp;&nbsp;' + fieldvalue +'</option>');
+                                } 
+                            });
+                        }
+                         
+                        index ++;
+                    }); 
+                    $('#indexdocs').val(indexsJson.IndexDocument);
+                     
+                    $("#SuggestionCombobox").empty();
+                    $("#SuggestionDropList").empty();
+                    $("#SuggestionTextArea1").val("");
+                    $("#SuggestionInputEditbox").val("");
+                    $("#SuggestionResponseTextArea2").val(""); 
+                    txtArea = document.getElementById("SuggestionTextArea1") ; 
+                    txtArea.style.display = "none";
+                    $("#AutocompleteCombobox").empty();
+                    $("#AutocompleteInputEditbox").val(""); 
+                    $("#AutocompleteResponseTextTextArea").val(""); 
+
+                    if(indexsJson.Suggesters !== null && indexsJson.Suggesters.length > 0)
+                    { 
+                        if(indexsJson.Suggesters.includes(","))
+                        {
+                            var suggestionDropList = document.getElementById('SuggestionCombobox');
+                            var sugArray = indexsJson.Suggesters.split(",");
+                            let idx = 0;
+                            for (const item of sugArray)
+                            {
+                                var opt = document.createElement('option');
+                                opt.value = idx;
+                                opt.innerHTML = item;
+                                suggestionDropList.appendChild(opt);
+
+                                idx += 1;
+                            }
+                            
+                            var autoCompleteSugDropList = document.getElementById('AutocompleteCombobox');
+                            var autoCompleteSugArray = indexsJson.Suggesters.split(",");
+                            let idxauto = 0;
+                            for (const item of autoCompleteSugArray)
+                            {
+                                var opt = document.createElement('option');
+                                opt.value = idxauto;
+                                opt.innerHTML = item;
+                                autoCompleteSugDropList.appendChild(opt);
+
+                                idxauto += 1;
+                            }
+                        }
+                        else 
+                        {
+                            var suggestionDropList = document.getElementById('SuggestionCombobox'); 
+
+                            var opt = document.createElement('option');
+                            opt.value = 0;
+                            opt.innerHTML = indexsJson.Suggesters;
+
+                            suggestionDropList.appendChild(opt); 
+                            
+
+                            var autoCompleteSugDropList = document.getElementById('AutocompleteCombobox');
+
+                            var optauto = document.createElement('option');
+                            optauto.value = 0;
+                            optauto.innerHTML = indexsJson.Suggesters;
+
+                            autoCompleteSugDropList.appendChild(optauto); 
+                        } 
+                    }  
+                     
+                    $("#AnalyzerDropListComboboxId").empty(); 
+                    $("#AnalyzerResponseTextAreaId").val("");
+                    $("#AnalyzerInpitTextAreaId").val("");  
+                    if(indexsJson.Analyzers !== null && indexsJson.Analyzers.length > 0)
+                    { 
+                        if(indexsJson.Analyzers.includes(","))
+                        {
+                            var analyzersDropList = document.getElementById('AnalyzerDropListComboboxId');
+                            var alzArray = indexsJson.Analyzers.split(",");
+                            let idx = 0;
+                            for (const item of alzArray)
+                            {
+                                var opt = document.createElement('option');
+                                opt.value = idx;
+                                opt.innerHTML = item;
+                                analyzersDropList.appendChild(opt);
+
+                                idx += 1;
+                            }
+                        }
+                        else 
+                        {
+                            var analyzersDropList = document.getElementById('AnalyzerDropListComboboxId');
+
+                            var opt = document.createElement('option');
+                            opt.value = 0;
+                            opt.innerHTML = indexsJson.Analyzers;
+
+                            analyzersDropList.appendChild(opt); 
+                        } 
+                    } 
+                    var txtSelectedAnalyzer = $.trim($("#AnalyzerDropListComboboxId option:selected").text());
+                    $("#AnalyzerNameEditbox").val(txtSelectedAnalyzer); 
+
+                    // Synonym Maps
+                    $("#SynonymMapsDropListCombobox").empty();
+                    $("#SynonymMapNameInputEditbox").val("");
+                    $("#SynonymMapsRuleTextAreaTextArea").val("");  
+                    if(indexsJson.SynonymMaps !== null && indexsJson.SynonymMaps.length > 0)
+                    { 
+                        if(indexsJson.SynonymMaps.includes(","))
+                        {
+                            var synonymMapsDropList = document.getElementById('SynonymMapsDropListCombobox');
+                            var synonymMapsArray = indexsJson.SynonymMaps.split(",");
+                            let idx = 0;
+                            for (const item of synonymMapsArray)
+                            {
+                                var opt = document.createElement('option');
+                                opt.value = idx;
+                                opt.innerHTML = item;
+                                synonymMapsDropList.appendChild(opt);
+
+                                idx += 1;
+                            }
+                        }
+                        else 
+                        {
+                            var synonymMapsDropList = document.getElementById('SynonymMapsDropListCombobox');
+
+                            var opt = document.createElement('option');
+                            opt.value = 0;
+                            opt.innerHTML = indexsJson.SynonymMaps;
+
+                            synonymMapsDropList.appendChild(opt); 
+                        } 
+                    } 
+                    var txtSelectedSynonymMap = $.trim($("#SynonymMapsDropListCombobox option:selected").text());
+                    $("#SynonymMapNameInputEditbox").val(txtSelectedSynonymMap);  
+                    $("#SynonymMapsRuleTextAreaTextArea").val(indexsJson.SynmapRule); 
+                     
+                    $("#IndexJsonDefinitionTextArea").val(indexsJson.IndexJsonDefinition); 
+
+
+                    //QueryComposer. Index dropdown list -- Begin 
+
+                    // Combobox18 -- search fields -- SearchableFieldlist
+                    // Combobox20 -- high light --  SearchableFieldlist
+                    if(indexsJson.SearchableFieldlist !== null && typeof indexsJson.SearchableFieldlist !== "undefined")
+                    {
+                        $("#Combobox18").empty();
+                        $("#Combobox20").empty(); 
+                        var searchableFieldDropList = document.getElementById('Combobox18');
+                        var hightlightFieldDropList = document.getElementById('Combobox20');
+                        idx = 0;
+                        for (const item of indexsJson.SearchableFieldlist)
+                        {
+	                        var opt = document.createElement('option');
+	                        opt.value = idx;
+	                        opt.innerHTML = item;
+	                        searchableFieldDropList.appendChild(opt);
+	                        //hightlightFieldDropList.appendChild(opt);
+
+	                        idx += 1;
+                        }
+                        idx = 0;
+                        for (const item of indexsJson.SearchableFieldlist)
+                        {
+	                        var opt = document.createElement('option');
+	                        opt.value = idx;
+	                        opt.innerHTML = item;
+	                        //searchableFieldDropList.appendChild(opt);
+	                        hightlightFieldDropList.appendChild(opt);
+
+	                        idx += 1;
+                        }
+                    }
+
+                    // Combobox19 -- select fields -- RetrievableFieldlist
+                    if(indexsJson.RetrievableFieldlist !== null && typeof indexsJson.RetrievableFieldlist !== "undefined")
+                    {
+                        $("#Combobox19").empty();
+                        var retrievableFieldDropList = document.getElementById('Combobox19');
+                        idx = 0;
+                        for (const item of indexsJson.RetrievableFieldlist)
+                        {
+	                        var opt = document.createElement('option');
+	                        opt.value = idx;
+	                        opt.innerHTML = item;
+	                        retrievableFieldDropList.appendChild(opt);
+
+	                        idx += 1;
+                        }
+
+                        // Combobox14 -- order by -- SortableFieldlist
+                        if(indexsJson.SortableFieldlist !== null && typeof indexsJson.SortableFieldlist !== "undefined"){}
+                        $("#Combobox14").empty();
+                        var sortableFieldDropList = document.getElementById('Combobox14');
+                        idx = 0;
+                        for (const item of indexsJson.SortableFieldlist)
+                        {
+	                        var opt = document.createElement('option');
+	                        opt.value = idx;
+	                        opt.innerHTML = item;
+	                        sortableFieldDropList.appendChild(opt);
+
+	                        idx += 1;
+                        }
+                    }
+
+                    // Combobox10 -- facet -- FacetableFieldlist
+                    if(indexsJson.FacetableFieldlist !== null && typeof indexsJson.FacetableFieldlist !== "undefined")
+                    {
+                        $("#Combobox10").empty();
+                        var facetableFieldDropList = document.getElementById('Combobox10');
+                        idx = 0;
+                        for (const item of indexsJson.FacetableFieldlist)
+                        {
+	                        var opt = document.createElement('option');
+	                        opt.value = idx;
+	                        opt.innerHTML = item;
+	                        facetableFieldDropList.appendChild(opt);
+
+	                        idx += 1;
+                        }
+                    }
+
+                    // Combobox23 -- Scoring Profile -- ScoringProfileList
+                    if(indexsJson.ScoringProfileList !== null && typeof indexsJson.ScoringProfileList !== "undefined")
+                    {
+                        $("#Combobox23").empty();
+                        var scoringProfileDropList = document.getElementById('Combobox23');
+                        idx = 0;
+                        for (const item of indexsJson.ScoringProfileList)
+                        {
+	                        var opt = document.createElement('option');
+	                        opt.value = idx;
+	                        opt.innerHTML = item;
+	                        scoringProfileDropList.appendChild(opt);
+
+	                        idx += 1;
+                        }
+                    }
+                    
+                    // ComboboxGeographyPointList -- GeographyPointList -- ComboboxGeographyPointList
+                    if(indexsJson.GeographyPointList !== null && typeof indexsJson.GeographyPointList !== "undefined")
+                    {
+                        $("#ComboboxGeographyPointList").empty();
+                        var geographyPointDropList = document.getElementById('ComboboxGeographyPointList');
+                        idx = 0;
+                        for (const item of indexsJson.GeographyPointList)
+                        {
+	                        var opt = document.createElement('option');
+	                        opt.value = idx;
+	                        opt.innerHTML = item;
+	                        geographyPointDropList.appendChild(opt);
+
+	                        idx += 1;
+                        }
+                    }
+                     
+                    //QueryComposer. Index dropdown list -- End 
+                    clearAddedQueryParameters();
+                    generateQueryComposerParameters();
+
+                    //Custom Web API 
+                    if (indexsJson.WebAPISkill !== null && indexsJson.WebAPISkill.length > 0)
+                    {
+                        let idx = 0;
+                        webAPISkill = indexsJson.WebAPISkill;
+                        for (const item of indexsJson.WebAPISkill) {  
+                            // web api skill name 
+                            if (idx % 13 == 0) {
+                                var webApiDropList = document.getElementById('Combobox27');
+
+                                var opt = document.createElement('option');
+                                opt.value = 0;
+                                opt.innerHTML = item;
+
+                                webApiDropList.appendChild(opt);
+                            }
+                            // web api definition 
+                            if (idx % 13 == 11 && idx < 13) {
+                                $("#TextArea13").val(item);
+                            }
+                            // url 
+                            if (idx % 13 == 5 && idx < 13) {
+                                $("#Editbox24").val(item);
+                            }
+                            // headers 
+                            if (idx % 13 == 8 && idx < 13) {
+                                var headerArray = item.split(",");
+                                var headerHtml = "";
+                                for (const headeritem of headerArray)
+                                {
+                                    if (headeritem && headeritem.length !== 0)
+                                    {
+                                        headerHtml = headerHtml + headeritem + "\n";
+                                        
+                                    }
+                                }
+                                $("#TextArea14").val(headerHtml);
+                            }
+                            // payload 
+                            if (idx % 13 == 12 && idx < 13) {
+                                $("#TextArea15").val(item);
+                            }
+                            
+                            idx += 1;
+                        }
+                    }
+                },
+                failure: function (response) {
+                    hideLoading();
+                    $( "#dialog" ).dialog({
+                        title: 'Load index information',
+                        //position: [0,28],
+                        dialogClass: "no-close",  
+                        open: function() { 
+                        $(this).html("Can't load index information temporary. " +response);
+                        },
+                        buttons: [
+                        {
+                            text: "OK",
+                            click: function() {
+                            $( this ).dialog( "close" );
+                            }
+                        }
+                        ]
+                    });  
+                },
+                error: function (response) {
+                    hideLoading();
+                    $( "#dialog" ).dialog({
+                        title: 'Load index information', 
+                        //position: [0,28],
+                        dialogClass: "no-close",  
+                        open: function() { 
+                        $(this).html("Can't load index information temporary. " +response);
+                        },
+                        buttons: [
+                        {
+                            text: "OK",
+                            click: function() {
+                            $( this ).dialog( "close" );
+                            }
+                        }
+                        ]
+                    });  
+                }
+            });
+        }
+      </script>
+   </head>
+   <body data-spy="scroll">
+      <div id="wb_Image1" style="position:absolute;left:34px;top:30px;width:129px;height:43px;z-index:4;">
+         <img src="images/microsoft.png" id="Image1" alt="">
+      </div>
+      <hr id="Line1" style="position:absolute;left:57px;top:99px;width:714px;z-index:5;">
+      <div id="Tabs1" style="position:absolute;left:252px;top:162px;width:1198px;height:766px;z-index:6;">
+         <ul>
+            <li><a href="#tabs1-page-1"><span>QueryComposer</span></a></li>
+            <li><a href="#tabs1-page-2"><span>IndexDefinition</span></a></li>
+            <li><a href="#tabs1-page-3"><span>Document</span></a></li>
+            <li><a href="#tabs1-page-4"><span>Suggestions</span></a></li>
+            <li><a href="#tabs1-page-5"><span>AnalyzeText</span></a></li>
+            <li><a href="#tabs1-page-6"><span>Autocomplete</span></a></li>
+            <li><a href="#tabs1-page-7"><span>Synonyms</span></a></li>
+            <li><a href="#tabs1-page-8"><span>Built-in Analyzer</span></a></li>
+            <li><a href="#tabs1-page-9"><span>WebAPISkill</span></a></li>
+         </ul> 
+
+
+         <div style="height:740px;" id="tabs1-page-1">
+            <div id="Tabs2" style="position:absolute;left:14px;top:12px;width:899px;height:695px;z-index:73;">
+               <ul>
+                  <li><a href="#tabs2-page-1"><span>Parameters</span></a></li>
+                  <li id="QueryResultTabId"><a href="#tabs2-page-2"><span>Result</span></a></li>
+               </ul>
+               <div style="height:669px;" id="tabs2-page-1">
+                  <div id="wb_Line2" style="position:absolute;left:236px;top:138px;width:1px;height:157px;z-index:0;">
+                     <img src="images/img0001.png" id="Line2" alt="">
+                  </div>
+                  <div id="wb_Line3" style="position:absolute;left:236px;top:138px;width:568px;height:1px;z-index:1;">
+                     <img src="images/img0005.png" id="Line3" alt="">
+                  </div>
+                  <div id="wb_Line8" style="position:absolute;left:804px;top:139px;width:1px;height:154px;z-index:2;">
+                     <img src="images/img0006.png" id="Line8" alt="">
+                  </div>
+                  <div id="wb_Line4" style="position:absolute;left:236px;top:293px;width:568px;height:1px;z-index:3;">
+                     <img src="images/img0007.png" id="Line4" alt="">
+                  </div>
+                  <div id="wb_Text12" style="position:absolute;left:248px;top:149px;width:61px;height:18px;z-index:4;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Order by:</span>
+                  </div>
+                  <div id="wb_Checkbox2" style="position:absolute;left:254px;top:216px;width:20px;height:20px;z-index:5;">
+                     <input type="checkbox" id="Checkbox2" onclick="searchScoreLabelOnClick(this.value)" name="AllowIndexDowntimeCheckbox" value="on" checked style="position:absolute;left:0;top:0;" title="Allow index downtime"><label for="Checkbox2"></label>
+                  </div>
+                  <div id="wb_Text13" style="position:absolute;left:279px;top:217px;width:94px;height:18px;z-index:6;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Search Score</span>
+                  </div>
+                  <select name="SearchModeDropList" size="1" id="Combobox15" onchange="generateQueryComposerParameters()" style="position:absolute;left:366px;top:212px;width:226px;height:28px;z-index:7;">
+                     <option selected value="asc">asc</option>
+                     <option value="desc">desc</option>
+                  </select>
+                  <div id="wb_Checkbox3" style="position:absolute;left:254px;top:255px;width:20px;height:20px;z-index:8;">
+                     <input type="checkbox" id="Checkbox3" onclick="geoDistanceLabelOnClick(this.value)" name="AllowIndexDowntimeCheckbox" value="off" style="position:absolute;left:0;top:0;" title="Allow index downtime"><label for="Checkbox3"></label>
+                  </div>
+                  <div id="wb_Text14" style="position:absolute;left:279px;top:256px;width:82px;height:18px;z-index:9;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Geo distance</span>
+                  </div>
+                  <select name="SearchModeDropList" size="1" id="ComboboxGeographyPointList" onchange="generateQueryComposerParameters()" style="position:absolute;left:366px;top:251px;width:80px;height:28px;z-index:12;">
+ 
+                  </select>
+                  <input type="text" id="Editbox11" onchange="generateQueryComposerParameters()" style="position:absolute;left:466px;top:251px;width:105px;height:18px;z-index:10;" name="EditboxSearchText" value="" spellcheck="false" placeholder="Point X">
+                  <input type="text" id="Editbox12" onchange="generateQueryComposerParameters()" style="position:absolute;left:595px;top:251px;width:87px;height:18px;z-index:11;" name="EditboxSearchText" value="" spellcheck="false" placeholder="Point Y">
+                  <select name="SearchModeDropList" size="1" id="Combobox16" onchange="generateQueryComposerParameters()" style="position:absolute;left:706px;top:251px;width:80px;height:28px;z-index:12;">
+                     <option selected value="asc">asc</option>
+                     <option value="desc">desc</option>
+                  </select>
+                  <input type="text" id="Editbox10" onchange="generateQueryComposerParameters()" style="position:absolute;left:159px;top:142px;width:54px;height:18px;z-index:13;" name="EditboxSearchText" value="100" spellcheck="false">
+                  <div id="wb_Text11" style="position:absolute;left:128px;top:147px;width:32px;height:18px;z-index:14;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Top:</span>
+                  </div>
+                  <input type="text" id="Editbox9" onchange="generateQueryComposerParameters()" style="position:absolute;left:46px;top:142px;width:57px;height:18px;z-index:15;" name="EditboxSearchText" value="0" spellcheck="false">
+                  <div id="wb_Text10" style="position:absolute;left:14px;top:147px;width:40px;height:18px;z-index:16;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Skip:</span>
+                  </div>
+                  <div id="wb_Text8" style="position:absolute;left:14px;top:102px;width:78px;height:18px;z-index:17;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Query Type:</span>
+                  </div>
+                  <select name="SearchModeDropList" size="1" id="Combobox13" onchange="generateQueryComposerParameters()" style="position:absolute;left:92px;top:97px;width:131px;height:28px;z-index:18;">
+                     <option selected value="simple">simple</option>
+                     <option value="full">full</option>
+                  </select>
+                  <div id="wb_Text7" style="position:absolute;left:14px;top:60px;width:78px;height:18px;z-index:19;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Search Text:</span>
+                  </div>
+                  <input type="text" id="Editbox8" onchange="generateQueryComposerParameters()" style="position:absolute;left:92px;top:55px;width:123px;height:18px;z-index:20;" name="EditboxSearchText" value="*" spellcheck="false" placeholder="The text to search for">
+                  <div id="wb_Text9" style="position:absolute;left:248px;top:60px;width:94px;height:18px;z-index:21;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Search Mode:</span>
+                  </div>
+                  <select name="SearchModeDropList" size="1" id="Combobox11" onchange="generateQueryComposerParameters()" style="position:absolute;left:342px;top:55px;width:94px;height:28px;z-index:22;">
+                     <option selected value="any">any</option>
+                     <option value="all">all</option>
+                  </select>
+                  <div id="wb_Text6" style="position:absolute;left:14px;top:18px;width:108px;height:18px;z-index:23;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Request Method:</span>
+                  </div>
+                  <select name="RequestMethodDropList" size="1" id="Combobox9" onchange="generateQueryComposerParameters()" style="position:absolute;left:131px;top:13px;width:94px;height:28px;z-index:24;">
+                     <option selected value="GET">GET</option>
+                     <option value="POST">POST</option>
+                  </select>
+                  <div id="wb_Text5" style="position:absolute;left:248px;top:18px;width:83px;height:18px;z-index:25;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">API Version:</span>
+                  </div>
+                  <input type="text" id="Editbox7" onchange="generateQueryComposerParameters()" style="position:absolute;left:331px;top:14px;width:95px;height:17px;z-index:26;" name="ParameterAPIVersion" value="2020-06-30" spellcheck="false" placeholder="api-version">
+                  <select name="SearchModeDropList" size="1" id="Combobox14" onchange="orderFieldsChange()" style="position:absolute;left:254px;top:172px;width:338px;height:28px;z-index:27;">
+ 
+                  </select>
+                  <select name="SearchModeDropList" size="1" id="Combobox17" onchange="orderFieldsChange()" style="position:absolute;left:606px;top:171px;width:80px;height:28px;z-index:28;">
+                     <option selected value="asc">asc</option>
+                     <option value="desc">desc</option>
+                  </select>
+                  <input type="button" id="Button10" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:698px;top:171px;width:75px;height:28px;z-index:29;">
+                  <div id="wb_Text15" style="position:absolute;left:462px;top:17px;width:93px;height:18px;z-index:30;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Search Fields:</span>
+                  </div>
+                  <select name="SearchModeDropList" size="1" id="Combobox18" onchange="searchFieldsChange()" style="position:absolute;left:553px;top:12px;width:153px;height:28px;z-index:31;">
+ 
+                  </select>
+                  <input type="button" id="Button11" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:716px;top:12px;width:75px;height:28px;z-index:32;">
+                  <div id="wb_Text16" style="position:absolute;left:462px;top:60px;width:83px;height:18px;z-index:33;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Select Fields:</span>
+                  </div>
+                  <select name="SearchModeDropList" size="1" id="Combobox19" onchange="selectFieldsChange()" style="position:absolute;left:553px;top:55px;width:153px;height:28px;z-index:34;">
+ 
+                  </select>
+                  <input type="button" id="Button12" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:716px;top:55px;width:75px;height:28px;z-index:35;">
+                  <select name="SearchModeDropList" size="1" id="Combobox10" onchange="facetFieldsChange()" style="position:absolute;left:59px;top:478px;width:164px;height:28px;z-index:36;">
+ 
+                  </select>
+                  <select name="SearchModeDropList" size="1" id="Combobox12" onchange="facetFieldsChange()" style="position:absolute;left:235px;top:478px;width:94px;height:28px;z-index:37;">
+                     <option selected value="count">count</option>
+                     <option value="sort">sort</option>
+                     <option value="values">values</option>
+                     <option value="interval">interval</option>
+                     <option value="timeoffset">timeoffset</option>
+                  </select>
+                  <input type="text" id="Editbox13" onchange="facetFieldsChange()" style="position:absolute;left:336px;top:478px;width:93px;height:18px;z-index:38;" name="EditboxSearchText" value="" spellcheck="false" placeholder="count number">
+                  <input type="button" id="Button13" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:446px;top:478px;width:75px;height:28px;z-index:39;">
+                  <div id="wb_Text18" style="position:absolute;left:248px;top:102px;width:70px;height:18px;z-index:40;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Session</span><span style="color:#000000;font-family:'Microsoft YaHei';font-size:15px;"> </span><span style="color:#000000;font-family:Calibri;font-size:15px;">id:</span>
+                  </div>
+                  <input type="text" id="Editbox14" onchange="generateQueryComposerParameters()" style="position:absolute;left:324px;top:97px;width:102px;height:18px;z-index:41;" name="EditboxSessionIdText" value="" spellcheck="false" placeholder="session Id ">
+                  <div id="wb_Text19" style="position:absolute;left:14px;top:334px;width:70px;height:18px;z-index:42;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Highlight:</span>
+                  </div>
+                  <select name="SearchModeDropList" size="1" id="Combobox20" onchange="highlightFieldsChange()" style="position:absolute;left:84px;top:329px;width:133px;height:28px;z-index:43;">
+ 
+                  </select>
+                  <div id="wb_Text20" style="position:absolute;left:240px;top:334px;width:111px;height:18px;z-index:44;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Highlight</span><span style="color:#000000;font-family:'Microsoft YaHei';font-size:15px;"> </span><span style="color:#000000;font-family:Calibri;font-size:15px;">PreTag:</span>
+                  </div>
+                  <input type="text" id="Editbox15" onchange="highlightFieldsChange()" style="position:absolute;left:348px;top:329px;width:123px;height:18px;z-index:45;" name="EditboxHighlightPreTagText" value="</em>" spellcheck="false">
+                  <div id="wb_Text21" style="position:absolute;left:495px;top:334px;width:110px;height:18px;z-index:46;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Highlight</span><span style="color:#000000;font-family:'Microsoft YaHei';font-size:15px;"> </span><span style="color:#000000;font-family:Calibri;font-size:15px;">PostTag:</span>
+                  </div>
+                  <input type="text" id="Editbox16" onchange="highlightFieldsChange()" style="position:absolute;left:606px;top:329px;width:123px;height:18px;z-index:47;" name="EditboxHighlightPostTagText" value="</em>" spellcheck="false" placeholder="highlightPostTag">
+                  <input type="button" id="Button14" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:755px;top:329px;width:75px;height:28px;z-index:48;">
+                  <div id="wb_Line7" style="position:absolute;left:0px;top:315px;width:839px;height:1px;z-index:49;">
+                     <img src="images/img0008.png" id="Line7" alt="">
+                  </div>
+                  <div id="wb_Line9" style="position:absolute;left:1px;top:363px;width:838px;height:1px;z-index:50;">
+                     <img src="images/img0009.png" id="Line9" alt="">
+                  </div>
+                  <div id="wb_Line10" style="position:absolute;left:0px;top:315px;width:1px;height:48px;z-index:51;">
+                     <img src="images/img0010.png" id="Line10" alt="">
+                  </div>
+                  <div id="wb_Line11" style="position:absolute;left:839px;top:316px;width:1px;height:47px;z-index:52;">
+                     <img src="images/img0011.png" id="Line11" alt="">
+                  </div>
+                  <div id="wb_Text22" style="position:absolute;left:14px;top:389px;width:46px;height:18px;z-index:53;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Filters:</span>
+                  </div>
+                  <input type="text" id="Editbox17" onchange="generateQueryComposerParameters()" style="position:absolute;left:72px;top:384px;width:600px;height:18px;z-index:54;" name="EditboxSessionIdText" value="" spellcheck="false" placeholder="filters expression">
+                  <div id="wb_Text23" style="position:absolute;left:698px;top:389px;width:155px;height:18px;z-index:55;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;"><a target="_blank" href="https://docs.microsoft.com/en-us/azure/search/search-query-odata-filter">Learn more about filters.</a></span>
+                  </div>
+                  <div id="wb_Text24" style="position:absolute;left:462px;top:102px;width:130px;height:18px;z-index:56;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Minimum Coverage:</span>
+                  </div>
+                  <input type="text" id="Editbox18" onchange="generateQueryComposerParameters()" style="position:absolute;left:592px;top:97px;width:104px;height:18px;z-index:57;" name="EditboxSessionIdText" value="100" spellcheck="false" placeholder="0 - 100">
+                  <div id="wb_Text25" style="position:absolute;left:14px;top:194px;width:45px;height:18px;z-index:58;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Count:</span>
+                  </div>
+                  <select name="SearchModeDropList" size="1" id="Combobox21" onchange="generateQueryComposerParameters()" style="position:absolute;left:60px;top:189px;width:163px;height:28px;z-index:59;">
+                     <option selected value="false">false</option>
+                     <option value="true">true</option>
+                  </select>
+                  <div id="wb_Text26" style="position:absolute;left:14px;top:435px;width:108px;height:18px;z-index:60;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Scoring Statistics:</span>
+                  </div>
+                  <select name="SearchModeDropList" size="1" id="Combobox22" onchange="generateQueryComposerParameters()" style="position:absolute;left:129px;top:430px;width:94px;height:28px;z-index:61;">
+                     <option selected value="local">local</option>
+                     <option value="global">global</option>
+                  </select>
+                  <div id="wb_Text27" style="position:absolute;left:246px;top:435px;width:92px;height:18px;z-index:62;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Scoring Profile:</span>
+                  </div>
+                  <select name="SearchModeDropList" size="1" id="Combobox23" onchange="generateQueryComposerParameters()" style="position:absolute;left:345px;top:430px;width:153px;height:28px;z-index:63;">
+ 
+                  </select>
+                  <div id="wb_Text28" style="position:absolute;left:517px;top:435px;width:123px;height:18px;z-index:64;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Scoring Parameter:</span>
+                  </div>
+                  <input type="text" id="Editbox19" onchange="generateQueryComposerParameters()" style="position:absolute;left:640px;top:430px;width:215px;height:18px;z-index:65;" name="EditboxSessionIdText" value="" spellcheck="false" placeholder="scoringParameter">
+                  <div id="wb_Text17" style="position:absolute;left:14px;top:482px;width:83px;height:18px;z-index:66;">
+                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Facet:</span>
+                  </div>
+                  <hr id="Line12" style="position:absolute;left:15px;top:133px;width:850px;z-index:67;">
+                  <hr id="Line13" style="position:absolute;left:8px;top:308px;width:857px;z-index:68;">
+                  <hr id="Line14" style="position:absolute;left:16px;top:518px;width:849px;z-index:69;">
+                  <textarea name="TextAreaParameterPreview" id="TextArea9" style="position:absolute;left:16px;top:534px;width:752px;height:106px;z-index:70;" rows="6" cols="91" spellcheck="false" placeholder="Parameter preview"></textarea>
+                  <input type="button" id="Button15" name="QueryParameterBtn" value="Query" style="position:absolute;left:790px;top:534px;width:75px;height:28px;z-index:71;">
+               </div>
+               <div style="height:669px;" id="tabs2-page-2">
+                  <textarea name="TextAreaQueryResultPreview" id="TextArea10" style="position:absolute;left:10px;top:18px;width:868px;height:614px;z-index:72;" rows="42" cols="106" readonly spellcheck="false" placeholder="Query result"></textarea>
+               </div>
+            </div>
+         </div>
+
+         <div style="height:740px;" id="tabs1-page-2">
+            <textarea name="TextArea1" id="IndexJsonDefinitionTextArea" style="position:absolute;left:10px;top:14px;width:1149px;height:457px;z-index:0;" rows="31" cols="141" spellcheck="false" placeholder="Index Json definition"></textarea>
+            <input type="button" id="UpdateIndexButton" name="UpdateIndex" value="Update" style="position:absolute;left:10px;top:533px;width:83px;height:28px;z-index:1;">
+            <div id="AllowIndexDowntimeCheckbox_wb_Checkbox" style="position:absolute;left:10px;top:497px;width:20px;height:20px;z-index:2;">
+               <input type="checkbox" id="Checkbox1" name="AllowIndexDowntimeCheckbox" value="off" onclick="allowIndexDowntimeLabelOnClick(this.value)" style="position:absolute;left:0;top:0;" title="Allow index downtime"><label id="AllowIndexDowntimeLabel" for="Checkbox1"></label>
+            </div>
+            <div id="AllowIndexDowntime_wb_Text" style="position:absolute;left:37px;top:499px;width:143px;height:18px;z-index:3;">
+               <span style="color:#000000;font-family:Calibri;font-size:15px;">Allow Index Downtime</span>
+            </div>
+            <div id="AllowIndexDowntime_wb_Text_Reminder_wb_Text" style="position:absolute;left:270px;top:499px;width:572px;height:54px;z-index:4;">
+               <span style="color:#C0C0C0;font-family:Calibri;font-size:15px;">***Note that this operation will put your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for very large indexes***</span>
+            </div>
+         </div>
+         <div style="height:740px;" id="tabs1-page-3"> 
+            <textarea name="TextArea1" id="indexdocs" style="position:absolute;left:7px;top:54px;width:1149px;height:609px;z-index:2;" rows="42" cols="141" spellcheck="false"></textarea>
+            <input type="text" id="SearchKeywordEditbox" style="position:absolute;left:7px;top:14px;width:182px;height:16px;z-index:4;" name="Editbox1" value="" spellcheck="false" placeholder="Search key word in index">
+            <input type="button" id="queryindexdatabtn" name="Query" value="Query" style="position:absolute;left:218px;top:13px;width:83px;height:28px;z-index:5;">
+            <input type="button" id="PrevPageId" name="PrevPage" value="Pre Page" style="position:absolute;left:7px;top:687px;width:93px;height:28px;z-index:6;">
+            <input type="button" id="NextPageId" name="NextPage" value="Next Page" style="position:absolute;left:111px;top:687px;width:93px;height:28px;z-index:7;">
+            <input type="button" id="updateindexdatabtn" name="NamespaceLoadBtn" value="Update" style="position:absolute;left:1083px;top:687px;width:83px;height:28px;z-index:3;">
+         </div>
+         <div style="height:740px;" id="tabs1-page-4">
+            <input autocomplete="off" type="text" id="SuggestionInputEditbox" style="position:absolute;left:232px;top:21px;width:909px;height:17px;z-index:8;" name="SuggestionInput" value="" spellcheck="false" placeholder="Suggestion keywords">
+            <textarea name="SuggestionTextArea" id="SuggestionTextArea1" style="position:absolute;left:232px;top:48px;width:909px;height:114px;z-index:11;display: none;" rows="7" cols="111" spellcheck="false"></textarea>
+            <select name="SuggestionDropList" size="1" id="SuggestionCombobox" style="position:absolute;left:18px;top:20px;width:206px;height:28px;z-index:10;">
+            @*   <option value="0">non-suggestion</option>*@
+            </select>
+            <textarea name="SuggestionResponseTextArea" id="SuggestionResponseTextArea2" style="position:absolute;left:18px;top:249px;width:1123px;height:447px;z-index:9;" rows="30" cols="138" spellcheck="false"></textarea>
+            <div id="wb_Text1" style="position:absolute;left:18px;top:222px;width:233px;height:16px;z-index:12;">
+               <span style="color:#000000;font-family:Calibri;font-size:15px;">Suggestions Response</span><span style="color:#000000;font-family:Arial;font-size:15px;">:</span>
+            </div>
+         </div>
+         <div style="height:740px;" id="tabs1-page-5">
+            <select name="AnalyzerDropList" size="1" id="AnalyzerDropListComboboxId" onchange="AnalyzerListSelect()" style="position:absolute;left:20px;top:20px;width:206px;height:28px;z-index:13;">
+               <option selected value="0">Analyzer</option>
+            </select>
+            <textarea name="AnalyzerResponseTextArea" id="AnalyzerResponseTextAreaId" style="position:absolute;left:20px;top:318px;width:1123px;height:391px;z-index:14;" rows="26" cols="138" spellcheck="false" placeholder="Analyzer Response"></textarea>
+            <textarea name="AnalyzerInpitTextArea" id="AnalyzerInpitTextAreaId" style="position:absolute;left:20px;top:62px;width:1123px;height:233px;z-index:15;" rows="15" cols="138" spellcheck="false" placeholder="Analyzer Input Text"></textarea>
+            <input type="button" id="AnalyzerQueryButtonId" name="AnalyzerQuery" value="Query" style="position:absolute;left:545px;top:20px;width:83px;height:28px;z-index:16;">
+            <input type="text" id="AnalyzerNameEditbox" style="position:absolute;left:236px;top:20px;width:290px;height:18px;z-index:17;" name="SuggestionInput" value="" spellcheck="false" placeholder="Analyzer name">
+        </div>
+         <div style="height:740px;" id="tabs1-page-6">
+            <select name="AutocompleteDropList" size="1" id="AutocompleteCombobox" style="position:absolute;left:25px;top:21px;width:206px;height:28px;z-index:18;">
+              @* <option value="0">non-autocomplete</option>*@
+            </select>
+            <input type="text" id="AutocompleteInputEditbox" style="position:absolute;left:398px;top:22px;width:392px;height:17px;z-index:19;" name="AutocompleteInput" value="" spellcheck="false" placeholder="Search keywords">
+            <textarea name="AutocompleteResponseTextArea" id="AutocompleteResponseTextTextArea" style="position:absolute;left:25px;top:66px;width:1123px;height:601px;z-index:20;" rows="41" cols="138" spellcheck="false"></textarea>
+            <input type="button" id="AutocompleteQueryButton" name="AutocompleteQuery" value="Query" style="position:absolute;left:811px;top:21px;width:83px;height:28px;z-index:21;">
+            <select name="AutocompleteDropList" size="1" id="AutocompleteDropListCombobox" style="position:absolute;left:239px;top:21px;width:152px;height:28px;z-index:22;">
+               <option selected value="0">oneTerm</option>
+               <option value="1">twoTerms</option>
+               <option value="2">oneTermWithContext</option>
+            </select>
+         </div>
+         <div style="height:740px;" id="tabs1-page-7">
+            <select name="SynonymMapsDropList" size="1" id="SynonymMapsDropListCombobox" onchange="SynonymMapListSelect()" style="position:absolute;left:14px;top:13px;width:206px;height:28px;z-index:23;">
+               <optgroup label="SynonymMaps">
+ 
+               </optgroup>
+            </select>
+            <input type="text" id="SynonymMapNameInputEditbox" style="position:absolute;left:239px;top:14px;width:265px;height:17px;z-index:24;" name="SynonymMapNameInput" value="" spellcheck="false" placeholder="SynonymMap Name">
+            <textarea name="SynonymMapsRuleTextArea" id="SynonymMapsRuleTextAreaTextArea" style="position:absolute;left:321px;top:58px;width:830px;height:410px;z-index:25;" rows="28" cols="110" spellcheck="false" placeholder="Synonym map rule, Equivalent terms are comma-delimited within the same rule. Each rule must be delimited by the new line character (\n). E.g: USA, United States\n dog, puppy, canine\n "></textarea>
+            <input type="button" id="CreateUpdateSynonymsButton" name="CreateUpdateSynonyms" value="CreateOrUpdate" style="position:absolute;left:532px;top:13px;width:118px;height:28px;z-index:26;">
+            <select name="IndexNameForSynoymMapDropList" multiple size="1" id="IndexNameForSynoymMapDropListCombobox" style="position:absolute;left:14px;top:58px;width:290px;height:420px;z-index:27;">
+               <optgroup style="color: #b3b3b3;" label="Each index field configure only one synonym map"></optgroup>
+               <optgroup style="color: #b3b3b3;" label="(Multiple selection Ctrl+click):"></optgroup>
+ 
+            </select>
+            <div id="wb_Image3" style="position:absolute;left:662px;top:11px;width:30px;height:32px;z-index:33;">
+               <img src="images/delete.png" id="Image3" alt="">
+            </div>
+            <div id="wb_Text4" style="position:absolute;left:689px;top:17px;width:54px;height:20px;z-index:34;">
+               <span style="color:#2E6DA4;font-family:Calibri;font-size:16px;"><strong>Delete</strong></span>
+            </div>
+         </div>
+         
+         <div style="height:740px;" id="tabs1-page-8">
+            <select name="AnalyzerDropList" size="1" id="Combobox8" onchange="BuiltInAnalyzerListSelect()" style="position:absolute;left:93px;top:19px;width:206px;height:28px;z-index:109;">
+               <option selected value="pattern">keyword</option>
+               <option value="pattern">pattern</option>
+               <option value="simple">simple</option>
+               <option value="standard">standard</option>
+               <option value="standardasciifolding.lucene">standardasciifolding.lucene</option>
+               <option value="stop">stop</option>
+               <option value="whitespace">whitespace</option>
+            </select>
+            <input type="text" id="Editbox20" style="position:absolute;left:309px;top:19px;width:290px;height:18px;z-index:110;" name="SuggestionInput" value="keyword" spellcheck="false" placeholder="Analyzer name">
+            <input type="button" id="Button16" name="AnalyzerQuery" value="Analyzer Query" style="position:absolute;left:619px;top:19px;width:110px;height:28px;z-index:111;">
+            <textarea name="AnalyzerInpitTextArea" id="TextArea11" style="position:absolute;left:20px;top:172px;width:1150px;height:166px;z-index:112;" rows="10" cols="141" spellcheck="false" placeholder="Analyzer/Tokenizer Input Text"></textarea>
+            <textarea name="AnalyzerResponseTextArea" id="TextArea12" style="position:absolute;left:20px;top:356px;width:1150px;height:353px;z-index:113;" rows="24" cols="141" spellcheck="false" placeholder="Analyzerr/Tokenizer Response"></textarea>
+            <select name="TokenizerDropList" size="1" id="Combobox24"  onchange="BuiltInTokenizerListSelect()"  style="position:absolute;left:93px;top:66px;width:206px;height:28px;z-index:114;">
+               <option selected value="classic">classic</option>
+               <option value="edgeNGram">edgeNGram</option>
+               <option value="keyword_v2">keyword_v2</option>
+               <option value="letter">letter</option>
+               <option value="lowercase">lowercase</option>
+               <option value="microsoft_language_tokenizer">microsoft_language_tokenizer</option>
+               <option value="microsoft_language_stemming_tokenizer">microsoft_language_stemming_tokenizer</option>
+               <option value="nGram">nGram</option>
+               <option value="path_hierarchy_v2">path_hierarchy_v2</option>
+               <option value="pattern">pattern</option>
+               <option value="standard_v2">standard_v2</option>
+               <option value="uax_url_email">uax_url_email</option>
+               <option value="whitespace">whitespace</option>
+            </select>
+            <input type="text" id="Editbox21" style="position:absolute;left:309px;top:66px;width:290px;height:18px;z-index:115;" name="SuggestionInput" value="classic" spellcheck="false" placeholder="Tokenizer name">
+            <select name="TokenFilterDropList" size="1" id="Combobox25" onchange="BuiltInTokenFilterListSelect()" style="position:absolute;left:93px;top:102px;width:206px;height:28px;z-index:116;">
+               <option selected value="arabic_normalization">arabic_normalization</option>
+               <option value="apostrophe">apostrophe</option>
+               <option value="asciifolding">asciifolding</option>
+               <option value="cjk_bigram">cjk_bigram</option>
+               <option value="cjk_width">cjk_width</option>
+               <option value="classic">classic</option>
+               <option value="common_grams">common_grams</option>
+               <option value="dictionary_decompounder">dictionary_decompounder</option>
+               <option value="edgeNGram_v2">edgeNGram_v2</option>
+               <option value="elision">elision</option>
+               <option value="german_normalization">german_normalization</option>
+               <option value="hindi_normalization">hindi_normalization</option>
+               <option value="indic_normalization">indic_normalization</option>
+               <option value="keep">keep</option>
+               <option value="keyword_marker">keyword_marker</option>
+               <option value="keyword_repeat">keyword_repeat</option>
+               <option value="kstem">kstem</option>
+               <option value="length">length</option>
+               <option value="limit">limit</option>
+               <option value="lowercase">lowercase</option>
+               <option value="nGram_v2">nGram_v2</option>
+               <option value="pattern_capture">pattern_capture</option>
+               <option value="pattern_replace">pattern_replace</option>
+               <option value="persian_normalization">persian_normalization</option>
+               <option value="phonetic">phonetic</option>
+               <option value="porter_stem">porter_stem</option>
+               <option value="reverse">reverse</option>
+               <option value="scandinavian_normalization">scandinavian_normalization</option>
+               <option value="scandinavian_folding">scandinavian_folding</option>
+               <option value="shingle">shingle</option>
+               <option value="snowball">snowball</option>
+               <option value="sorani_normalization">sorani_normalization</option>
+               <option value="stemmer">stemmer</option>
+               <option value="stemmer_override">stemmer_override</option>
+               <option value="stopwords">stopwords</option>
+               <option value="synonym">synonym</option>
+               <option value="trim">trim</option>
+               <option value="truncate">truncate</option>
+               <option value="unique">unique</option>
+               <option value="uppercase">uppercase</option>
+               <option value="word_delimiter">word_delimiter</option>
+            </select>
+            <input type="text" id="Editbox22" style="position:absolute;left:309px;top:102px;width:290px;height:18px;z-index:117;" name="SuggestionInput" value="arabic_normalization" spellcheck="false" placeholder="Token Filter name">
+            <select name="CharFilterDropList" size="1" id="Combobox26" onchange="BuiltInCharFilterListSelect()" style="position:absolute;left:93px;top:137px;width:206px;height:28px;z-index:118;">
+               <option selected value="html_strip">html_strip</option>
+               <option value="mapping">mapping</option>
+               <option value="pattern_replace">pattern_replace</option>
+            </select>
+            <input type="text" id="Editbox23" style="position:absolute;left:309px;top:137px;width:290px;height:18px;z-index:119;" name="SuggestionInput" value="html_strip" spellcheck="false" placeholder="Char Filter name">
+            <input type="button" id="Button17" name="TokenizerQuery" value="Tokenizer Query" style="position:absolute;left:619px;top:66px;width:110px;height:28px;z-index:120;">
+            <hr id="Line15" style="position:absolute;left:20px;top:55px;width:709px;z-index:121;">
+            <div id="wb_Text29" style="position:absolute;left:20px;top:25px;width:73px;height:15px;z-index:122;">
+               <span style="color:#000000;font-family:Arial;font-size:13px;">Analyzer:</span>
+            </div>
+            <div id="wb_Text30" style="position:absolute;left:20px;top:73px;width:73px;height:15px;z-index:123;">
+               <span style="color:#000000;font-family:Arial;font-size:13px;">Tokenizer:</span>
+            </div>
+            <div id="wb_Text31" style="position:absolute;left:20px;top:109px;width:73px;height:15px;z-index:124;">
+               <span style="color:#000000;font-family:Arial;font-size:13px;">TokenFilter:</span>
+            </div>
+            <div id="wb_Text32" style="position:absolute;left:22px;top:142px;width:73px;height:15px;z-index:125;">
+               <span style="color:#000000;font-family:Arial;font-size:13px;">CharFilter:</span>
+            </div>
+         </div>
+		  
+         <div style="height:740px;" id="tabs1-page-9">
+            <select name="AutocompleteDropList" size="1" id="Combobox27" onchange="WebAPINameListSelect()" style="position:absolute;left:20px;top:25px;width:206px;height:28px;z-index:126;">
+ 
+            </select>
+            <input type="button" id="Button18" name="AutocompleteQuery" value="Query" style="position:absolute;left:237px;top:25px;width:83px;height:28px;z-index:127;">
+            <textarea name="AnalyzerInpitTextArea" id="TextArea13" style="position:absolute;left:20px;top:66px;width:1149px;height:132px;z-index:128;" rows="8" cols="141" spellcheck="false" placeholder="Web api skill definition"></textarea>
+            <div id="wb_Text33" style="position:absolute;left:20px;top:228px;width:39px;height:18px;z-index:129;">
+               <span style="color:#000000;font-family:Calibri;font-size:15px;">URL:</span>
+            </div>
+            <input type="text" id="Editbox24" style="position:absolute;left:91px;top:223px;width:1078px;height:18px;z-index:130;" name="EditboxSearchText" value="" spellcheck="false" placeholder="The text to search for">
+            <div id="wb_Text34" style="position:absolute;left:20px;top:272px;width:60px;height:18px;z-index:131;">
+               <span style="color:#000000;font-family:Calibri;font-size:15px;">Method:</span>
+            </div>
+            <div id="wb_Text35" style="position:absolute;left:20px;top:309px;width:60px;height:18px;z-index:132;">
+               <span style="color:#000000;font-family:Calibri;font-size:15px;">Headers:</span>
+            </div>
+            <textarea name="AnalyzerInpitTextArea" id="TextArea14" style="position:absolute;left:91px;top:309px;width:1078px;height:69px;z-index:133;" rows="3" cols="132" spellcheck="false" placeholder="Web api skill headers"></textarea>
+            <select name="AutocompleteDropList" size="1" id="Combobox28" style="position:absolute;left:91px;top:267px;width:196px;height:28px;z-index:134;">
+               <option selected value="0">POST</option>
+               <option>PUT</option>
+            </select>
+            <div id="wb_Text36" style="position:absolute;left:20px;top:399px;width:60px;height:18px;z-index:135;">
+               <span style="color:#000000;font-family:Calibri;font-size:15px;">Payload:</span>
+            </div>
+            <textarea name="AnalyzerInpitTextArea" id="TextArea15" style="position:absolute;left:91px;top:399px;width:1079px;height:131px;z-index:136;" rows="8" cols="132" spellcheck="false" placeholder="Web api skill payload"></textarea>
+            <div id="wb_Text37" style="position:absolute;left:21px;top:553px;width:61px;height:18px;z-index:137;">
+               <span style="color:#000000;font-family:Calibri;font-size:15px;">Response:</span>
+            </div>
+            <textarea name="AnalyzerInpitTextArea" id="TextArea16" style="position:absolute;left:91px;top:553px;width:1080px;height:148px;z-index:138;" rows="9" cols="132" spellcheck="false" placeholder="Web api skill response"></textarea>
+         </div>
+		 
+      </div>
+      <div id="wb_ListView1" style="position:absolute;left:15px;top:206px;width:211px;height:303px;z-index:7;">
+         <ul id="ListView1" style="margin-top:0px;margin-bottom:0px;">
+ 
+         </ul>
+      </div>
+      <div id="wb_Heading1" style="position:absolute;left:194px;top:30px;width:440px;height:100px;z-index:8;">
+         <h6 id="Heading1">Azure Cognitive Search Lab</h6>
+      </div>
+      <input type="button" id="loadIndexBtn" name="NamespaceLoadBtn" value="Load" style="position:absolute;left:815px;top:121px;width:83px;height:28px;z-index:9;">
+      <div id="loadimage" style="position:absolute;left:27px;top:490px;width:89px;height:120px;z-index:10;display: none;">
+         <img src="images/Loader.gif" id="Image2" alt="">
+      </div>
+      <div id="SlideMenu1" style="position:absolute;left:15px;top:377px;width:113px;height:137px;z-index:11;display: none;">
+         <ul class="nav" role="menu">
+            <li class="SlideMenu1-folder" aria-haspopup="true">
+               <a>Index Property</a>
+               <ul role="menu" aria-expanded="true">
+                  <li class="nav-item"><a id="loadindexdatabtn" role="menuitem" class="nav-link" href="javascript:void(0);">Load Index Data</a></li>
+               </ul>
+            </li>
+         </ul>
+      </div>
+      <img src="images/img0002.jpg" id="Banner2" alt="Indexes" style="border-width:0;position:absolute;left:15px;top:166px;width:213px;height:26px;z-index:12;">
+      <select name="RegOperationCombobox" size="1" id="Combobox2" onselect="SetStyle('wb_Image1', 'CustomStyle');return false;" style="position:absolute;left:15px;top:122px;width:215px;height:28px;z-index:13;">
+         <option selected value="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search API Key</option>
+         @*<option value="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jarvis Interface</option>*@
+      </select>
+      <div id="wb_Text58" style="position:absolute;left:552px;top:124px;width:60px;height:18px;z-index:23;">
+         <span style="color:#000000;font-family:Calibri;font-size:15px;">API Key</span><span style="color:#000000;font-family:Arial;font-size:15px;">:</span>
+      </div>
+      <div id="wb_Text59" style="position:absolute;left:250px;top:124px;width:90px;height:18px;z-index:24;">
+         <span style="color:#000000;font-family:Calibri;font-size:15px;">Service Name</span><span style="color:#000000;font-family:Arial;font-size:15px;">:</span>
+      </div>
+      <input type="text" id="SearchEditbox" style="position:absolute;left:340px;top:122px;width:182px;height:16px;z-index:25;" name="Editbox1" value="" spellcheck="false" placeholder="Search name">
+      <input type="text" id="APIKeyEditbox" style="position:absolute;left:605px;top:122px;width:182px;height:16px;z-index:26;" name="Editbox1" value="" spellcheck="false" placeholder="API Key">
+      <div id="dialog" title="Basic dialog" style="display: none;">
+          <p id="dialogcontent">Succeeded.</p>
+       </div>
+   </body>
+</html>
