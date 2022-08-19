@@ -1,0 +1,3049 @@
+body
+{
+   background-color: #FFFFFF;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.1875;
+   margin: 0;
+   padding: 0;
+}
+a
+{
+   color: #0000FF;
+   text-decoration: underline;
+}
+a:visited
+{
+   color: #800080;
+}
+a:active
+{
+   color: #FF0000;
+}
+a:hover
+{
+   color: #0000FF;
+   text-decoration: underline;
+}
+input:focus, textarea:focus, select:focus
+{
+   outline: none;
+}
+#wb_Image1
+{
+   vertical-align: top;
+}
+#Image1
+{
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+}
+#Line1
+{
+   border-color: #A0A0A0;
+   border-style: solid;
+   border-bottom-width: 1px;
+   border-top: 0px;
+   border-left: 0px;
+   border-right: 0px;
+   height: 0 !important;
+   line-height: 0px !important;
+   margin: 0;
+   padding: 0;
+}
+#Tabs1.ui-widget
+{
+   font-size: 1em !important;
+}
+#Tabs1
+{
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+}
+#Tabs1 .ui-tabs-nav
+{
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.0;
+   padding: 4px 4px 0px 4px;
+   margin: 0;
+}
+#Tabs1 .ui-tabs-nav li
+{
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   margin: 0px 2px -1px 0px;
+   text-align: left;
+}
+#Tabs1 .ui-tabs-nav li a
+{
+   padding: 8px 10px 8px 10px;
+}
+#Tabs1, #Tabs1 .ui-corner-all, #Tabs1 .ui-corner-top
+{
+   border-top-left-radius: 6px;
+   border-top-right-radius: 6px;
+}
+#Tabs1, #Tabs1 .ui-corner-all, #Tabs1 .ui-corner-bottom
+{
+   border-bottom-right-radius: 6px;
+   border-bottom-left-radius: 6px;
+}
+#Tabs1 .ui-helper-reset
+{
+   line-height: 16px;
+}
+#Tabs1 .ui-tabs-panel
+{
+   position: relative;
+   left: 0;
+   top: 0;
+   padding: 0;
+}
+#Tabs1 .description
+{
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+}
+#ListView1
+{
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 0;
+   border-width: 0;
+   width: 100%;
+   display: flex;
+   flex-wrap: wrap;
+}
+#ListView1 .ui-btn 
+{
+   margin: .5em 0;
+   padding: 12px 18px 12px 18px;
+   display: block;
+   position: relative;
+   text-align: center;
+   text-overflow: ellipsis;
+   overflow: hidden;
+   cursor: pointer;
+}
+#ListView1 .ui-btn:link 
+{
+   text-decoration: none !important;
+}
+#ListView1 .ui-btn, label.ui-btn 
+{
+   border-width: 1px;
+   border-style: solid;
+}
+#ListView1, #ListView1 > li 
+{
+   margin: 0;
+   padding: 0;
+   list-style: none;
+   font-size: 13px;
+}
+#ListView1 > li 
+{
+   display: block;
+   position: relative;
+   overflow: visible;
+   box-sizing: border-box;
+}
+#ListView1 > .ui-li-static, #ListView1 > .ui-li-divider, #ListView1 > li > a.ui-btn 
+{
+   display: block;
+   position: relative;
+   text-align: left;
+   text-overflow: ellipsis;
+   overflow: hidden;
+}
+#ListView1 > .ui-li-static, #ListView1 > .ui-li-divider, #ListView1 > li > a.ui-btn 
+{
+   border-style: solid;
+   border-width: 1px 1px 0 1px;
+   font-weight: normal;
+   text-align: left;
+   margin: 0;
+   flex: 1 0 100%;
+}
+#ListView1 > li
+{
+   margin: 0;
+   flex: 1 0 100%;
+}
+#ListView1 .ui-state-default
+{
+   color: #454545 !important;
+}
+#ListView1 .ui-state-hover
+{
+   color: #2B2B2B !important;
+}
+#ListView1 .ui-state-active
+{
+   color: #FFFFFF !important;
+}
+#ListView1 > .ui-li-divider 
+{
+   padding: 10px 10px 10px 10px;
+   cursor: default;
+   outline: 0;
+}
+#ListView1 > .ui-li-static 
+{
+   padding: 12px 18px 12px 18px;
+}
+#ListView1 > li.ui-first-child, #ListView1 > li.ui-first-child > a.ui-btn 
+{
+   border-top-left-radius: 4px;
+   border-top-right-radius: 4px;
+}
+#ListView1 > li.ui-last-child, #ListView1 > li.ui-last-child > a.ui-btn
+{
+   border-bottom-left-radius: 4px;
+   border-bottom-right-radius: 4px;
+}
+#ListView1 > .ui-li-has-icon > .ui-btn, #ListView1 > .ui-li-static.ui-li-has-icon, #ListView1 > .ui-li-divider.ui-li-has-icon
+{
+   min-height: 24px;
+   padding-left: 36px;
+}
+#ListView1 > .ui-li-static.ui-last-child, #ListView1 > .ui-li-divider.ui-last-child, #ListView1 > li.ui-last-child > a.ui-btn 
+{
+   border-bottom-width: 1px;
+}
+#ListView1 > .ui-li-has-icon > img:first-child, #ListView1 > .ui-li-has-icon > .ui-btn > img:first-child 
+{
+   border-width: 0;
+   position: absolute;
+   left: 18px;
+   top: 12px;
+   margin-bottom: 0px;
+   max-width: 0px;
+   max-height: 0px;
+}
+#ListView1 p 
+{
+   margin: 0;
+   padding: 8px 0px 0px 0px;
+   font-size: 11px;
+   font-weight: normal;
+}
+#wb_ListView1
+{
+   margin: 0;
+}
+#ListView1 .badge
+{
+   background-color: #007BFF;
+   border-radius: .25rem;
+   color: #FFFFFF;
+   display: inline-block;
+   float: right;
+   font-size: 75%;
+   font-weight: 700;
+   line-height: 1;
+   padding: .25em .4em;
+   text-align: center;
+   transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+   vertical-align: baseline;
+   white-space: nowrap;
+}
+#wb_Heading1
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   margin: 0;
+   padding: 0;
+   text-align: left;
+}
+#Heading1
+{
+   color: #000000;
+   font-family: Arial;
+   font-weight: bold;
+   font-style: normal;
+   font-size: 32px;
+   margin: 0;
+   text-align: left;
+}
+#Button1
+{
+   border: 1px solid #2E6DA4;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 1px 6px 1px 6px;
+   text-align: center;
+   -webkit-appearance: none;
+   margin: 0;
+}
+#wb_Image2
+{
+   vertical-align: top;
+}
+#Image2
+{
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+}
+#SlideMenu1 ul
+{
+   list-style: none;
+   margin: 0;
+   padding: 0;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+}
+#SlideMenu1 li a
+{
+   background-color: #337AB7;
+   border-color: #2E6DA4;
+   border-style: solid;
+   border-width: 1px;
+   color: #FFFFFF;
+   cursor: pointer;
+   display: block;
+   left: 0;
+   font-weight: normal;
+   font-style: normal;
+   height: 16px;
+   margin: 0;
+   padding: 2px 2px 2px 5px;
+   position: relative;
+   top: 0;
+   text-decoration: none;
+   text-align: left;
+}
+#SlideMenu1 li a:hover
+{
+   background-color: #337AB7;
+   border-color: #286090;
+   color: #FFFFFF;
+   font-weight: normal;
+   font-style: normal;
+   text-decoration: none;
+}
+#SlideMenu1 li li a
+{
+   background-color: #FFFFFF;
+   border-color: #CCCCCC;
+   border-style: solid;
+   border-width: 1px;
+   color: #333333;
+   display: block;
+   font-weight: normal;
+   font-style: normal;
+   height: 16px;
+   margin: 1px 0px 1px 0px;
+   padding: 2px 2px 2px 5px;
+   text-decoration: none;
+}
+#SlideMenu1 li li a:hover, #SlideMenu1 .active
+{
+   background-color: #D4D4D4;
+   border-color: #8C8C8C;
+   color: #333333;
+   font-weight: normal;
+   font-style: normal;
+   text-decoration: none;
+}
+#Line5
+{
+   border-color: #A0A0A0;
+   border-style: solid;
+   border-bottom-width: 1px;
+   border-top: 0px;
+   border-left: 0px;
+   border-right: 0px;
+   height: 0 !important;
+   line-height: 0px !important;
+   margin: 0;
+   padding: 0;
+}
+#Line6
+{
+   border-color: #A0A0A0;
+   border-style: solid;
+   border-bottom-width: 1px;
+   border-top: 0px;
+   border-left: 0px;
+   border-right: 0px;
+   height: 0 !important;
+   line-height: 0px !important;
+   margin: 0;
+   padding: 0;
+}
+#Combobox2
+{
+   border: 1px solid rgba(204,204,204,0.00);
+   background-color: #2E6DA4;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: bold;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox2:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text58 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text58 div
+{
+   text-align: left;
+}
+#wb_Text59 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text59 div
+{
+   text-align: left;
+}
+#SearchEditbox
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 16px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#SearchEditbox:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#APIKeyEditbox
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 16px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#APIKeyEditbox:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#indexdocs
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+   overflow: auto;
+   resize: none;
+}
+#indexdocs:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#loadIndexBtn {
+    border: 1px solid #2E6DA4;
+    border-radius: 4px;
+    background-color: #3370B7;
+    background-image: none;
+    color: #FFFFFF;
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 13px;
+    padding: 1px 6px 1px 6px;
+    text-align: center;
+    -webkit-appearance: none;
+    margin: 0;
+}
+#SuggestionInputEditbox {
+    border: 1px solid #CCCCCC;
+    border-radius: 1px;
+    background-color: #FFFFFF;
+    background-image: none;
+    color: #000000;
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 13px;
+    line-height: 17px;
+    padding: 4px 4px 4px 4px;
+    margin: 0;
+    text-align: left;
+}
+#SuggestionInputEditbox:focus {
+    border-color: #66AFE9;
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+    outline: 0;
+}
+#TextArea1 {
+    border: 1px solid #CCCCCC;
+    border-radius: 1px;
+    background-color: #FFFFFF;
+    background-image: none;
+    color: #000000;
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 13px;
+    padding: 4px 4px 4px 4px;
+    margin: 0;
+    text-align: left;
+    overflow: auto;
+    resize: none;
+}
+#TextArea1:focus {
+    border-color: #66AFE9;
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+    outline: 0;
+}
+#SuggestionCombobox {
+    border: 1px solid #CCCCCC;
+    border-radius: 1px;
+    background-color: #FFFFFF;
+    background-image: none;
+    color: #000000;
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 13px;
+    padding: 4px 4px 4px 4px;
+    margin: 0;
+    box-sizing: border-box;
+}
+#SuggestionCombobox:focus {
+    border-color: #66AFE9;
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+    outline: 0;
+}
+#SuggestionResponseTextArea2 {
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    background-image: none;
+    color: #000000;
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 13px;
+    padding: 4px 4px 4px 4px;
+    margin: 0;
+    text-align: left;
+    overflow: auto;
+    resize: none;
+}
+#SuggestionResponseTextArea2:focus {
+    border-color: #66AFE9;
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+    outline: 0;
+}
+#wb_Text1 {
+    background-color: transparent;
+    background-image: none;
+    border: 0px solid #000000;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+} 
+#wb_Text1 div {
+    text-align: left;
+}
+#AnalyzerDropListComboboxId {
+    border: 1px solid #CCCCCC;
+    border-radius: 1px;
+    background-color: #FFFFFF;
+    background-image: none;
+    color: #000000;
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 13px;
+    padding: 4px 4px 4px 4px;
+    margin: 0;
+    box-sizing: border-box;
+}
+#AnalyzerDropListComboboxId:focus {
+    border-color: #66AFE9;
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+    outline: 0;
+}
+#AnalyzerResponseTextAreaId {
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    background-image: none;
+    color: #000000;
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 13px;
+    padding: 4px 4px 4px 4px;
+    margin: 0;
+    text-align: left;
+    overflow: auto;
+    resize: none;
+}
+#AnalyzerResponseTextAreaId:focus {
+    border-color: #66AFE9;
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+    outline: 0;
+}
+#AnalyzerInpitTextAreaId {
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    background-image: none;
+    color: #000000;
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 13px;
+    padding: 4px 4px 4px 4px;
+    margin: 0;
+    text-align: left;
+    overflow: auto;
+    resize: none;
+}
+#AnalyzerInpitTextAreaId:focus {
+    border-color: #66AFE9;
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+    outline: 0;
+}
+#AnalyzerQueryButtonId {
+    border: 1px solid #2E6DA4;
+    border-radius: 4px;
+    background-color: #3370B7;
+    background-image: none;
+    color: #FFFFFF;
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 13px;
+    padding: 1px 6px 1px 6px;
+    text-align: center;
+    -webkit-appearance: none;
+    margin: 0;
+}
+#AnalyzerNameEditbox {
+    border: 1px solid #CCCCCC;
+    border-radius: 1px;
+    background-color: #FFFFFF;
+    background-image: none;
+    color: #000000;
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 13px;
+    line-height: 18px;
+    padding: 4px 4px 4px 4px;
+    margin: 0;
+    text-align: left;
+}
+#AnalyzerNameEditbox:focus {
+    border-color: #66AFE9;
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+    outline: 0;
+}
+#SearchKeywordEditbox
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 16px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#SearchKeywordEditbox:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#AutocompleteCombobox
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#AutocompleteCombobox:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#AutocompleteInputEditbox
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 17px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#AutocompleteInputEditbox:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#AutocompleteResponseTextTextArea
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+   overflow: auto;
+   resize: none;
+}
+#AutocompleteResponseTextTextArea:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#AutocompleteQueryButton
+{
+   border: 1px solid #2E6DA4;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 1px 6px 1px 6px;
+   text-align: center;
+   -webkit-appearance: none;
+   margin: 0;
+}
+#AutocompleteDropListCombobox
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#AutocompleteDropListCombobox:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+} 
+#SynonymMapsDropListCombobox
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#SynonymMapsDropListCombobox:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#SynonymMapNameInputEditbox
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 17px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#SynonymMapNameInputEditbox:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#SynonymMapsRuleTextAreaTextArea
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+   overflow: auto;
+   resize: none;
+}
+#SynonymMapsRuleTextAreaTextArea:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#IndexNameForSynoymMapDropListCombobox
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#IndexNameForSynoymMapDropListCombobox:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#CreateUpdateSynonymsButton
+{
+   border: 1px solid #2E6DA4;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 1px 6px 1px 6px;
+   text-align: center;
+   -webkit-appearance: none;
+   margin: 0;
+}
+
+
+
+
+
+
+#IndexJsonDefinitionTextArea
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+   overflow: auto;
+   resize: none;
+}
+#IndexJsonDefinitionTextArea:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#UpdateIndexButton
+{
+   border: 1px solid #2E6DA4;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 1px 6px 1px 6px;
+   text-align: center;
+   -webkit-appearance: none;
+   margin: 0;
+}
+#AllowIndexDowntimeCheckbox_wb_Checkbox
+{
+   margin: 0;
+}
+#AllowIndexDowntimeCheckbox_wb_Checkbox, #wb_Checkbox1 *, #wb_Checkbox1 *::before, #wb_Checkbox1 *::after
+{
+   box-sizing: border-box;
+}
+#AllowIndexDowntimeCheckbox_wb_Checkbox input[type='checkbox']
+{
+   position: absolute;
+   padding: 0;
+   margin: 0;
+   opacity: 0;
+   z-index: 1;
+   width: 20px;
+   height: 20px;
+   left: 0;
+   top: 0;
+}
+#AllowIndexDowntimeCheckbox_wb_Checkbox label
+{
+   display: inline-block;
+   vertical-align: middle;
+   position: absolute;
+   left: 0;
+   top: 0;
+   width: 0;
+   height: 0;
+   padding: 0;
+}
+#AllowIndexDowntimeCheckbox_wb_Checkbox label::before
+{
+   content: "";
+   display: inline-block;
+   position: absolute;
+   width: 20px;
+   height: 20px;
+   left: 0;
+   top: 0;
+   background-color: #FFFFFF;
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+}
+#AllowIndexDowntimeCheckbox_wb_Checkbox label::after
+{
+   display: inline-block;
+   position: absolute;
+   width: 20px;
+   height: 20px;
+   left: 0;
+   top: 0;
+   padding: 0;
+   text-align: center;
+   line-height: 20px;
+}
+#AllowIndexDowntimeCheckbox_wb_Checkbox input[type='checkbox']:checked + label::after
+{
+   content: " ";
+   background: url('data:image/svg+xml,%3csvg%20height%3d%2220%22%20width%3d%2220%22%20version%3d%221.1%22%20xmlns%3d%22http://www.w3.org/2000/svg%22%3e%3cg%20style%3d%22fill:%23FFFFFF%22%20transform%3d%22scale%280.0112%29%22%3e%0d%0a%3cpath%20transform%3d%22rotate%28180%29%20scale%28%2d1%2c1%29%20translate%280%2c%2d1536%29%22%20d%3d%22M1671%20970q0%20%2d40%20%2d28%20%2d68l%2d724%20%2d724l%2d136%20%2d136q%2d28%20%2d28%20%2d68%20%2d28t%2d68%2028l%2d136%20136l%2d362%20362q%2d28%2028%20%2d28%2068t28%2068l136%20136q28%2028%2068%2028t68%20%2d28l294%20%2d295l656%20657q28%2028%2068%2028t68%20%2d28l136%20%2d136q28%20%2d28%2028%20%2d68z%22/%3e%3c/g%3e%3c/svg%3e') no-repeat center center;
+   background-size: 80% 80%
+}
+#AllowIndexDowntimeCheckbox_wb_Checkbox input[type='checkbox']:checked + label::before
+{
+   background-color: #3370B7;
+   background-image: none;
+   border-color: #3370B7;
+}
+#AllowIndexDowntimeCheckbox_wb_Checkbox input[type='checkbox']:focus + label::before
+{
+   outline: thin dotted;
+}
+#AllowIndexDowntime_wb_Text 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#AllowIndexDowntime_wb_Text div
+{
+   text-align: left;
+}
+#AllowIndexDowntime_wb_Text_Reminder_wb_Text 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#AllowIndexDowntime_wb_Text_Reminder_wb_Text div
+{
+   text-align: left;
+}
+
+#wb_Image3
+{
+   vertical-align: top;
+}
+#Image3
+{
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+}
+#wb_Text4 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text4 div
+{
+   text-align: left;
+}
+
+/* query composer start */
+#Tabs2.ui-widget
+{
+   font-size: 1em !important;
+}
+#Tabs2
+{
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+}
+#Tabs2 .ui-tabs-nav
+{
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.0;
+   padding: 4px 4px 0px 4px;
+   margin: 0;
+}
+#Tabs2 .ui-tabs-nav li
+{
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   margin: 0px 2px -1px 0px;
+   text-align: left;
+}
+#Tabs2 .ui-tabs-nav li a
+{
+   padding: 8px 10px 8px 10px;
+}
+#Tabs2, #Tabs2 .ui-corner-all, #Tabs2 .ui-corner-top
+{
+   border-top-left-radius: 6px;
+   border-top-right-radius: 6px;
+}
+#Tabs2, #Tabs2 .ui-corner-all, #Tabs2 .ui-corner-bottom
+{
+   border-bottom-right-radius: 6px;
+   border-bottom-left-radius: 6px;
+}
+#Tabs2 .ui-helper-reset
+{
+   line-height: 16px;
+}
+#Tabs2 .ui-tabs-panel
+{
+   position: relative;
+   left: 0;
+   top: 0;
+   padding: 0;
+}
+#Tabs2 .description
+{
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+}
+#wb_Line2
+{
+   font-size: 0;
+}
+#Line2
+{
+   border-width: 0;
+   height: 165px;
+   width: 8px;
+}
+#wb_Line3
+{
+   font-size: 0;
+}
+#Line3
+{
+   border-width: 0;
+   height: 9px;
+   width: 576px;
+}
+#wb_Line8
+{
+   font-size: 0;
+}
+#Line8
+{
+   border-width: 0;
+   height: 162px;
+   width: 8px;
+}
+#wb_Line4
+{
+   font-size: 0;
+}
+#Line4
+{
+   border-width: 0;
+   height: 9px;
+   width: 576px;
+}
+#wb_Text12 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text12 div
+{
+   text-align: left;
+}
+#wb_Checkbox2
+{
+   margin: 0;
+}
+#wb_Checkbox2, #wb_Checkbox2 *, #wb_Checkbox2 *::before, #wb_Checkbox2 *::after
+{
+   box-sizing: border-box;
+}
+#wb_Checkbox2 input[type='checkbox']
+{
+   position: absolute;
+   padding: 0;
+   margin: 0;
+   opacity: 0;
+   z-index: 1;
+   width: 20px;
+   height: 20px;
+   left: 0;
+   top: 0;
+}
+#wb_Checkbox2 label
+{
+   display: inline-block;
+   vertical-align: middle;
+   position: absolute;
+   left: 0;
+   top: 0;
+   width: 0;
+   height: 0;
+   padding: 0;
+}
+#wb_Checkbox2 label::before
+{
+   content: "";
+   display: inline-block;
+   position: absolute;
+   width: 20px;
+   height: 20px;
+   left: 0;
+   top: 0;
+   background-color: #FFFFFF;
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+}
+#wb_Checkbox2 label::after
+{
+   display: inline-block;
+   position: absolute;
+   width: 20px;
+   height: 20px;
+   left: 0;
+   top: 0;
+   padding: 0;
+   text-align: center;
+   line-height: 20px;
+}
+#wb_Checkbox2 input[type='checkbox']:checked + label::after
+{
+   content: " ";
+   background: url('data:image/svg+xml,%3csvg%20height%3d%2220%22%20width%3d%2220%22%20version%3d%221.1%22%20xmlns%3d%22http://www.w3.org/2000/svg%22%3e%3cg%20style%3d%22fill:%23FFFFFF%22%20transform%3d%22scale%280.0112%29%22%3e%0d%0a%3cpath%20transform%3d%22rotate%28180%29%20scale%28%2d1%2c1%29%20translate%280%2c%2d1536%29%22%20d%3d%22M1671%20970q0%20%2d40%20%2d28%20%2d68l%2d724%20%2d724l%2d136%20%2d136q%2d28%20%2d28%20%2d68%20%2d28t%2d68%2028l%2d136%20136l%2d362%20362q%2d28%2028%20%2d28%2068t28%2068l136%20136q28%2028%2068%2028t68%20%2d28l294%20%2d295l656%20657q28%2028%2068%2028t68%20%2d28l136%20%2d136q28%20%2d28%2028%20%2d68z%22/%3e%3c/g%3e%3c/svg%3e') no-repeat center center;
+   background-size: 80% 80%
+}
+#wb_Checkbox2 input[type='checkbox']:checked + label::before
+{
+   background-color: #3370B7;
+   background-image: none;
+   border-color: #3370B7;
+}
+#wb_Checkbox2 input[type='checkbox']:focus + label::before
+{
+   outline: thin dotted;
+}
+#wb_Text13 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text13 div
+{
+   text-align: left;
+}
+#Combobox15
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox15:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Checkbox3
+{
+   margin: 0;
+}
+#wb_Checkbox3, #wb_Checkbox3 *, #wb_Checkbox3 *::before, #wb_Checkbox3 *::after
+{
+   box-sizing: border-box;
+}
+#wb_Checkbox3 input[type='checkbox']
+{
+   position: absolute;
+   padding: 0;
+   margin: 0;
+   opacity: 0;
+   z-index: 1;
+   width: 20px;
+   height: 20px;
+   left: 0;
+   top: 0;
+}
+#wb_Checkbox3 label
+{
+   display: inline-block;
+   vertical-align: middle;
+   position: absolute;
+   left: 0;
+   top: 0;
+   width: 0;
+   height: 0;
+   padding: 0;
+}
+#wb_Checkbox3 label::before
+{
+   content: "";
+   display: inline-block;
+   position: absolute;
+   width: 20px;
+   height: 20px;
+   left: 0;
+   top: 0;
+   background-color: #FFFFFF;
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+}
+#wb_Checkbox3 label::after
+{
+   display: inline-block;
+   position: absolute;
+   width: 20px;
+   height: 20px;
+   left: 0;
+   top: 0;
+   padding: 0;
+   text-align: center;
+   line-height: 20px;
+}
+#wb_Checkbox3 input[type='checkbox']:checked + label::after
+{
+   content: " ";
+   background: url('data:image/svg+xml,%3csvg%20height%3d%2220%22%20width%3d%2220%22%20version%3d%221.1%22%20xmlns%3d%22http://www.w3.org/2000/svg%22%3e%3cg%20style%3d%22fill:%23FFFFFF%22%20transform%3d%22scale%280.0112%29%22%3e%0d%0a%3cpath%20transform%3d%22rotate%28180%29%20scale%28%2d1%2c1%29%20translate%280%2c%2d1536%29%22%20d%3d%22M1671%20970q0%20%2d40%20%2d28%20%2d68l%2d724%20%2d724l%2d136%20%2d136q%2d28%20%2d28%20%2d68%20%2d28t%2d68%2028l%2d136%20136l%2d362%20362q%2d28%2028%20%2d28%2068t28%2068l136%20136q28%2028%2068%2028t68%20%2d28l294%20%2d295l656%20657q28%2028%2068%2028t68%20%2d28l136%20%2d136q28%20%2d28%2028%20%2d68z%22/%3e%3c/g%3e%3c/svg%3e') no-repeat center center;
+   background-size: 80% 80%
+}
+#wb_Checkbox3 input[type='checkbox']:checked + label::before
+{
+   background-color: #3370B7;
+   background-image: none;
+   border-color: #3370B7;
+}
+#wb_Checkbox3 input[type='checkbox']:focus + label::before
+{
+   outline: thin dotted;
+}
+#wb_Text14 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text14 div
+{
+   text-align: left;
+}
+#Editbox11
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox11:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Editbox12
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox12:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Combobox16
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox16:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Editbox10
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox10:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text11 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text11 div
+{
+   text-align: left;
+}
+#Editbox9
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox9:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text10 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text10 div
+{
+   text-align: left;
+}
+#wb_Text8 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text8 div
+{
+   text-align: left;
+}
+#Combobox13
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox13:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text7 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text7 div
+{
+   text-align: left;
+}
+#Editbox8
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox8:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text9 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text9 div
+{
+   text-align: left;
+}
+#Combobox11
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox11:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text6 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text6 div
+{
+   text-align: left;
+}
+#Combobox9
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox9:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text5 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text5 div
+{
+   text-align: left;
+}
+#Editbox7
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 17px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox7:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Combobox14
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox14:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Combobox17
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox17:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Button10
+{
+   border: 1px solid #2E6DA4;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 1px 6px 1px 6px;
+   text-align: center;
+   -webkit-appearance: none;
+   margin: 0;
+}
+#wb_Text15 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text15 div
+{
+   text-align: left;
+}
+#Combobox18
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox18:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Button11
+{
+   border: 1px solid #2E6DA4;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 1px 6px 1px 6px;
+   text-align: center;
+   -webkit-appearance: none;
+   margin: 0;
+}
+#wb_Text16 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text16 div
+{
+   text-align: left;
+}
+#Combobox19
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox19:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Button12
+{
+   border: 1px solid #2E6DA4;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 1px 6px 1px 6px;
+   text-align: center;
+   -webkit-appearance: none;
+   margin: 0;
+}
+#wb_Text17 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text17 div
+{
+   text-align: left;
+}
+#Combobox10
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox10:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Combobox12
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox12:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Editbox13
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox13:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Button13
+{
+   border: 1px solid #2E6DA4;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 1px 6px 1px 6px;
+   text-align: center;
+   -webkit-appearance: none;
+   margin: 0;
+}
+#wb_Text18 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text18 div
+{
+   text-align: left;
+}
+#Editbox14
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox14:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text19 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text19 div
+{
+   text-align: left;
+}
+#Combobox20
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox20:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text20 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text20 div
+{
+   text-align: left;
+}
+#Editbox15
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox15:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text21 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text21 div
+{
+   text-align: left;
+}
+#Editbox16
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox16:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Button14
+{
+   border: 1px solid #2E6DA4;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 1px 6px 1px 6px;
+   text-align: center;
+   -webkit-appearance: none;
+   margin: 0;
+}
+#wb_Line7
+{
+   font-size: 0;
+}
+#Line7
+{
+   border-width: 0;
+   height: 8px;
+   width: 847px;
+}
+#wb_Line9
+{
+   font-size: 0;
+}
+#Line9
+{
+   border-width: 0;
+   height: 9px;
+   width: 846px;
+}
+#wb_Line10
+{
+   font-size: 0;
+}
+#Line10
+{
+   border-width: 0;
+   height: 56px;
+   width: 8px;
+}
+#wb_Line11
+{
+   font-size: 0;
+}
+#Line11
+{
+   border-width: 0;
+   height: 55px;
+   width: 8px;
+}
+#wb_Text22 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text22 div
+{
+   text-align: left;
+}
+#Editbox17
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox17:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text23 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text23 div
+{
+   text-align: left;
+}
+#wb_Text24 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text24 div
+{
+   text-align: left;
+}
+#Editbox18
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox18:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text25 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text25 div
+{
+   text-align: left;
+}
+#Combobox21
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox21:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text26 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text26 div
+{
+   text-align: left;
+}
+#Combobox22
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox22:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text27 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text27 div
+{
+   text-align: left;
+}
+#Combobox23
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox23:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text28 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text28 div
+{
+   text-align: left;
+}
+#Editbox19
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox19:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Line12
+{
+   border-color: #A0A0A0;
+   border-style: solid;
+   border-bottom-width: 1px;
+   border-top: 0px;
+   border-left: 0px;
+   border-right: 0px;
+   height: 0 !important;
+   line-height: 0px !important;
+   margin: 0;
+   padding: 0;
+}
+#Line13
+{
+   border-color: #A0A0A0;
+   border-style: solid;
+   border-bottom-width: 1px;
+   border-top: 0px;
+   border-left: 0px;
+   border-right: 0px;
+   height: 0 !important;
+   line-height: 0px !important;
+   margin: 0;
+   padding: 0;
+}
+#Line14
+{
+   border-color: #A0A0A0;
+   border-style: solid;
+   border-bottom-width: 1px;
+   border-top: 0px;
+   border-left: 0px;
+   border-right: 0px;
+   height: 0 !important;
+   line-height: 0px !important;
+   margin: 0;
+   padding: 0;
+}
+#TextArea9
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+   overflow: auto;
+   resize: none;
+}
+#TextArea9:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Button15
+{
+   border: 1px solid #2E6DA4;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 1px 6px 1px 6px;
+   text-align: center;
+   -webkit-appearance: none;
+   margin: 0;
+}
+#TextArea10
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+   overflow: auto;
+   resize: none;
+}
+#TextArea10:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+/* query composer end */
+#Combobox8
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox8:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Editbox20
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox20:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Button16
+{
+   border: 1px solid #2E6DA4;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 1px 6px 1px 6px;
+   text-align: center;
+   -webkit-appearance: none;
+   margin: 0;
+}
+#TextArea11
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+   overflow: auto;
+   resize: none;
+}
+#TextArea11:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#TextArea12
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+   overflow: auto;
+   resize: none;
+}
+#TextArea12:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Combobox24
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox24:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Editbox21
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox21:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Combobox25
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox25:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Editbox22
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox22:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Combobox26
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox26:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Editbox23
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 1px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox23:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Button17
+{
+   border: 1px solid #2E6DA4;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 1px 6px 1px 6px;
+   text-align: center;
+   -webkit-appearance: none;
+   margin: 0;
+}
+#Line15
+{
+   border-color: #A0A0A0;
+   border-style: solid;
+   border-bottom-width: 1px;
+   border-top: 0px;
+   border-left: 0px;
+   border-right: 0px;
+   height: 0 !important;
+   line-height: 0px !important;
+   margin: 0;
+   padding: 0;
+}
+#wb_Text29 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text29 div
+{
+   text-align: left;
+}
+#wb_Text30 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text30 div
+{
+   text-align: left;
+}
+#wb_Text31 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text31 div
+{
+   text-align: left;
+}
+#wb_Text32 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text32 div
+{
+   text-align: left;
+}
+
+
+
+#Combobox27
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox27:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Button18
+{
+   border: 1px solid #2E6DA4;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 1px 6px 1px 6px;
+   text-align: center;
+   -webkit-appearance: none;
+   margin: 0;
+}
+#TextArea13
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+   overflow: auto;
+   resize: none;
+}
+#TextArea13:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text33 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text33 div
+{
+   text-align: left;
+}
+#Editbox24
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   line-height: 18px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox24:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text34 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text34 div
+{
+   text-align: left;
+}
+#wb_Text35 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text35 div
+{
+   text-align: left;
+}
+#TextArea14
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+   overflow: auto;
+   resize: none;
+}
+#TextArea14:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Combobox28
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   box-sizing: border-box;
+}
+#Combobox28:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text36 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text36 div
+{
+   text-align: left;
+}
+#TextArea15
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+   overflow: auto;
+   resize: none;
+}
+#TextArea15:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#wb_Text37 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text37 div
+{
+   text-align: left;
+}
+#TextArea16
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+   overflow: auto;
+   resize: none;
+}
+#TextArea16:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
