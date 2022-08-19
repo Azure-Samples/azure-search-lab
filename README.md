@@ -1,57 +1,55 @@
 # Project Name
 
-(short, 1-3 sentenced, description of the project)
+Azure Cognitive Search Lab (refers as AzSearchLab) is a web based debugging tool for Azure Search troubleshooting. It provides centralized the interface to check the azure search documents, status and other features. It can also help engineer to analyze Search operation. 
 
 ## Features
 
 This project framework provides the following features:
 
-* Feature 1
-* Feature 2
-* ...
+* Query composer 
+* Index definition
+* Document 
+* Suggestions 
+* Analyze text 
+* Auto complete 
+* Synonyms 
+* Built-in analyzer 
+* Web api skill  
 
 ## Getting Started
 
 ### Prerequisites
 
-(ideally very short, if any)
-
-- OS
-- Library version
-- ...
+- .Net 5.0 or greater on your development machine. 
+- Vistual Studio 2019 or greater version.
+- Windows machine.
 
 ### Installation
 
-(ideally very short)
-
-- npm install [package name]
-- mvn install
-- ...
+- Download the source code and build. 
+- After finish building, you can run the website locally with IIS Express. 
+- You can also deploy this website onto your app service. 
+  ![image](https://user-images.githubusercontent.com/39817657/185533251-562d37d8-7d1b-4574-98fa-b731ff10eefa.png)
 
 ### Quickstart
-(Add steps to get up and running quickly)
 
-1. git clone [repository clone url]
-2. cd [repository name]
-3. ...
+1. Download the source code.
+2. Build the project. 
+3. Run the project with IIS express. 
 
 
 ## Demo
 
-A demo app is included to show how to use the project.
-
 To run the demo, follow these steps:
 
-(Add steps to start up the demo)
+1. Download the package and extract the source files. 
+   ![image](https://user-images.githubusercontent.com/39817657/185562030-4cd4cc3c-d3fc-4c8b-b7db-587bc7371799.png)
+2. Open the source code with Vistual Studio 2019 or higher version. 
+3. Build the source code
+ 
+   ![image](https://user-images.githubusercontent.com/39817657/185562237-c1c3a896-d171-42f2-8dcc-d611f7cb2fcd.png)
+4. Run the source code with IIS Express. 
 
-1.
-2.
-3.
-
-## Resources
-
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...
+   ![image](https://user-images.githubusercontent.com/39817657/185562344-9561dc77-fbb6-4203-8c3f-ca0ed7eba981.png)
+5. Enter the search service name and its key. Then load the data. 
+   ![image](https://user-images.githubusercontent.com/39817657/185562784-0ee79f60-615b-437d-8b57-19ac4a7e93ff.png)
