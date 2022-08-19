@@ -47,9 +47,11 @@ To run the demo, follow these steps:
 1. Download the package and extract the source files. 
    ![image](https://user-images.githubusercontent.com/39817657/185562030-4cd4cc3c-d3fc-4c8b-b7db-587bc7371799.png)
 2. Open the source code with Vistual Studio 2019 or higher version. 
-3. Build the source code 
+3. Build the source code
+ 
    ![image](https://user-images.githubusercontent.com/39817657/185562237-c1c3a896-d171-42f2-8dcc-d611f7cb2fcd.png)
 4. Run the source code with IIS Express. 
+
    ![image](https://user-images.githubusercontent.com/39817657/185562344-9561dc77-fbb6-4203-8c3f-ca0ed7eba981.png)
 5. Enter the search service name and its key. Then load the data. 
    ![image](https://user-images.githubusercontent.com/39817657/185562784-0ee79f60-615b-437d-8b57-19ac4a7e93ff.png)
