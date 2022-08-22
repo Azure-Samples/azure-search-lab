@@ -1,6 +1,6 @@
 # Project Name
 
-Azure Cognitive Search Lab (refers as AzSearchLab) is a web based debugging tool for Azure Search troubleshooting. It provides centralized the interface to check the azure search documents, status and other features. It can also help engineer to analyze Search operation. 
+Azure Cognitive Search Lab (refers as AzSearchLab) is a web based debugging tool for Azure Search troubleshooting. It provides centralized interface to check the azure search documents, status and other features. It can also help engineer to analyze Search operation. 
 
 ## Features
 
