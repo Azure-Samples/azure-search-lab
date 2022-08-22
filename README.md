@@ -26,7 +26,7 @@ This project framework provides the following features:
 
 ### Installation
 
-- Download the source code and build. 
+- Download the source code and build it. 
 - After finish building, you can run the website locally with IIS Express. 
 - You can also deploy this website onto your app service. 
   ![image](https://user-images.githubusercontent.com/39817657/185533251-562d37d8-7d1b-4574-98fa-b731ff10eefa.png)
