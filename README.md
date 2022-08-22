@@ -47,28 +47,22 @@ Alternatively, you can also deploy this website to your app service.
 5. Enter the search service name and its key. Then load the service information. You should see all of the indexes that exist in your service.
 
 6. There are GET and POST type query. With this tool, you don't need to check the document for each parameter and its format. You can select the parameter on UI， then test the GET or POST query and analyze its query result.
-   ![image](https://user-images.githubusercontent.com/39817657/185872176-abe48403-d002-43ab-827a-0de394e22aa7.png)
-   ![image](https://user-images.githubusercontent.com/39817657/185872373-8b1a55b4-9776-436f-88e0-910921ed3d47.png)
 
 7. Update an index definition.
 
    Updates to an index definition isn't allowed on the Azure portal and can only be changed programmatically. Azure Search Lab supports direct updates to an index JSON definition.
-   ![image](https://user-images.githubusercontent.com/39817657/185872479-cdba35b9-f152-4750-ae8e-ab3c8a4e5a04.png)
 
 8. Query and update document.
 
    You can also change and update a search document after it's been indexed. For this task, query the documents to find one you want to change, then make your update and save the changes to index.
-   ![image](https://user-images.githubusercontent.com/39817657/185872835-2962cb74-7ad4-4cd4-9291-4c75eee8f992.png)
 
 9. Test suggestions.
 
    This tool provide a UI to simulate suggestions.
-   ![image](https://user-images.githubusercontent.com/39817657/185872930-0126a272-54fe-425f-bd68-ebcd77c2e508.png)
 
 10. Test analyzer behaviors.
 
     You can load a search index and test its analyzer configurations. This step shows you how the analyzer processes text into tokens.
-   ![image](https://user-images.githubusercontent.com/39817657/185873041-4b6be693-3587-49d7-88d6-f042a38b8a46.png)
 
 11. Test autocomplete.
 
@@ -92,4 +86,4 @@ Alternatively, you can also deploy this website to your app service.
 13. Test built-in analyzer, tokenizer, token filter and char filters.
 
     You can also test different built-in analyzer, tokenizer, token filter and char filter to select the one that fit for our project. It will show you how analyzer, tokenizer, token filter and char filter break text into tokens.
-    ![image](https://user-images.githubusercontent.com/39817657/185873724-aee72089-b279-4a3b-8b9c-2b6e303d4443.png)
+  
