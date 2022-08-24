@@ -48,6 +48,8 @@ Alternatively, you can also deploy this website to your app service.
 
 6. There are GET and POST type query. With this tool, you don't need to check the document for each parameter and its format. You can select the parameter on UI， then test the GET or POST query and analyze its query result.
 
+   ![image](Images/Test-the-query-parameter.jpg)
+
 7. Update an index definition.
 
    Updates to an index definition isn't allowed on the Azure portal and can only be changed programmatically. Azure Search Lab supports direct updates to an index JSON definition.
