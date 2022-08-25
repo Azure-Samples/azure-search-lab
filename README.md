@@ -67,10 +67,14 @@ Alternatively, you can also deploy this website to your app service.
 9. Test suggestions.
 
    This tool provide a UI to simulate suggestions.
+   
+   ![image](Image/Test-suggestion.jpg)
 
 10. Test analyzer behaviors.
 
     You can load a search index and test its analyzer configurations. This step shows you how the analyzer processes text into tokens.
+    
+    ![image](Image/Test-analyzer-behavior.jpg)
 
 11. Test autocomplete.
 
