@@ -104,6 +104,6 @@ Alternatively, you can also deploy this website to your app service.
 
 14. Test Custom Web Api Skill.
 
-    We can also test the custom web api skill's behavior. The URL, method, headers and payload format will be extracted from the web api skill automatically. Then we need to change the payload to the real data or test data. Make POST or PUT request to web api server. And the response from web api server will show up on UI.
+    We can also test the custom web api skill's behavior. The URL, method, headers and payload format will be extracted from the web api skill automatically. Then we need to change the payload with real data or test data. Make POST/PUT request to web api server. And the response from web api server will show up on UI.
     
     ![image](Image/Test-custom-web-api.jpg)
