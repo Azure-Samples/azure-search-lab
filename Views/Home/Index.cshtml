@@ -619,6 +619,27 @@
 	                            idx += 1;
                             }
                         }
+                          
+                        // Combobox29 -- select fields -- SemanticsName
+                        if (indexsJson.SemanticsName !== null && typeof indexsJson.SemanticsName !== "undefined") {
+                            //$("#Combobox29").empty();
+                            var semanticsFieldDropList = document.getElementById('Combobox29');
+                            idx = 0;
+                            for (const item of indexsJson.SemanticsName) { 
+                                var opt = document.createElement('option');
+                                opt.value = idx;
+                                opt.innerHTML = item;
+                                semanticsFieldDropList.appendChild(opt);
+
+                                idx += 1;
+                            }
+
+                            var queryTypeDropList = document.getElementById('Combobox13');
+                            var opt = document.createElement('option');
+                            opt.value = "semantic";
+                            opt.innerHTML = "semantic";
+                            queryTypeDropList.appendChild(opt);
+                        }
                      
                         //QueryComposer. Index dropdown list -- End 
                         clearAddedQueryParameters();
@@ -1783,11 +1804,23 @@
             //var facetType = $.trim($("#Combobox12 option:selected").text())
             //var facetVal = $.trim($('#Editbox13').val())  
 
+            //Semantic 
+            var semanticConfig = $.trim($("#Combobox29 option:selected").text())
+            var queryLanguage = $.trim($("#Combobox30 option:selected").text())
+            var speller = $.trim($("#Combobox31 option:selected").text())
+            var answers = $.trim($("#Combobox32 option:selected").text())
+            var captions = $.trim($("#Combobox33 option:selected").text())
+
             if (requestMethod === "GET")
             {
                 if(apiVersion !== null && apiVersion.length > 0)
-                {
-                    queryPrameters = queryPrameters + "&api-version=" + apiVersion
+                { 
+                    if (semanticConfig !== null && semanticConfig.length > 0 && semanticConfig != "Without-Semantic-Config") {
+                        queryPrameters = queryPrameters + "&api-version=2021-04-30-Preview" 
+                    }
+                    else {
+                        queryPrameters = queryPrameters + "&api-version=" + apiVersion
+                    }
                 }
                 if(searchText !== null && searchText.length > 0)
                 {
@@ -1799,7 +1832,14 @@
                 }
                 if(queryType !== null && queryType.length > 0)
                 {
-                    queryPrameters = queryPrameters + "&queryType=" + queryType
+                    if (semanticConfig !== null && semanticConfig.length > 0 && semanticConfig != "Without-Semantic-Config")
+                    {
+                        queryPrameters = queryPrameters + "&queryType=semantic";
+                    }
+                    else
+                    {
+                        queryPrameters = queryPrameters + "&queryType=" + queryType;
+                    }
                 } 
                 if(sessionId !== null && sessionId.length > 0)
                 {
@@ -1837,6 +1877,47 @@
                 {
                     queryPrameters = queryPrameters + "&minimumCoverage=" + minimumCoverage
                 }
+                if (semanticConfig !== null && semanticConfig.length > 0 && semanticConfig != "Without-Semantic-Config")
+                { 
+                    queryPrameters = queryPrameters + "&semanticConfiguration=" + semanticConfig;
+                    if (queryLanguage !== null && queryLanguage.length > 0)
+                    {
+                        if ("English" == queryLanguage) {
+                            queryPrameters = queryPrameters + "&queryLanguage=en-US"
+                        } else if ("French" == queryLanguage) {
+                            queryPrameters = queryPrameters + "&queryLanguage=fr-FR"
+                        } else if ("German" == queryLanguage) {
+                            queryPrameters = queryPrameters + "&queryLanguage=de-DE"
+                        } else if ("Spanish" == queryLanguage) {
+                            queryPrameters = queryPrameters + "&queryLanguage=es-ES"
+                        } else if ("Dutch" == queryLanguage) {
+                            queryPrameters = queryPrameters + "&queryLanguage=nl-NL"
+                        } 
+                    }
+                    if (speller !== null && speller.length > 0) {
+                        queryPrameters = queryPrameters + "&speller=" + speller
+                    }
+                    if (answers !== null && answers.length > 0) { 
+                        if (answers == "count-10")
+                        {
+                            queryPrameters = queryPrameters + "&answers=extractive|count-10" 
+                        }
+                        else
+                        {
+                            queryPrameters = queryPrameters + "&answers=" + answers
+                        } 
+                    }
+                    if (captions !== null && captions.length > 0) {
+                        if (captions == "highlight-true")
+                        {
+                            queryPrameters = queryPrameters + "&captions=extractive|highlight-true"
+                        }
+                        else
+                        {
+                            queryPrameters = queryPrameters + "&captions=" + captions
+                        } 
+                    }
+                }
                  
                 //Search Fields - addedSearchFields
                 if(addedSearchFields.length > 0)
@@ -1867,7 +1948,9 @@
 
                 // Checkbox2 - Search Score
                 // Checkbox3 - Geo Distance
-                if("on" == $('#Checkbox2').val() || "on" == $('#Checkbox3').val() || addedOrderFields.length > 0)
+                // Did not enable semantic && Order by enabled 
+                if (!(semanticConfig !== null && semanticConfig.length > 0 && semanticConfig != "Without-Semantic-Config") &&
+                    ("on" == $('#Checkbox2').val() || "on" == $('#Checkbox3').val() || addedOrderFields.length > 0))
                 {
                     queryPrameters = queryPrameters + "&$orderby="
                     if("on" == $('#Checkbox2').val())
@@ -2607,6 +2690,27 @@
 	                        idx += 1;
                         }
                     }
+                      
+                    // Combobox29 -- select fields -- SemanticsName
+                    if (indexsJson.SemanticsName !== null && typeof indexsJson.SemanticsName !== "undefined") {
+                        //$("#Combobox29").empty();
+                        var semanticsFieldDropList = document.getElementById('Combobox29');
+                        idx = 0;
+                        for (const item of indexsJson.SemanticsName) { 
+                            var opt = document.createElement('option');
+                            opt.value = idx;
+                            opt.innerHTML = item;
+                            semanticsFieldDropList.appendChild(opt);
+
+                            idx += 1;
+                        }
+                         
+                        var queryTypeDropList = document.getElementById('Combobox13');
+                        var opt = document.createElement('option');
+                        opt.value = "semantic";
+                        opt.innerHTML = "semantic";
+                        queryTypeDropList.appendChild(opt);
+                    }
                     
                     // ComboboxGeographyPointList -- GeographyPointList -- ComboboxGeographyPointList
                     if(indexsJson.GeographyPointList !== null && typeof indexsJson.GeographyPointList !== "undefined")
@@ -2723,7 +2827,7 @@
          <img src="images/microsoft.png" id="Image1" alt="">
       </div>
       <hr id="Line1" style="position:absolute;left:57px;top:99px;width:714px;z-index:5;">
-      <div id="Tabs1" style="position:absolute;left:252px;top:162px;width:1198px;height:766px;z-index:6;">
+      <div id="Tabs1" style="position: absolute; left: 252px; top: 162px; width: 1198px; height: 871px; z-index: 6;">
          <ul>
             <li><a href="#tabs1-page-1"><span>QueryComposer</span></a></li>
             <li><a href="#tabs1-page-2"><span>IndexDefinition</span></a></li>
@@ -2737,198 +2841,230 @@
          </ul> 
 
 
-         <div style="height:740px;" id="tabs1-page-1">
-            <div id="Tabs2" style="position:absolute;left:14px;top:12px;width:899px;height:695px;z-index:73;">
+         <div style="height: 845px;" id="tabs1-page-1">
+            <div id="Tabs2" style="position: absolute; left: 14px; top: 12px; width: 899px; height: 809px; z-index: 73;">
                <ul>
                   <li><a href="#tabs2-page-1"><span>Parameters</span></a></li>
                   <li id="QueryResultTabId"><a href="#tabs2-page-2"><span>Result</span></a></li>
                </ul>
-               <div style="height:669px;" id="tabs2-page-1">
-                  <div id="wb_Line2" style="position:absolute;left:236px;top:138px;width:1px;height:157px;z-index:0;">
-                     <img src="images/img0001.png" id="Line2" alt="">
-                  </div>
-                  <div id="wb_Line3" style="position:absolute;left:236px;top:138px;width:568px;height:1px;z-index:1;">
-                     <img src="images/img0005.png" id="Line3" alt="">
-                  </div>
-                  <div id="wb_Line8" style="position:absolute;left:804px;top:139px;width:1px;height:154px;z-index:2;">
-                     <img src="images/img0006.png" id="Line8" alt="">
-                  </div>
-                  <div id="wb_Line4" style="position:absolute;left:236px;top:293px;width:568px;height:1px;z-index:3;">
-                     <img src="images/img0007.png" id="Line4" alt="">
-                  </div>
-                  <div id="wb_Text12" style="position:absolute;left:248px;top:149px;width:61px;height:18px;z-index:4;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Order by:</span>
-                  </div>
-                  <div id="wb_Checkbox2" style="position:absolute;left:254px;top:216px;width:20px;height:20px;z-index:5;">
-                     <input type="checkbox" id="Checkbox2" onclick="searchScoreLabelOnClick(this.value)" name="AllowIndexDowntimeCheckbox" value="on" checked style="position:absolute;left:0;top:0;" title="Allow index downtime"><label for="Checkbox2"></label>
-                  </div>
-                  <div id="wb_Text13" style="position:absolute;left:279px;top:217px;width:94px;height:18px;z-index:6;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Search Score</span>
-                  </div>
-                  <select name="SearchModeDropList" size="1" id="Combobox15" onchange="generateQueryComposerParameters()" style="position:absolute;left:366px;top:212px;width:226px;height:28px;z-index:7;">
-                     <option selected value="asc">asc</option>
-                     <option value="desc">desc</option>
-                  </select>
-                  <div id="wb_Checkbox3" style="position:absolute;left:254px;top:255px;width:20px;height:20px;z-index:8;">
-                     <input type="checkbox" id="Checkbox3" onclick="geoDistanceLabelOnClick(this.value)" name="AllowIndexDowntimeCheckbox" value="off" style="position:absolute;left:0;top:0;" title="Allow index downtime"><label for="Checkbox3"></label>
-                  </div>
-                  <div id="wb_Text14" style="position:absolute;left:279px;top:256px;width:82px;height:18px;z-index:9;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Geo distance</span>
-                  </div>
-                  <select name="SearchModeDropList" size="1" id="ComboboxGeographyPointList" onchange="generateQueryComposerParameters()" style="position:absolute;left:366px;top:251px;width:80px;height:28px;z-index:12;">
- 
-                  </select>
-                  <input type="text" id="Editbox11" onchange="generateQueryComposerParameters()" style="position:absolute;left:466px;top:251px;width:105px;height:18px;z-index:10;" name="EditboxSearchText" value="" spellcheck="false" placeholder="Point X">
-                  <input type="text" id="Editbox12" onchange="generateQueryComposerParameters()" style="position:absolute;left:595px;top:251px;width:87px;height:18px;z-index:11;" name="EditboxSearchText" value="" spellcheck="false" placeholder="Point Y">
-                  <select name="SearchModeDropList" size="1" id="Combobox16" onchange="generateQueryComposerParameters()" style="position:absolute;left:706px;top:251px;width:80px;height:28px;z-index:12;">
-                     <option selected value="asc">asc</option>
-                     <option value="desc">desc</option>
-                  </select>
-                  <input type="text" id="Editbox10" onchange="generateQueryComposerParameters()" style="position:absolute;left:159px;top:142px;width:54px;height:18px;z-index:13;" name="EditboxSearchText" value="100" spellcheck="false">
-                  <div id="wb_Text11" style="position:absolute;left:128px;top:147px;width:32px;height:18px;z-index:14;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Top:</span>
-                  </div>
-                  <input type="text" id="Editbox9" onchange="generateQueryComposerParameters()" style="position:absolute;left:46px;top:142px;width:57px;height:18px;z-index:15;" name="EditboxSearchText" value="0" spellcheck="false">
-                  <div id="wb_Text10" style="position:absolute;left:14px;top:147px;width:40px;height:18px;z-index:16;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Skip:</span>
-                  </div>
-                  <div id="wb_Text8" style="position:absolute;left:14px;top:102px;width:78px;height:18px;z-index:17;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Query Type:</span>
-                  </div>
-                  <select name="SearchModeDropList" size="1" id="Combobox13" onchange="generateQueryComposerParameters()" style="position:absolute;left:92px;top:97px;width:131px;height:28px;z-index:18;">
-                     <option selected value="simple">simple</option>
-                     <option value="full">full</option>
-                  </select>
-                  <div id="wb_Text7" style="position:absolute;left:14px;top:60px;width:78px;height:18px;z-index:19;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Search Text:</span>
-                  </div>
-                  <input type="text" id="Editbox8" onchange="generateQueryComposerParameters()" style="position:absolute;left:92px;top:55px;width:123px;height:18px;z-index:20;" name="EditboxSearchText" value="*" spellcheck="false" placeholder="The text to search for">
-                  <div id="wb_Text9" style="position:absolute;left:248px;top:60px;width:94px;height:18px;z-index:21;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Search Mode:</span>
-                  </div>
-                  <select name="SearchModeDropList" size="1" id="Combobox11" onchange="generateQueryComposerParameters()" style="position:absolute;left:342px;top:55px;width:94px;height:28px;z-index:22;">
-                     <option selected value="any">any</option>
-                     <option value="all">all</option>
-                  </select>
-                  <div id="wb_Text6" style="position:absolute;left:14px;top:18px;width:108px;height:18px;z-index:23;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Request Method:</span>
-                  </div>
-                  <select name="RequestMethodDropList" size="1" id="Combobox9" onchange="generateQueryComposerParameters()" style="position:absolute;left:131px;top:13px;width:94px;height:28px;z-index:24;">
-                     <option selected value="GET">GET</option>
-                     <option value="POST">POST</option>
-                  </select>
-                  <div id="wb_Text5" style="position:absolute;left:248px;top:18px;width:83px;height:18px;z-index:25;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">API Version:</span>
-                  </div>
-                  <input type="text" id="Editbox7" onchange="generateQueryComposerParameters()" style="position:absolute;left:331px;top:14px;width:95px;height:17px;z-index:26;" name="ParameterAPIVersion" value="2020-06-30" spellcheck="false" placeholder="api-version">
-                  <select name="SearchModeDropList" size="1" id="Combobox14" onchange="orderFieldsChange()" style="position:absolute;left:254px;top:172px;width:338px;height:28px;z-index:27;">
- 
-                  </select>
-                  <select name="SearchModeDropList" size="1" id="Combobox17" onchange="orderFieldsChange()" style="position:absolute;left:606px;top:171px;width:80px;height:28px;z-index:28;">
-                     <option selected value="asc">asc</option>
-                     <option value="desc">desc</option>
-                  </select>
-                  <input type="button" id="Button10" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:698px;top:171px;width:75px;height:28px;z-index:29;">
-                  <div id="wb_Text15" style="position:absolute;left:462px;top:17px;width:93px;height:18px;z-index:30;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Search Fields:</span>
-                  </div>
-                  <select name="SearchModeDropList" size="1" id="Combobox18" onchange="searchFieldsChange()" style="position:absolute;left:553px;top:12px;width:153px;height:28px;z-index:31;">
- 
-                  </select>
-                  <input type="button" id="Button11" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:716px;top:12px;width:75px;height:28px;z-index:32;">
-                  <div id="wb_Text16" style="position:absolute;left:462px;top:60px;width:83px;height:18px;z-index:33;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Select Fields:</span>
-                  </div>
-                  <select name="SearchModeDropList" size="1" id="Combobox19" onchange="selectFieldsChange()" style="position:absolute;left:553px;top:55px;width:153px;height:28px;z-index:34;">
- 
-                  </select>
-                  <input type="button" id="Button12" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:716px;top:55px;width:75px;height:28px;z-index:35;">
-                  <select name="SearchModeDropList" size="1" id="Combobox10" onchange="facetFieldsChange()" style="position:absolute;left:59px;top:478px;width:164px;height:28px;z-index:36;">
- 
-                  </select>
-                  <select name="SearchModeDropList" size="1" id="Combobox12" onchange="facetFieldsChange()" style="position:absolute;left:235px;top:478px;width:94px;height:28px;z-index:37;">
-                     <option selected value="count">count</option>
-                     <option value="sort">sort</option>
-                     <option value="values">values</option>
-                     <option value="interval">interval</option>
-                     <option value="timeoffset">timeoffset</option>
-                  </select>
-                  <input type="text" id="Editbox13" onchange="facetFieldsChange()" style="position:absolute;left:336px;top:478px;width:93px;height:18px;z-index:38;" name="EditboxSearchText" value="" spellcheck="false" placeholder="count number">
-                  <input type="button" id="Button13" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:446px;top:478px;width:75px;height:28px;z-index:39;">
-                  <div id="wb_Text18" style="position:absolute;left:248px;top:102px;width:70px;height:18px;z-index:40;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Session</span><span style="color:#000000;font-family:'Microsoft YaHei';font-size:15px;"> </span><span style="color:#000000;font-family:Calibri;font-size:15px;">id:</span>
-                  </div>
-                  <input type="text" id="Editbox14" onchange="generateQueryComposerParameters()" style="position:absolute;left:324px;top:97px;width:102px;height:18px;z-index:41;" name="EditboxSessionIdText" value="" spellcheck="false" placeholder="session Id ">
-                  <div id="wb_Text19" style="position:absolute;left:14px;top:334px;width:70px;height:18px;z-index:42;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Highlight:</span>
-                  </div>
-                  <select name="SearchModeDropList" size="1" id="Combobox20" onchange="highlightFieldsChange()" style="position:absolute;left:84px;top:329px;width:133px;height:28px;z-index:43;">
- 
-                  </select>
-                  <div id="wb_Text20" style="position:absolute;left:240px;top:334px;width:111px;height:18px;z-index:44;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Highlight</span><span style="color:#000000;font-family:'Microsoft YaHei';font-size:15px;"> </span><span style="color:#000000;font-family:Calibri;font-size:15px;">PreTag:</span>
-                  </div>
-                  <input type="text" id="Editbox15" onchange="highlightFieldsChange()" style="position:absolute;left:348px;top:329px;width:123px;height:18px;z-index:45;" name="EditboxHighlightPreTagText" value="</em>" spellcheck="false">
-                  <div id="wb_Text21" style="position:absolute;left:495px;top:334px;width:110px;height:18px;z-index:46;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Highlight</span><span style="color:#000000;font-family:'Microsoft YaHei';font-size:15px;"> </span><span style="color:#000000;font-family:Calibri;font-size:15px;">PostTag:</span>
-                  </div>
-                  <input type="text" id="Editbox16" onchange="highlightFieldsChange()" style="position:absolute;left:606px;top:329px;width:123px;height:18px;z-index:47;" name="EditboxHighlightPostTagText" value="</em>" spellcheck="false" placeholder="highlightPostTag">
-                  <input type="button" id="Button14" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:755px;top:329px;width:75px;height:28px;z-index:48;">
-                  <div id="wb_Line7" style="position:absolute;left:0px;top:315px;width:839px;height:1px;z-index:49;">
-                     <img src="images/img0008.png" id="Line7" alt="">
-                  </div>
-                  <div id="wb_Line9" style="position:absolute;left:1px;top:363px;width:838px;height:1px;z-index:50;">
-                     <img src="images/img0009.png" id="Line9" alt="">
-                  </div>
-                  <div id="wb_Line10" style="position:absolute;left:0px;top:315px;width:1px;height:48px;z-index:51;">
-                     <img src="images/img0010.png" id="Line10" alt="">
-                  </div>
-                  <div id="wb_Line11" style="position:absolute;left:839px;top:316px;width:1px;height:47px;z-index:52;">
-                     <img src="images/img0011.png" id="Line11" alt="">
-                  </div>
-                  <div id="wb_Text22" style="position:absolute;left:14px;top:389px;width:46px;height:18px;z-index:53;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Filters:</span>
-                  </div>
-                  <input type="text" id="Editbox17" onchange="generateQueryComposerParameters()" style="position:absolute;left:72px;top:384px;width:600px;height:18px;z-index:54;" name="EditboxSessionIdText" value="" spellcheck="false" placeholder="filters expression">
-                  <div id="wb_Text23" style="position:absolute;left:698px;top:389px;width:155px;height:18px;z-index:55;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;"><a target="_blank" href="https://docs.microsoft.com/en-us/azure/search/search-query-odata-filter">Learn more about filters.</a></span>
-                  </div>
-                  <div id="wb_Text24" style="position:absolute;left:462px;top:102px;width:130px;height:18px;z-index:56;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Minimum Coverage:</span>
-                  </div>
-                  <input type="text" id="Editbox18" onchange="generateQueryComposerParameters()" style="position:absolute;left:592px;top:97px;width:104px;height:18px;z-index:57;" name="EditboxSessionIdText" value="100" spellcheck="false" placeholder="0 - 100">
-                  <div id="wb_Text25" style="position:absolute;left:14px;top:194px;width:45px;height:18px;z-index:58;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Count:</span>
-                  </div>
-                  <select name="SearchModeDropList" size="1" id="Combobox21" onchange="generateQueryComposerParameters()" style="position:absolute;left:60px;top:189px;width:163px;height:28px;z-index:59;">
-                     <option selected value="false">false</option>
-                     <option value="true">true</option>
-                  </select>
-                  <div id="wb_Text26" style="position:absolute;left:14px;top:435px;width:108px;height:18px;z-index:60;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Scoring Statistics:</span>
-                  </div>
-                  <select name="SearchModeDropList" size="1" id="Combobox22" onchange="generateQueryComposerParameters()" style="position:absolute;left:129px;top:430px;width:94px;height:28px;z-index:61;">
-                     <option selected value="local">local</option>
-                     <option value="global">global</option>
-                  </select>
-                  <div id="wb_Text27" style="position:absolute;left:246px;top:435px;width:92px;height:18px;z-index:62;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Scoring Profile:</span>
-                  </div>
-                  <select name="SearchModeDropList" size="1" id="Combobox23" onchange="generateQueryComposerParameters()" style="position:absolute;left:345px;top:430px;width:153px;height:28px;z-index:63;">
- 
-                  </select>
-                  <div id="wb_Text28" style="position:absolute;left:517px;top:435px;width:123px;height:18px;z-index:64;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Scoring Parameter:</span>
-                  </div>
-                  <input type="text" id="Editbox19" onchange="generateQueryComposerParameters()" style="position:absolute;left:640px;top:430px;width:215px;height:18px;z-index:65;" name="EditboxSessionIdText" value="" spellcheck="false" placeholder="scoringParameter">
-                  <div id="wb_Text17" style="position:absolute;left:14px;top:482px;width:83px;height:18px;z-index:66;">
-                     <span style="color:#000000;font-family:Calibri;font-size:15px;">Facet:</span>
-                  </div>
-                  <hr id="Line12" style="position:absolute;left:15px;top:133px;width:850px;z-index:67;">
-                  <hr id="Line13" style="position:absolute;left:8px;top:308px;width:857px;z-index:68;">
-                  <hr id="Line14" style="position:absolute;left:16px;top:518px;width:849px;z-index:69;">
-                  <textarea name="TextAreaParameterPreview" id="TextArea9" style="position:absolute;left:16px;top:534px;width:752px;height:106px;z-index:70;" rows="6" cols="91" spellcheck="false" placeholder="Parameter preview"></textarea>
-                  <input type="button" id="Button15" name="QueryParameterBtn" value="Query" style="position:absolute;left:790px;top:534px;width:75px;height:28px;z-index:71;">
+               <div style="height: 783px;" id="tabs2-page-1">
+                   <div id="wb_Line2" style="position:absolute;left:236px;top:138px;width:1px;height:157px;z-index:0;">
+                       <img src="images/img0001.png" id="Line2" alt="">
+                   </div>
+                   <div id="wb_Line3" style="position:absolute;left:236px;top:138px;width:568px;height:1px;z-index:1;">
+                       <img src="images/img0005.png" id="Line3" alt="">
+                   </div>
+                   <div id="wb_Line8" style="position:absolute;left:804px;top:139px;width:1px;height:154px;z-index:2;">
+                       <img src="images/img0006.png" id="Line8" alt="">
+                   </div>
+                   <div id="wb_Line4" style="position:absolute;left:236px;top:293px;width:568px;height:1px;z-index:3;">
+                       <img src="images/img0007.png" id="Line4" alt="">
+                   </div>
+                   <div id="wb_Text12" style="position:absolute;left:248px;top:149px;width:61px;height:18px;z-index:4;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Order by:</span>
+                   </div>
+                   <div id="wb_Checkbox2" style="position:absolute;left:254px;top:216px;width:20px;height:20px;z-index:5;">
+                       <input type="checkbox" id="Checkbox2" onclick="searchScoreLabelOnClick(this.value)" name="AllowIndexDowntimeCheckbox" value="on" checked style="position:absolute;left:0;top:0;" title="Allow index downtime"><label for="Checkbox2"></label>
+                   </div>
+                   <div id="wb_Text13" style="position:absolute;left:279px;top:217px;width:94px;height:18px;z-index:6;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Search Score</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="Combobox15" onchange="generateQueryComposerParameters()" style="position:absolute;left:366px;top:212px;width:226px;height:28px;z-index:7;">
+                       <option selected value="asc">asc</option>
+                       <option value="desc">desc</option>
+                   </select>
+                   <div id="wb_Checkbox3" style="position:absolute;left:254px;top:255px;width:20px;height:20px;z-index:8;">
+                       <input type="checkbox" id="Checkbox3" onclick="geoDistanceLabelOnClick(this.value)" name="AllowIndexDowntimeCheckbox" value="off" style="position:absolute;left:0;top:0;" title="Allow index downtime"><label for="Checkbox3"></label>
+                   </div>
+                   <div id="wb_Text14" style="position:absolute;left:279px;top:256px;width:82px;height:18px;z-index:9;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Geo distance</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="ComboboxGeographyPointList" onchange="generateQueryComposerParameters()" style="position:absolute;left:366px;top:251px;width:80px;height:28px;z-index:12;">
+                   </select>
+                   <input type="text" id="Editbox11" onchange="generateQueryComposerParameters()" style="position:absolute;left:466px;top:251px;width:105px;height:18px;z-index:10;" name="EditboxSearchText" value="" spellcheck="false" placeholder="Point X">
+                   <input type="text" id="Editbox12" onchange="generateQueryComposerParameters()" style="position:absolute;left:595px;top:251px;width:87px;height:18px;z-index:11;" name="EditboxSearchText" value="" spellcheck="false" placeholder="Point Y">
+                   <select name="SearchModeDropList" size="1" id="Combobox16" onchange="generateQueryComposerParameters()" style="position:absolute;left:706px;top:251px;width:80px;height:28px;z-index:12;">
+                       <option selected value="asc">asc</option>
+                       <option value="desc">desc</option>
+                   </select>
+                   <input type="text" id="Editbox10" onchange="generateQueryComposerParameters()" style="position:absolute;left:159px;top:142px;width:54px;height:18px;z-index:13;" name="EditboxSearchText" value="100" spellcheck="false">
+                   <div id="wb_Text11" style="position:absolute;left:128px;top:147px;width:32px;height:18px;z-index:14;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Top:</span>
+                   </div>
+                   <input type="text" id="Editbox9" onchange="generateQueryComposerParameters()" style="position:absolute;left:46px;top:142px;width:57px;height:18px;z-index:15;" name="EditboxSearchText" value="0" spellcheck="false">
+                   <div id="wb_Text10" style="position:absolute;left:14px;top:147px;width:40px;height:18px;z-index:16;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Skip:</span>
+                   </div>
+                   <div id="wb_Text8" style="position:absolute;left:14px;top:102px;width:78px;height:18px;z-index:17;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Query Type:</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="Combobox13" onchange="generateQueryComposerParameters()" style="position:absolute;left:92px;top:97px;width:131px;height:28px;z-index:18;">
+                       <option selected value="simple">simple</option>
+                       <option value="full">full</option>
+                   </select>
+                   <div id="wb_Text7" style="position:absolute;left:14px;top:60px;width:78px;height:18px;z-index:19;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Search Text:</span>
+                   </div>
+                   <input type="text" id="Editbox8" onchange="generateQueryComposerParameters()" style="position:absolute;left:92px;top:55px;width:123px;height:18px;z-index:20;" name="EditboxSearchText" value="*" spellcheck="false" placeholder="The text to search for">
+                   <div id="wb_Text9" style="position:absolute;left:248px;top:60px;width:94px;height:18px;z-index:21;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Search Mode:</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="Combobox11" onchange="generateQueryComposerParameters()" style="position:absolute;left:342px;top:55px;width:94px;height:28px;z-index:22;">
+                       <option selected value="any">any</option>
+                       <option value="all">all</option>
+                   </select>
+                   <div id="wb_Text6" style="position:absolute;left:14px;top:18px;width:108px;height:18px;z-index:23;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Request Method:</span>
+                   </div>
+                   <select name="RequestMethodDropList" size="1" id="Combobox9" onchange="generateQueryComposerParameters()" style="position:absolute;left:131px;top:13px;width:94px;height:28px;z-index:24;">
+                       <option selected value="GET">GET</option>
+                       <option value="POST">POST</option>
+                   </select>
+                   <div id="wb_Text5" style="position:absolute;left:248px;top:18px;width:83px;height:18px;z-index:25;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">API Version:</span>
+                   </div>
+                   <input type="text" id="Editbox7" onchange="generateQueryComposerParameters()" style="position:absolute;left:331px;top:14px;width:95px;height:17px;z-index:26;" name="ParameterAPIVersion" value="2020-06-30" spellcheck="false" placeholder="api-version">
+                   <select name="SearchModeDropList" size="1" id="Combobox14" onchange="orderFieldsChange()" style="position:absolute;left:254px;top:172px;width:338px;height:28px;z-index:27;">
+                   </select>
+                   <select name="SearchModeDropList" size="1" id="Combobox17" onchange="orderFieldsChange()" style="position:absolute;left:606px;top:171px;width:80px;height:28px;z-index:28;">
+                       <option selected value="asc">asc</option>
+                       <option value="desc">desc</option>
+                   </select>
+                   <input type="button" id="Button10" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:698px;top:171px;width:75px;height:28px;z-index:29;">
+                   <div id="wb_Text15" style="position:absolute;left:462px;top:17px;width:93px;height:18px;z-index:30;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Search Fields:</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="Combobox18" onchange="searchFieldsChange()" style="position:absolute;left:553px;top:12px;width:153px;height:28px;z-index:31;">
+                   </select>
+                   <input type="button" id="Button11" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:716px;top:12px;width:75px;height:28px;z-index:32;">
+                   <div id="wb_Text16" style="position:absolute;left:462px;top:60px;width:83px;height:18px;z-index:33;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Select Fields:</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="Combobox19" onchange="selectFieldsChange()" style="position:absolute;left:553px;top:55px;width:153px;height:28px;z-index:34;">
+                   </select>
+                   <input type="button" id="Button12" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:716px;top:55px;width:75px;height:28px;z-index:35;">
+                   <select name="SearchModeDropList" size="1" id="Combobox10" onchange="facetFieldsChange()" style="position:absolute;left:59px;top:478px;width:164px;height:28px;z-index:36;">
+                   </select>
+                   <select name="SearchModeDropList" size="1" id="Combobox12" onchange="facetFieldsChange()" style="position:absolute;left:235px;top:478px;width:94px;height:28px;z-index:37;">
+                       <option selected value="count">count</option>
+                       <option value="sort">sort</option>
+                       <option value="values">values</option>
+                       <option value="interval">interval</option>
+                       <option value="timeoffset">timeoffset</option>
+                   </select>
+                   <input type="text" id="Editbox13" onchange="facetFieldsChange()" style="position:absolute;left:336px;top:478px;width:93px;height:18px;z-index:38;" name="EditboxSearchText" value="" spellcheck="false" placeholder="count number">
+                   <input type="button" id="Button13" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:446px;top:478px;width:75px;height:28px;z-index:39;">
+                   <div id="wb_Text18" style="position:absolute;left:248px;top:102px;width:70px;height:18px;z-index:40;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Session</span><span style="color:#000000;font-family:'Microsoft YaHei';font-size:15px;"> </span><span style="color:#000000;font-family:Calibri;font-size:15px;">id:</span>
+                   </div>
+                   <input type="text" id="Editbox14" onchange="generateQueryComposerParameters()" style="position:absolute;left:324px;top:97px;width:102px;height:18px;z-index:41;" name="EditboxSessionIdText" value="" spellcheck="false" placeholder="session Id ">
+                   <div id="wb_Text19" style="position:absolute;left:14px;top:334px;width:70px;height:18px;z-index:42;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Highlight:</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="Combobox20" onchange="highlightFieldsChange()" style="position:absolute;left:84px;top:329px;width:133px;height:28px;z-index:43;">
+                   </select>
+                   <div id="wb_Text20" style="position:absolute;left:240px;top:334px;width:111px;height:18px;z-index:44;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Highlight</span><span style="color:#000000;font-family:'Microsoft YaHei';font-size:15px;"> </span><span style="color:#000000;font-family:Calibri;font-size:15px;">PreTag:</span>
+                   </div>
+                   <input type="text" id="Editbox15" onchange="highlightFieldsChange()" style="position:absolute;left:348px;top:329px;width:123px;height:18px;z-index:45;" name="EditboxHighlightPreTagText" value="</em>" spellcheck="false">
+                   <div id="wb_Text21" style="position:absolute;left:495px;top:334px;width:110px;height:18px;z-index:46;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Highlight</span><span style="color:#000000;font-family:'Microsoft YaHei';font-size:15px;"> </span><span style="color:#000000;font-family:Calibri;font-size:15px;">PostTag:</span>
+                   </div>
+                   <input type="text" id="Editbox16" onchange="highlightFieldsChange()" style="position:absolute;left:606px;top:329px;width:123px;height:18px;z-index:47;" name="EditboxHighlightPostTagText" value="</em>" spellcheck="false" placeholder="highlightPostTag">
+                   <input type="button" id="Button14" name="NamespaceLoadBtn" value="Add" style="position:absolute;left:755px;top:329px;width:75px;height:28px;z-index:48;">
+                   <div id="wb_Line7" style="position:absolute;left:0px;top:315px;width:839px;height:1px;z-index:49;">
+                       <img src="images/img0008.png" id="Line7" alt="">
+                   </div>
+                   <div id="wb_Line9" style="position:absolute;left:1px;top:363px;width:838px;height:1px;z-index:50;">
+                       <img src="images/img0009.png" id="Line9" alt="">
+                   </div>
+                   <div id="wb_Line10" style="position:absolute;left:0px;top:315px;width:1px;height:48px;z-index:51;">
+                       <img src="images/img0010.png" id="Line10" alt="">
+                   </div>
+                   <div id="wb_Line11" style="position:absolute;left:839px;top:316px;width:1px;height:47px;z-index:52;">
+                       <img src="images/img0011.png" id="Line11" alt="">
+                   </div>
+                   <div id="wb_Text22" style="position:absolute;left:14px;top:389px;width:46px;height:18px;z-index:53;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Filters:</span>
+                   </div>
+                   <input type="text" id="Editbox17" onchange="generateQueryComposerParameters()" style="position:absolute;left:72px;top:384px;width:600px;height:18px;z-index:54;" name="EditboxSessionIdText" value="" spellcheck="false" placeholder="filters expression">
+                   <div id="wb_Text23" style="position:absolute;left:698px;top:389px;width:155px;height:18px;z-index:55;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;"><a target="_blank" href="https://docs.microsoft.com/en-us/azure/search/search-query-odata-filter">Learn more about filters.</a></span>
+                   </div>
+                   <div id="wb_Text24" style="position:absolute;left:462px;top:102px;width:130px;height:18px;z-index:56;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Minimum Coverage:</span>
+                   </div>
+                   <input type="text" id="Editbox18" onchange="generateQueryComposerParameters()" style="position:absolute;left:592px;top:97px;width:104px;height:18px;z-index:57;" name="EditboxSessionIdText" value="100" spellcheck="false" placeholder="0 - 100">
+                   <div id="wb_Text25" style="position:absolute;left:14px;top:194px;width:45px;height:18px;z-index:58;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Count:</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="Combobox21" onchange="generateQueryComposerParameters()" style="position:absolute;left:60px;top:189px;width:163px;height:28px;z-index:59;">
+                       <option selected value="false">false</option>
+                       <option value="true">true</option>
+                   </select>
+                   <div id="wb_Text26" style="position:absolute;left:14px;top:435px;width:108px;height:18px;z-index:60;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Scoring Statistics:</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="Combobox22" onchange="generateQueryComposerParameters()" style="position:absolute;left:129px;top:430px;width:94px;height:28px;z-index:61;">
+                       <option selected value="local">local</option>
+                       <option value="global">global</option>
+                   </select>
+                   <div id="wb_Text27" style="position:absolute;left:246px;top:435px;width:92px;height:18px;z-index:62;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Scoring Profile:</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="Combobox23" onchange="generateQueryComposerParameters()" style="position:absolute;left:345px;top:430px;width:153px;height:28px;z-index:63;">
+                   </select>
+                   <div id="wb_Text28" style="position:absolute;left:517px;top:435px;width:123px;height:18px;z-index:64;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Scoring Parameter:</span>
+                   </div>
+                   <input type="text" id="Editbox19" onchange="generateQueryComposerParameters()" style="position:absolute;left:640px;top:430px;width:215px;height:18px;z-index:65;" name="EditboxSessionIdText" value="" spellcheck="false" placeholder="scoringParameter">
+                   <div id="wb_Text17" style="position:absolute;left:14px;top:482px;width:83px;height:18px;z-index:66;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Facet:</span>
+                   </div>
+                   <hr id="Line12" style="position:absolute;left:15px;top:133px;width:850px;z-index:67;">
+                   <hr id="Line13" style="position:absolute;left:8px;top:308px;width:857px;z-index:68;">
+                   <hr id="Line14" style="position:absolute;left:16px;top:518px;width:849px;z-index:69;">
+                   <textarea name="TextAreaParameterPreview" id="TextArea9" style="position: absolute; left: 16px; top: 636px; width: 752px; height: 106px; z-index: 70;" rows="6" cols="91" spellcheck="false" placeholder="Parameter preview"></textarea>
+                   <input type="button" id="Button15" name="QueryParameterBtn" value="Query" style="position: absolute; left: 790px; top: 636px; width: 75px; height: 28px; z-index: 71;">
+
+                   <div id="wb_Text38" style="position:absolute;left:17px;top:533px;width:151px;height:18px;z-index:72;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Semantic Configuration:</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="Combobox29" onchange="generateQueryComposerParameters()" style="position:absolute;left:167px;top:528px;width:399px;height:28px;z-index:73;">
+                       <option selected value="1">Without-Semantic-Config</option> 
+                   </select>
+                   <div id="wb_Text39" style="position:absolute;left:587px;top:533px;width:111px;height:18px;z-index:74;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Query Language:</span>
+                   </div>
+                   <div id="wb_Text41" style="position:absolute;left:263px;top:579px;width:55px;height:18px;z-index:75;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Answers:</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="Combobox32" onchange="generateQueryComposerParameters()" style="position:absolute;left:324px;top:574px;width:242px;height:28px;z-index:76;">
+                       <option selected value="extractive">extractive</option>
+                       <option value="count-10">count-10</option>
+                   </select>
+                   <div id="wb_Text42" style="position:absolute;left:587px;top:579px;width:59px;height:18px;z-index:77;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Captions:</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="Combobox33" onchange="generateQueryComposerParameters()" style="position:absolute;left:644px;top:574px;width:216px;height:28px;z-index:78;">
+                       <option selected value="extractive">extractive</option>
+                       <option value="highlight-true">highlight-true</option>
+                   </select>
+                   <select name="SearchModeDropList" size="1" id="Combobox31" onchange="generateQueryComposerParameters()" style="position:absolute;left:69px;top:574px;width:180px;height:28px;z-index:79;">
+                       <option selected value="lexicon">lexicon</option>
+                   </select>
+                   <div id="wb_Text40" style="position:absolute;left:17px;top:579px;width:50px;height:18px;z-index:80;">
+                       <span style="color:#000000;font-family:Calibri;font-size:15px;">Speller:</span>
+                   </div>
+                   <select name="SearchModeDropList" size="1" id="Combobox30" onchange="generateQueryComposerParameters()" style="position:absolute;left:698px;top:528px;width:162px;height:28px;z-index:81;">
+                       <option selected value="en-US">English</option>
+                       <option value="fr-FR">French</option>
+                       <option value="de-DE">German</option>
+                       <option value="es-ES">Spanish</option>
+                       <option value="nl-NL">Dutch</option>
+                   </select>
+                   <hr id="Line16" style="position:absolute;left:21px;top:615px;width:844px;z-index:82;">
+
                </div>
                <div style="height:669px;" id="tabs2-page-2">
                   <textarea name="TextAreaQueryResultPreview" id="TextArea10" style="position:absolute;left:10px;top:18px;width:868px;height:614px;z-index:72;" rows="42" cols="106" readonly spellcheck="false" placeholder="Query result"></textarea>
