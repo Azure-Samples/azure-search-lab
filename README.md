@@ -10,13 +10,13 @@ This project framework is designed to run locally. It connects to your Azure Cog
 
 * Queries
 * Index definitions
-* Documents
 * Suggestions 
 * Analyzers
 * Autocomplete 
 * Synonyms 
 * Built-in analyzers
 * Web api skills
+* Semantic Search
 
 ### Prerequisites
 
