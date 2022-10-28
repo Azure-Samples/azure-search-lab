@@ -476,12 +476,27 @@ namespace AzSearchLab.Controllers
 
                 //webapi skillset 
                 var apiskills = SearchIndexModel.GetSkillSet(searchName, apiKey);
-                JArray skillArray = new JArray();
-                foreach (string item in apiskills)
+                JArray skillArray = new JArray(); 
+                if (null != apiskills)
                 {
-                    skillArray.Add(item);
+                    foreach (string item in apiskills)
+                    {
+                        skillArray.Add(item);
+                    }
+                    indexJson["WebAPISkill"] = skillArray;
                 }
-                indexJson["WebAPISkill"] = skillArray;
+
+                //semantic 
+                var semantics = SearchIndexModel.GetSemanticConfigurations(searchName, apiKey, indexfiekds.First());
+                JArray semanticArray = new JArray(); 
+                if (null != semantics)
+                {
+                    foreach (string item in semantics)
+                    {
+                        semanticArray.Add(item);
+                    }
+                    indexJson["SemanticsName"] = semanticArray;
+                }
 
                 return indexJson.ToString(); 
             }

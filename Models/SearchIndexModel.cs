@@ -38,118 +38,158 @@ namespace AzSearchLab.Models
             return indexs;
         }
 
+        // Install-Package Azure.Search.Documents -Version 11.5.0-beta.2
+        // https://learn.microsoft.com/en-us/dotnet/api/azure.search.documents.indexes.models.semanticsettings?view=azure-dotnet-preview 
+        public static IEnumerable<string> GetSemanticConfigurations(string searchName, string apiKey, string indexName)
+        {
+            string searchServiceUri = "https://" + searchName + ".search.windows.net";
+            var indexClient = new SearchIndexClient(new Uri(searchServiceUri), new AzureKeyCredential(apiKey));
+
+            List<string> semanticList = new List<string>();
+             
+            SemanticSettings semanticSettings = new SemanticSettings();
+            SearchIndex index = indexClient.GetIndex(indexName).Value;
+            if (null != index.SemanticSettings)
+            {
+                var smConfigurations = index.SemanticSettings.Configurations;
+                foreach (var sm in smConfigurations)
+                {
+                    semanticList.Add(sm.Name);
+                }
+            }
+            return semanticList;
+        }
+
         // Get all skillsets under the search service
         public static IEnumerable<string> GetSkillSet(string searchName, string apiKey)
         {
-            string searchServiceUri = "https://" + searchName + ".search.windows.net";
-            var indexerClient = new SearchIndexerClient(new Uri(searchServiceUri), new AzureKeyCredential(apiKey));
+            try
+            { 
+                string searchServiceUri = "https://" + searchName + ".search.windows.net";
+                var indexerClient = new SearchIndexerClient(new Uri(searchServiceUri), new AzureKeyCredential(apiKey));
 
-            List<string> apiSkills = new List<string>();
-            var skillsets = indexerClient.GetSkillsets();
-            foreach (var skillset in skillsets.Value)
-            {
-                foreach (SearchIndexerSkill skill in skillset.Skills)
+                List<string> apiSkills = new List<string>();
+                //try
+                //{
+                //    var skillsetstest = indexerClient.GetSkillsets();
+                //}
+                //catch (Exception e)
+                //{
+                //    var exceptionMsg = e.ToString();
+                //    var msgEx = e.Message;
+                //    var innerEx = e.InnerException;
+                //}
+
+                var skillsets = indexerClient.GetSkillsets();
+                foreach (var skillset in skillsets.Value)
                 {
-                    //Check the skill property to see whether it contains the ODataType. This property will contain the web api skill
-                    var allProps = skill.GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).OrderBy(pi => pi.Name).ToList();
-                    foreach (PropertyInfo propertyInfo in allProps)
+                    foreach (SearchIndexerSkill skill in skillset.Skills)
                     {
-                        if (propertyInfo.Name.Equals("ODataType"))
+                        //Check the skill property to see whether it contains the ODataType. This property will contain the web api skill
+                        var allProps = skill.GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).OrderBy(pi => pi.Name).ToList();
+                        foreach (PropertyInfo propertyInfo in allProps)
                         {
-                            string skillsetType = (string)propertyInfo.GetValue(skill);
-                             
-                            // Extract each web api skill's property, like headers, url. 
-                            if ("#Microsoft.Skills.Custom.WebApiSkill" == skillsetType)
+                            if (propertyInfo.Name.Equals("ODataType"))
                             {
-                                JObject skillJson = new JObject();
-                                skillJson["@odata.type"] = "#Microsoft.Skills.Custom.WebApiSkill";
+                                string skillsetType = (string)propertyInfo.GetValue(skill);
 
-                                apiSkills.Add(skill.Name);
-                                apiSkills.Add(skill.Description);
-                                skillJson["name"] = skill.Name;
-                                skillJson["description"] = skill.Description;
-
-                                List<string> inputNames = new List<string>();
-                                JArray inputArray = new JArray();
-                                string input = "";
-                                foreach (var item in skill.Inputs)
+                                // Extract each web api skill's property, like headers, url. 
+                                if ("#Microsoft.Skills.Custom.WebApiSkill" == skillsetType)
                                 {
-                                    input += item.Name + ":" + item.Source + ",";
+                                    JObject skillJson = new JObject();
+                                    skillJson["@odata.type"] = "#Microsoft.Skills.Custom.WebApiSkill";
 
-                                    JObject inputJson = new JObject();
-                                    inputJson["name"] = item.Name;
-                                    inputJson["source"] = item.Source;
-                                    inputArray.Add(inputJson);
-                                    inputNames.Add(item.Name);
-                                }
-                                apiSkills.Add(input);
-                                skillJson["inputs"] = inputArray;
+                                    apiSkills.Add(skill.Name);
+                                    apiSkills.Add(skill.Description);
+                                    skillJson["name"] = skill.Name;
+                                    skillJson["description"] = skill.Description;
 
-                                JArray outArray = new JArray();
-                                string output = "";
-                                foreach (var item in skill.Outputs)
-                                {
-                                    output += item.Name + ":" + item.TargetName + ",";
-
-                                    JObject outJson = new JObject();
-                                    outJson["name"] = item.Name;
-                                    outJson["targetName"] = item.TargetName;
-                                    outArray.Add(outJson);
-                                }
-                                apiSkills.Add(output);
-                                skillJson["outputs"] = outArray;
-
-                                apiSkills.Add(skill.Context.ToString());
-                                apiSkills.Add(((WebApiSkill)skill).Uri.ToString());
-                                apiSkills.Add(((WebApiSkill)skill).Timeout.ToString());
-                                apiSkills.Add(((WebApiSkill)skill).HttpMethod.ToString()); 
-                                skillJson["context"] = ((WebApiSkill)skill).Context.ToString();
-                                skillJson["uri"] = ((WebApiSkill)skill).Uri.ToString();
-                                skillJson["timeout"] = ((WebApiSkill)skill).Timeout.ToString();
-                                skillJson["httpMethod"] = ((WebApiSkill)skill).HttpMethod.ToString();
-
-                                JObject headerJson = new JObject();
-                                string headers = "";
-                                foreach (var header in ((WebApiSkill)skill).HttpHeaders)
-                                {
-                                    headers += header.Key + ":" + header.Value + ",";
-                                    headerJson[header.Key] = header.Value;
-                                } 
-                                apiSkills.Add(headers);
-                                skillJson["httpHeaders"] = headerJson;
-
-                                apiSkills.Add(((WebApiSkill)skill).DegreeOfParallelism.ToString());
-                                apiSkills.Add(((WebApiSkill)skill).BatchSize.ToString());
-                                skillJson["degreeOfParallelism"] = ((WebApiSkill)skill).DegreeOfParallelism.ToString();
-                                skillJson["batchSize"] = ((WebApiSkill)skill).BatchSize.ToString();
-
-                                apiSkills.Add(skillJson.ToString());
-
-                                // Add 3 groups of input data
-                                JObject valuesJson = new JObject();
-                                JArray valuesArray = new JArray();
-                                int inputDataNum = 3; 
-                                for (int i = 0; i < inputDataNum; i++)
-                                {
-                                    JObject valueJson = new JObject();
-                                    valueJson["recordId"] = i.ToString();
-                                    JObject dataJson = new JObject();
-                                    foreach (var nm in inputNames)
+                                    List<string> inputNames = new List<string>();
+                                    JArray inputArray = new JArray();
+                                    string input = "";
+                                    foreach (var item in skill.Inputs)
                                     {
-                                        dataJson[nm] = "Test <"+ nm + "> input, please change it to real data!!!";
+                                        input += item.Name + ":" + item.Source + ",";
+
+                                        JObject inputJson = new JObject();
+                                        inputJson["name"] = item.Name;
+                                        inputJson["source"] = item.Source;
+                                        inputArray.Add(inputJson);
+                                        inputNames.Add(item.Name);
                                     }
-                                    valueJson["data"] = dataJson;
-                                    valuesArray.Add(valueJson);
+                                    apiSkills.Add(input);
+                                    skillJson["inputs"] = inputArray;
+
+                                    JArray outArray = new JArray();
+                                    string output = "";
+                                    foreach (var item in skill.Outputs)
+                                    {
+                                        output += item.Name + ":" + item.TargetName + ",";
+
+                                        JObject outJson = new JObject();
+                                        outJson["name"] = item.Name;
+                                        outJson["targetName"] = item.TargetName;
+                                        outArray.Add(outJson);
+                                    }
+                                    apiSkills.Add(output);
+                                    skillJson["outputs"] = outArray;
+
+                                    apiSkills.Add(skill.Context.ToString());
+                                    apiSkills.Add(((WebApiSkill)skill).Uri.ToString());
+                                    apiSkills.Add(((WebApiSkill)skill).Timeout.ToString());
+                                    apiSkills.Add(((WebApiSkill)skill).HttpMethod.ToString());
+                                    skillJson["context"] = ((WebApiSkill)skill).Context.ToString();
+                                    skillJson["uri"] = ((WebApiSkill)skill).Uri.ToString();
+                                    skillJson["timeout"] = ((WebApiSkill)skill).Timeout.ToString();
+                                    skillJson["httpMethod"] = ((WebApiSkill)skill).HttpMethod.ToString();
+
+                                    JObject headerJson = new JObject();
+                                    string headers = "";
+                                    foreach (var header in ((WebApiSkill)skill).HttpHeaders)
+                                    {
+                                        headers += header.Key + ":" + header.Value + ",";
+                                        headerJson[header.Key] = header.Value;
+                                    }
+                                    apiSkills.Add(headers);
+                                    skillJson["httpHeaders"] = headerJson;
+
+                                    apiSkills.Add(((WebApiSkill)skill).DegreeOfParallelism.ToString());
+                                    apiSkills.Add(((WebApiSkill)skill).BatchSize.ToString());
+                                    skillJson["degreeOfParallelism"] = ((WebApiSkill)skill).DegreeOfParallelism.ToString();
+                                    skillJson["batchSize"] = ((WebApiSkill)skill).BatchSize.ToString();
+
+                                    apiSkills.Add(skillJson.ToString());
+
+                                    // Add 3 groups of input data
+                                    JObject valuesJson = new JObject();
+                                    JArray valuesArray = new JArray();
+                                    int inputDataNum = 3;
+                                    for (int i = 0; i < inputDataNum; i++)
+                                    {
+                                        JObject valueJson = new JObject();
+                                        valueJson["recordId"] = i.ToString();
+                                        JObject dataJson = new JObject();
+                                        foreach (var nm in inputNames)
+                                        {
+                                            dataJson[nm] = "Test <" + nm + "> input, please change it to real data!!!";
+                                        }
+                                        valueJson["data"] = dataJson;
+                                        valuesArray.Add(valueJson);
+                                    }
+                                    valuesJson["values"] = valuesArray;
+                                    apiSkills.Add(valuesJson.ToString());
                                 }
-                                valuesJson["values"] = valuesArray;
-                                apiSkills.Add(valuesJson.ToString());
                             }
                         }
-                    } 
+                    }
                 }
-            }
 
-            return apiSkills;
+                return apiSkills;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            } 
         }
 
         // Get the web api skill's URL, headers, method and body. Make the PUT/POST request. 
